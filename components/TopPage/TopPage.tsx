@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import CTAButton from '../CTAButton/CTAButton';
 import styles from './TopPage.module.css';
@@ -10,6 +10,25 @@ interface TopPageProps {
 }
 
 const TopPage: React.FC<TopPageProps> = ({ onCTAClick }) => {
+  // パーティクルの設定を決定的に生成（SSRとクライアントで一致）
+  const particleConfigs = useMemo(() => {
+    return Array.from({ length: 50 }).map((_, i) => {
+      // インデックスベースの擬似ランダム値生成
+      const seed = i * 123456789;
+      const duration = 2 + ((seed % 1000) / 1000) * 3; // 2-5秒
+      const delay = ((seed * 7) % 1000) / 1000 * 2; // 0-2秒
+      const leftPosition = ((seed * 13) % 1000) / 10; // 0-100%
+      const animationDelay = ((seed * 17) % 1000) / 1000 * 2; // 0-2秒
+      
+      return {
+        duration,
+        delay,
+        leftPosition,
+        animationDelay,
+      };
+    });
+  }, []);
+
   return (
     <div className={styles.topPage}>
       <div className={styles.backgroundOverlay}></div>
@@ -60,7 +79,7 @@ const TopPage: React.FC<TopPageProps> = ({ onCTAClick }) => {
       </motion.div>
 
       <div className={styles.particles}>
-        {Array.from({ length: 50 }).map((_, i) => (
+        {particleConfigs.map((config, i) => (
           <motion.div
             key={i}
             className={styles.particle}
@@ -69,13 +88,13 @@ const TopPage: React.FC<TopPageProps> = ({ onCTAClick }) => {
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: Math.random() * 3 + 2,
+              duration: config.duration,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: config.delay,
             }}
             style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
+              left: `${config.leftPosition}%`,
+              animationDelay: `${config.animationDelay}s`,
             }}
           />
         ))}

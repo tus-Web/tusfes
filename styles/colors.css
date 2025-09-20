@@ -1,0 +1,319 @@
+/* ==========================================================================
+   Color Variables System
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     Base Colors - 基本色定義
+     ========================================================================== */
+  
+  /* Background Colors - 背景色 */
+  --color-bg-primary: #FFFFFF;        /* メイン背景色（純白） */
+  --color-bg-secondary: #FFFFFF;       /* セカンダリ背景色（純白） */
+  --color-bg-overlay: rgba(255, 255, 255, 0.95); /* オーバーレイ背景 */
+  --color-bg-card: #FFFFFF;           /* カード背景色 */
+  --color-bg-navigation: #FFFFFF;     /* ナビゲーション背景色 */
+  
+  /* Text Colors - テキスト色 */
+  --color-text-primary: #000000;       /* メインテキスト色（純黒） */
+  --color-text-secondary: #333333;     /* セカンダリテキスト色 */
+  --color-text-muted: #666666;         /* 補助テキスト色 */
+  --color-text-inverse: #FFFFFF;       /* 反転テキスト色（白） */
+  --color-text-navigation: #666666;    /* ナビゲーションテキスト色 */
+  --color-text-navigation-active: #3B7C5B; /* アクティブナビゲーション色 */
+  
+  /* Brand Colors - ブランド色 */
+  --color-brand-main: #10B981;         /* メインブランド色（エメラルドグリーン） */
+  --color-brand-main-light: #34D399;   /* ライトバリエーション */
+  --color-brand-main-dark: #059669;    /* ダークバリエーション */
+  
+  /* CTA Colors - Call to Action色 */
+  --color-cta-primary: #3B82F6;        /* メインCTA色（ブルー系） */
+  --color-cta-primary-hover: #2563EB;  /* ホバー時CTA色 */
+  --color-cta-primary-active: #1D4ED8; /* アクティブ時CTA色 */
+  
+  /* ==========================================================================
+     Semantic Colors - セマンティック色
+     ========================================================================== */
+  
+  /* State Colors - 状態色 */
+  --color-success: var(--color-brand-main);
+  --color-error: #E53E3E;
+  --color-warning: #F6AD55;
+  --color-info: #4299E1;
+  
+  /* Border Colors - ボーダー色 */
+  --color-border-light: #E2E8F0;
+  --color-border-medium: #CBD5E0;
+  --color-border-dark: #A0AEC0;
+  --color-border-card: #E2E8F0;        /* カードボーダー色 */
+  
+  /* Shadow Colors - シャドウ色 */
+  --color-shadow-light: rgba(26, 26, 26, 0.1);
+  --color-shadow-medium: rgba(26, 26, 26, 0.15);
+  --color-shadow-dark: rgba(26, 26, 26, 0.25);
+  --color-shadow-card: rgba(0, 0, 0, 0.08); /* カードシャドウ色 */
+}
+
+/* ==========================================================================
+   Dark Mode Support - ダークモード対応
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: #1A1A1A;
+    --color-bg-secondary: #2D2D2D;
+    --color-bg-overlay: rgba(26, 26, 26, 0.95);
+    
+    --color-text-primary: #F9F9F9;
+    --color-text-secondary: #CCCCCC;
+    --color-text-muted: #999999;
+    --color-text-inverse: #1A1A1A;
+    
+    --color-border-light: #404040;
+    --color-border-medium: #525252;
+    --color-border-dark: #666666;
+    
+    --color-shadow-light: rgba(0, 0, 0, 0.3);
+    --color-shadow-medium: rgba(0, 0, 0, 0.4);
+    --color-shadow-dark: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* ==========================================================================
+   Usage Examples - 使用例
+   ========================================================================== */
+
+/* Layout Components - レイアウトコンポーネント */
+.layout {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+}
+
+.layout__header {
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: 0 2px 4px var(--color-shadow-light);
+}
+
+.layout__main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.layout__footer {
+  background-color: var(--color-brand-main);
+  color: var(--color-text-inverse);
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+/* Typography Components - タイポグラフィコンポーネント */
+.text {
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+.text--secondary {
+  color: var(--color-text-secondary);
+}
+
+.text--muted {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.text--brand {
+  color: var(--color-brand-main);
+  font-weight: 600;
+}
+
+/* Button Components - ボタンコンポーネント */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn--primary {
+  background-color: var(--color-brand-main);
+  color: var(--color-text-inverse);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-brand-main-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px var(--color-shadow-medium);
+}
+
+.btn--cta {
+  background-color: var(--color-cta-primary);
+  color: var(--color-text-inverse);
+}
+
+.btn--cta:hover {
+  background-color: var(--color-cta-primary-hover);
+}
+
+.btn--cta:active {
+  background-color: var(--color-cta-primary-active);
+}
+
+.btn--outline {
+  background-color: transparent;
+  color: var(--color-brand-main);
+  border: 2px solid var(--color-brand-main);
+}
+
+.btn--outline:hover {
+  background-color: var(--color-brand-main);
+  color: var(--color-text-inverse);
+}
+
+/* Card Components - カードコンポーネント */
+.card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-light);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px var(--color-shadow-medium);
+}
+
+.card__title {
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.card__content {
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Form Components - フォームコンポーネント */
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-field__label {
+  display: block;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-field__input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--color-border-medium);
+  border-radius: 0.5rem;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-field__input:focus {
+  outline: none;
+  border-color: var(--color-brand-main);
+  box-shadow: 0 0 0 3px rgba(59, 124, 91, 0.1);
+}
+
+.form-field__error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* State Components - 状態コンポーネント */
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.alert--success {
+  background-color: rgba(59, 124, 91, 0.1);
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+.alert--error {
+  background-color: rgba(229, 62, 62, 0.1);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+}
+
+.alert--warning {
+  background-color: rgba(246, 173, 85, 0.1);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+
+.alert--info {
+  background-color: rgba(66, 153, 225, 0.1);
+  color: var(--color-info);
+  border: 1px solid var(--color-info);
+}
+
+/* ==========================================================================
+   Responsive Design - レスポンシブデザイン
+   ========================================================================== */
+
+/* Mobile First Approach */
+@media (min-width: 768px) {
+  .layout__main {
+    padding: 3rem;
+  }
+  
+  .btn {
+    padding: 1rem 2rem;
+  }
+  
+  .card {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout__main {
+    padding: 4rem;
+  }
+}
+
+/* ==========================================================================
+   Utility Classes - ユーティリティクラス
+   ========================================================================== */
+
+/* Background Utilities */
+.bg-primary { background-color: var(--color-bg-primary); }
+.bg-secondary { background-color: var(--color-bg-secondary); }
+.bg-brand { background-color: var(--color-brand-main); }
+.bg-cta { background-color: var(--color-cta-primary); }
+
+/* Text Color Utilities */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+.text-inverse { color: var(--color-text-inverse); }
+.text-brand { color: var(--color-brand-main); }
+.text-cta { color: var(--color-cta-primary); }
+
+/* Border Utilities */
+.border-light { border-color: var(--color-border-light); }
+.border-medium { border-color: var(--color-border-medium); }
+.border-dark { border-color: var(--color-border-dark); }

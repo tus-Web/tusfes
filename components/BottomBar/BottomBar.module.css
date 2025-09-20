@@ -1,0 +1,117 @@
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-bg-navigation);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 -2px 8px var(--color-shadow-card);
+  z-index: 1000;
+}
+
+.tabContainer {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  color: var(--color-text-navigation);
+  min-height: 60px;
+}
+
+.tab:hover {
+  color: var(--color-text-navigation-active);
+}
+
+.tab.active {
+  color: var(--color-text-navigation-active);
+}
+
+.iconContainer {
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconContainer svg {
+  font-size: 1.5rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  line-height: 1;
+}
+
+.activeIndicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  background: var(--color-brand-main);
+  border-radius: 0 0 3px 3px;
+}
+
+@media (max-width: 768px) {
+  .tabContainer {
+    padding: 0.5rem;
+  }
+  
+  .tab {
+    padding: 0.5rem 0.125rem;
+    min-height: 55px;
+  }
+  
+  .iconContainer svg {
+    font-size: 1.3rem;
+  }
+  
+  .label {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab {
+    min-height: 50px;
+    padding: 0.4rem 0;
+  }
+  
+  .iconContainer svg {
+    font-size: 1.2rem;
+  }
+  
+  .label {
+    font-size: 0.65rem;
+  }
+  
+  .activeIndicator {
+    width: 25px;
+    height: 2px;
+  }
+}
+
+/* スマートフォンの安全領域に対応 */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .bottomBar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

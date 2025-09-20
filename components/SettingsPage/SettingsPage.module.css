@@ -1,0 +1,288 @@
+.settingsPage {
+  height: calc(100vh - 80px);
+  background: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  background: var(--color-bg-secondary);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+  flex-shrink: 0;
+}
+
+.tabsContainer {
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+
+.tabs {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.titleIcon {
+  font-size: 2rem !important;
+  color: var(--color-brand-main);
+}
+
+.title {
+  font-weight: 700 !important;
+  color: var(--color-text-primary) !important;
+  margin: 0 !important;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.settingsContainer {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.settingSection {
+  background: var(--color-bg-secondary) !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  border: 1px solid var(--color-border-light) !important;
+  transition: all 0.3s ease !important;
+}
+
+.settingSection:hover {
+  box-shadow: 0 4px 16px var(--color-shadow-medium) !important;
+  transform: translateY(-2px);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.sectionIcon {
+  font-size: 1.5rem !important;
+  color: var(--color-brand-main);
+}
+
+.sectionTitle {
+  font-weight: 600 !important;
+  color: var(--color-text-primary) !important;
+  margin: 0 !important;
+}
+
+.settingItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.settingInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.settingIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modeIcon {
+  font-size: 1.5rem !important;
+  color: var(--color-brand-main);
+}
+
+.flagIcon {
+  font-size: 1.5rem;
+}
+
+.settingDetails {
+  flex: 1;
+}
+
+.festivalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--color-bg-primary);
+  border-radius: 12px;
+  border: 1px solid var(--color-border-light);
+}
+
+.infoLabel {
+  font-weight: 600 !important;
+  color: var(--color-brand-main) !important;
+  font-size: 0.9rem !important;
+  margin: 0 !important;
+}
+
+.infoValue {
+  color: var(--color-text-primary) !important;
+  font-size: 1rem !important;
+  margin: 0 !important;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .tabsContainer {
+    padding: 0 0.5rem;
+  }
+  
+  .titleContainer {
+    gap: 0.75rem;
+  }
+  
+  .titleIcon {
+    font-size: 1.75rem !important;
+  }
+  
+  .title {
+    font-size: 1.5rem !important;
+  }
+  
+  .settingsContainer {
+    padding: 1rem;
+  }
+  
+  .settingsContainer {
+    gap: 1rem;
+  }
+  
+  .settingSection {
+    padding: 1rem !important;
+  }
+  
+  .settingItem {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .settingInfo {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .languageSelect {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .settingsContainer {
+    padding: 0.75rem;
+  }
+  
+  .titleIcon {
+    font-size: 1.5rem !important;
+  }
+  
+  .title {
+    font-size: 1.3rem !important;
+  }
+  
+  .settingSection {
+    padding: 0.75rem;
+    padding: 0.75rem !important;
+  }
+  
+  .sectionHeader {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .settingIcon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .modeIcon,
+  .flagIcon {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .settingSection {
+    background: var(--color-bg-card) !important;
+  }
+  
+  .settingIcon {
+    background: var(--color-bg-primary);
+    border-color: var(--color-border-medium);
+  }
+}
+
+/* アクセシビリティ */
+@media (prefers-reduced-motion: reduce) {
+  .settingSection {
+    transition: none !important;
+  }
+  
+  .settingSection:hover {
+    transform: none;
+  }
+}
+
+/* フォーカス表示 */
+.settingSection:focus-within {
+  outline: 2px solid var(--color-brand-main);
+  outline-offset: 2px;
+}
+
+/* 高コントラストモード */
+@media (prefers-contrast: high) {
+  .settingSection {
+    border: 2px solid var(--color-text-primary) !important;
+  }
+  
+  .settingIcon {
+    border: 2px solid var(--color-text-primary);
+  }
+}

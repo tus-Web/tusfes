@@ -11,7 +11,7 @@ export default function SimpleMap() {
 
   const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
         [139.8610, 35.7700], // 南西の座標
-        [139.8650, 35.7730]  // 北東の座標
+        [139.8640, 35.7730]  // 北東の座標
       ];
  
   useEffect(() => {
@@ -26,17 +26,7 @@ export default function SimpleMap() {
         container: mapContainer.current,
         center: [139.8632, 35.7719], // 東京駅を初期値点として表示（緯度、経度を指定）
         zoom: 17.5,
-        pitch: 45, // 地図の傾き
-        bearing: -62, // 地図の回転
-        antialias: true, // 3D表示を滑らかにする
         style: 'mapbox://styles/mapbox/standard', // スタイルURL
-        config: {
-          basemap: {
-            theme: 'custom', // 地図のテーマを設定
-            lightPreset: 'day', // ライトのプリセットを設定
-            font: "Alegreya SC",
-          }
-        },
         maxBounds: bounds // 地図の表示範囲を設定
       });
       // 言語変更設定参考
@@ -44,15 +34,6 @@ export default function SimpleMap() {
       const language = new MapboxLanguage({ defaultLanguage: 'ja' });
       map.addControl(language);
       
-      new mapboxgl.Marker({color: 'black'})
-      .setLngLat([139.8632, 35.7719])
-      .setPopup(
-      new mapboxgl.Popup({ offset: 25 }) // ポップアップを追加
-        .setHTML(
-          `<h3>hello</h3><p>here</p>`
-        )
-      )
-      .addTo(map);
 
       map.on('load', () => {
         setMap(map);

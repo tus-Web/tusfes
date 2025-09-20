@@ -2,10 +2,13 @@
 
 import React, { useState } from 'react';
 import TopPage from '../TopPage/TopPage';
-import MapPage from '../MapPage/MapPage';
-import CalendarPage from '../CalendarPage/CalendarPage';
-import SettingsPage from '../SettingsPage/SettingsPage';
-import BottomBar from '../BottomBar/BottomBar';
+// Please verify the actual relative paths to these components and update as needed.
+// For example, if the files are directly under 'map', 'CalendarPage', etc. folders:
+import MapPage from '@/components/pages/map/MapPage/MapPage';
+import CalendarPage from '@/components/pages/calendar/CalendarPage/CalendarPage';
+import SettingsPage from '@/components/pages/setting/SettingsPage/SettingsPage';
+import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
+// If the files are in different locations, adjust the paths accordingly.
 import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {

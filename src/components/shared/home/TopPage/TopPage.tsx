@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import CTAButton from '../CTAButton/CTAButton';
+import CTAButton from '@/components/shared/common/CTAButton/CTAButton';
 import styles from './TopPage.module.css';
 
 interface TopPageProps {

@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material';
 import { useTheme } from '@/hooks/use-theme';
 import { useLanguage, type Language } from '@/hooks/use-language';
-import UserHistory from '@/components/UserHistory/UserHistory';
+import UserHistory from '@/components/pages/setting/UserHistory/UserHistory';
 import styles from './SettingsPage.module.css';
 
 const SettingsPage: React.FC = () => {

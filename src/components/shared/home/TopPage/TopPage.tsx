@@ -56,7 +56,7 @@ const TopPage: React.FC<TopPageProps> = ({ onCTAClick }) => {
           className={styles.info}
         >
           <p className={styles.date}>2024年11月2日(土) - 11月3日(日)</p>
-          <p className={styles.location}>神楽坂キャンパス</p>
+          <p className={styles.location}>葛飾キャンパス</p>
         </motion.div>
 
         <motion.div

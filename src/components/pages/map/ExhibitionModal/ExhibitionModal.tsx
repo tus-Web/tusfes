@@ -292,41 +292,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
             </IconButton>
 
             <DialogContent className={styles.dialogContent}>
-              {/* 1. Image Section */}
-              <div className={styles.imageSection}>
-                {exhibition.imageUrl && !imageError ? (
-                  <motion.div
-                    className={`${styles.imageContainer} ${isImageZoomed ? styles.imageZoomed : ''}`}
-                    onClick={handleImageClick}
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <img
-                      src={exhibition.imageUrl}
-                      alt={`${exhibition.name}の画像`}
-                      className={styles.exhibitionImage}
-                      onLoad={handleImageLoad}
-                      onError={handleImageError}
-                      loading="lazy"
-                    />
-                    {imageLoaded && (
-                      <div className={styles.imageOverlay}>
-                        <ZoomIn className={styles.zoomIcon} />
-                        <span className={styles.zoomText}>クリックで拡大</span>
-                      </div>
-                    )}
-                  </motion.div>
-                ) : (
-                  <div className={styles.imagePlaceholder}>
-                    <ImageNotSupported className={styles.placeholderIcon} />
-                    <Typography variant="body2" className={styles.placeholderText}>
-                      画像を読み込めませんでした
-                    </Typography>
-                  </div>
-                )}
-              </div>
-
-              {/* 2. Title Section */}
+              {/* 1. Title Section */}
               <div className={styles.titleSection}>
                 <Typography 
                   variant="h4" 
@@ -356,7 +322,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
                 </div>
               </div>
 
-              {/* 3. Tags Section */}
+              {/* 2. Tags Section */}
               <div className={styles.tagsSection}>
                 {exhibition.tags.map((tag, index) => {
                   const tagStyle = getTagColor(tag);
@@ -386,47 +352,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
                 })}
               </div>
 
-              {/* 4. Description Section */}
-              <div className={styles.descriptionSection}>
-                <Typography 
-                  variant="h6" 
-                  className={styles.descriptionTitle}
-                >
-                  詳細説明
-                </Typography>
-                <div 
-                  className={styles.descriptionContent}
-                  id="exhibition-modal-description"
-                >
-                  <Typography 
-                    variant="body1" 
-                    className={styles.descriptionText}
-                  >
-                    {exhibition.detailedDescription || exhibition.description}
-                  </Typography>
-                  
-                  {exhibition.organizer && (
-                    <div className={styles.organizerInfo}>
-                      <Typography variant="body2" className={styles.organizerLabel}>
-                        主催者:
-                      </Typography>
-                      <Typography variant="body2" className={styles.organizerName}>
-                        {exhibition.organizer}
-                      </Typography>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* 5. Mini Map Section */}
-              <div className={styles.mapSection}>
-                <Typography variant="h6" className={styles.mapTitle}>
-                  場所
-                </Typography>
-                {renderMiniMap()}
-              </div>
-
-              {/* 6. Reviews Section */}
+              {/* 3. Reviews Section */}
               <div className={styles.reviewsSection}>
                 <Box className={styles.tabsContainer}>
                   <Tabs
@@ -577,6 +503,38 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
                     </motion.div>
                   )}
                 </Box>
+              </div>
+
+              {/* 4. Description Section */}
+              <div className={styles.descriptionSection}>
+                <Typography 
+                  variant="h6" 
+                  className={styles.descriptionTitle}
+                >
+                  展示説明
+                </Typography>
+                <div 
+                  className={styles.descriptionContent}
+                  id="exhibition-modal-description"
+                >
+                  <Typography 
+                    variant="body1" 
+                    className={styles.descriptionText}
+                  >
+                    {exhibition.detailedDescription || exhibition.description}
+                  </Typography>
+                  
+                  {exhibition.organizer && (
+                    <div className={styles.organizerInfo}>
+                      <Typography variant="body2" className={styles.organizerLabel}>
+                        主催者:
+                      </Typography>
+                      <Typography variant="body2" className={styles.organizerName}>
+                        {exhibition.organizer}
+                      </Typography>
+                    </div>
+                  )}
+                </div>
               </div>
             </DialogContent>
           </motion.div>

@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import CTAButton from '@/components/shared/common/CTAButton/CTAButton';
 import styles from './TopPage.module.css';
+import Link from "next/link"
 
 interface TopPageProps {
   onCTAClick: () => void;
@@ -47,6 +48,7 @@ const TopPage: React.FC<TopPageProps> = ({ onCTAClick }) => {
         >
           <h1 className={styles.title}>東京理科大学</h1>
           <h2 className={styles.subtitle}>理大祭 2024</h2>
+          <Link href="/HomePage">やあ</Link>
         </motion.div>
 
         <motion.div

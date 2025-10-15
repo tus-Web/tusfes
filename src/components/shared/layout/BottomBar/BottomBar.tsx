@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Map, CalendarToday, Settings } from '@mui/icons-material';
+import { Map, Home, AccountBox } from '@mui/icons-material';
 import { useLanguage } from '@/hooks/use-language';
 import styles from './BottomBar.module.css';
 
@@ -18,9 +18,9 @@ interface TabItem {
 }
 
 const tabs: TabItem[] = [
+  { id: 'home', label: 'bottomBar.home', icon: <Home /> },
   { id: 'map', label: 'bottomBar.map', icon: <Map /> },
-  { id: 'calendar', label: 'bottomBar.calendar', icon: <CalendarToday /> },
-  { id: 'settings', label: 'bottomBar.settings', icon: <Settings /> },
+  { id: 'personal', label: 'bottomBar.personal', icon: <AccountBox /> },
 ];
 
 const BottomBar: React.FC<BottomBarProps> = ({ activeTab, onTabChange }) => {

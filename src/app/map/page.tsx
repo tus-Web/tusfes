@@ -11,7 +11,7 @@ import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionMo
 const boothData = [
   {
     // --- マーカー表示に必要 ---
-    lngLat: [139.8632, 35.7719], 
+    lngLat: [139.8632, 35.7719] as [number, number], 
     
     // --- 以下、ExhibitionModal に渡すデータ (ExhibitionItem 互換) ---
     id: 1,
@@ -30,7 +30,7 @@ const boothData = [
     reviews: [], 
   },
   {
-    lngLat: [139.8635, 35.7722],
+    lngLat: [139.8635, 35.7722] as [number, number],
     id: 2,
     name: 'ブースB: ドローンサークル',
     type: '体験',
@@ -49,18 +49,19 @@ const boothData = [
 ];
 
 
+// bounds を関数外に移動してleーー(再レンダリング時に同じ参照を保つ)
+const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
+  [139.8610, 35.7700], // 南西の座標
+  [139.8650, 35.7730]  // 北東の座標
+];
+
 export default function SimpleMap() {
   mapboxgl.accessToken = 'pk.eyJ1IjoicmlrdS1vZ2F3YSIsImEiOiJjbWZzZGJzdDYwNG4zMmpvZXBwN2V6YXZ5In0.M7sZno-EhE51gYER_aeEjg'
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
 
-  // 3. この state に、boothData のオブジェクトが丸ごと入ります
-  const [selectedBooth, setSelectedBooth] = useState(null);
-
-  const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
-        [139.8610, 35.7700], // 南西の座標
-        [139.8650, 35.7730]  // 北東の座標
-      ];
+  // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を修正)
+  const [selectedBooth, setSelectedBooth] = useState<typeof boothData[0] | null>(null);
 
   useEffect(() => {
     const initializeMap = ({
@@ -117,7 +118,7 @@ export default function SimpleMap() {
     };
  
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map, bounds]); 
+  }, [map]); 
  
   return (
     <>

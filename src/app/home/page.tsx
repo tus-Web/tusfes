@@ -8,8 +8,15 @@ import 'swiper/css/pagination';
 import './styles.css';
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { useRouter } from 'next/navigation';
+import BottomBar from "@/src/components/shared/layout/BottomBar/BottomBar";
 
 export default function Home() {
+    const router = useRouter();
+    const onBottomBarPressed = (id: string) => {
+        router.push(`/${id}`);
+    };
+
     return(
     <>
         <Swiper
@@ -34,6 +41,9 @@ export default function Home() {
             <SwiperSlide><img src="/img\tmp_img5.jpg" alt="tmp_img5" /></SwiperSlide>
             <SwiperSlide><img src="/img\tmp_img6.jpg" alt="tmp_img6" /></SwiperSlide>
         </Swiper>
+        
+        <h1>Here is HomePage</h1>
+        <BottomBar activeTab="home" onTabChange={onBottomBarPressed} />
     </>
     );
 }

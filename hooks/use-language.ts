@@ -15,8 +15,8 @@ const translations = {
   ja: {
     // ボトムバー
     'bottomBar.map': 'マップ',
-    'bottomBar.calendar': 'カレンダー',
-    'bottomBar.settings': '設定',
+    'bottomBar.home': 'ホーム',
+    'bottomBar.personal': 'アカウント',
     
     // 設定画面
     'settings.title': '設定',
@@ -49,8 +49,8 @@ const translations = {
   en: {
     // ボトムバー
     'bottomBar.map': 'Map',
-    'bottomBar.calendar': 'Calendar',
-    'bottomBar.settings': 'Settings',
+    'bottomBar.home': 'Home',
+    'bottomBar.personal': 'Account',
     
     // 設定画面
     'settings.title': 'Settings',

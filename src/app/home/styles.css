@@ -42,3 +42,39 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+/* --- Paginationのカスタマイズ (画像のデザイン) --- */
+
+/* 1. Pagination全体を囲む「白い枠」のスタイル */
+.swiper-pagination {
+  /* Swiperはデフォルトで 'position: absolute' を使うため、
+    レイアウトに応じて 'position: relative' や 'static' に変更し、
+    'bottom' や 'margin-top' で位置を調整する必要があるかもしれません。
+    
+    ここでは、カプセルの見た目だけをまず定義します。
+  */
+  width: 50% !important;
+  left:  50% !important;
+  transform: translateX(-50%);
+  
+  display: inline-block;
+  padding: 8px 10px;     /* 枠の内側の余白 */
+  background-color: white; /* 枠の背景色を白に */
+  border-radius: 20px;   /* 枠の角を丸くしてカプセル型に */
+}
+
+/* 2. 「点」のスタイル (非アクティブ時) */
+.swiper-pagination-bullet {
+  background-color: #AAAAAA; /* 灰色 (グレー) */
+  opacity: 1; /* Swiperのデフォルト透明度を上書き */
+  border: none; /* 既存の枠線を削除 */
+  
+  /* 画像に合わせて点のサイズを少し調整 (任意) */
+  width: 10px;
+  height: 10px;
+}
+
+/* 3. 「点」のスタイル (アクティブ時) */
+.swiper-pagination-bullet-active {
+  background-color: #007AFF; /* 青色 (ブルー) */
+}

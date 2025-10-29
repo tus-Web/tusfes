@@ -14,6 +14,8 @@ interface SearchTopBarProps {
   onSearchChange: (query: string) => void;
   selectedTag: string | null;
   onTagSelect: (tag: string | null) => void;
+  selectedTags?: string[];
+  selectedLocations?: string[];
 }
 
 const categories: CategoryType[] = ['展示', 'フード', 'イベント', 'アメニティ'];
@@ -36,8 +38,26 @@ export default function SearchTopBar({
   onSearchChange,
   selectedTag,
   onTagSelect,
+  selectedTags = [],
+  selectedLocations = [],
 }: SearchTopBarProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // フィルターリンクに現在の検索条件を含める
+  const getFilterLink = () => {
+    const params = new URLSearchParams();
+    params.set('category', selectedCategory);
+    if (searchQuery) {
+      params.set('query', searchQuery);
+    }
+    if (selectedTags.length > 0) {
+      params.set('tags', selectedTags.join(','));
+    }
+    if (selectedLocations.length > 0) {
+      params.set('locations', selectedLocations.join(','));
+    }
+    return `/filter?${params.toString()}`;
+  };
 
   return (
     <div className={styles.container}>
@@ -57,8 +77,13 @@ export default function SearchTopBar({
           </select>
         </div>
 
-        <Link href="/filter" className={styles.filterButton}>
+        <Link href={getFilterLink()} className={styles.filterButton}>
           フィルター
+          {(selectedTags.length > 0 || selectedLocations.length > 0) && (
+            <span className={styles.filterBadge}>
+              {selectedTags.length + selectedLocations.length}
+            </span>
+          )}
         </Link>
 
         <button

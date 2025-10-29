@@ -40,3 +40,12 @@
   font-weight: 500;
   color: #374151;
 }
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 16px;
+  color: #6b7280;
+}

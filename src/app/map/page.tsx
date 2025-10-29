@@ -2,9 +2,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import { useRouter } from 'next/navigation';
 
 // 1. 作成した ExhibitionModal をインポートします
-import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal'; 
+import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
+import BottomBar from '@/components/shared/layout/BottomBar/BottomBar'; 
 
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
@@ -59,9 +61,14 @@ export default function SimpleMap() {
   mapboxgl.accessToken = 'pk.eyJ1IjoicmlrdS1vZ2F3YSIsImEiOiJjbWZzZGJzdDYwNG4zMmpvZXBwN2V6YXZ5In0.M7sZno-EhE51gYER_aeEjg'
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
+  const router = useRouter();
 
   // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を修正)
   const [selectedBooth, setSelectedBooth] = useState<typeof boothData[0] | null>(null);
+
+  const onBottomBarPressed = (id: string) => {
+    router.push(`/${id}`);
+  };
 
   useEffect(() => {
     const initializeMap = ({
@@ -130,6 +137,7 @@ export default function SimpleMap() {
       />
  
       <div ref={mapContainer} style={{ width: '100%', height: '100vh' }} />
+      <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
   );
 }

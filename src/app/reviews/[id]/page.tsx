@@ -2,7 +2,8 @@
 
 import styles from "./page.module.css";
 import Link from "next/link";
-import { useState, useParams, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { fetchReviewsByDisplayId, submitReview, Review } from "@/lib/reviews";
 import { displays } from "@/lib/constants";
 

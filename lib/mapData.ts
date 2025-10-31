@@ -1,6 +1,7 @@
 /**
  * マップ関連の定数とデータ
  */
+import mapboxgl from 'mapbox-gl';
 
 export interface BoothData {
   lngLat: [number, number];

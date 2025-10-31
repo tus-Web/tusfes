@@ -61,7 +61,7 @@ interface ExhibitionModalProps {
   onClose: () => void;
   exhibition: ExhibitionItem | null;
 }
-
+/*仮データ supabaseに置き換え*/
 const mockReviews: Review[] = [
   {
     id: 1,
@@ -120,6 +120,22 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
   }, [open]);
 
   // Keyboard event handling
+  useEffect(() => {
+          if(!exhibition?.id) return;
+          
+          const fetchReviews = async () => {
+              const {data,error} = await supabase
+              .from('reviews')
+              .select('*')
+              .eq('display_id',exhibition?.id);
+  
+              if(!error && data) {
+                  setReviews(data);
+              }
+          };
+          fetchReviews();
+      },[open]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && open) {
@@ -193,7 +209,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
         .insert([
           {
             comment: comment,
-            display_id: 1,
+            display_id: exhibition?.id,
             rating: rating
           },
         ]);
@@ -206,10 +222,8 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
 
       const { data: newReviews } = await supabase
         .from('reviews')
-        .select('*');
-      /*
-      .eq('display_id', display.id);
-      */
+        .select('*')
+        .eq('display_id', exhibition?.id);
 
       setReviews(newReviews || []);
     } catch (error) {

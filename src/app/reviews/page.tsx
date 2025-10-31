@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect } from "react";
-import { supabase } from "@/src/lib/supabase/client";
+import { fetchReviews } from '@/lib/reviews';
 
 type Review = {
   id: number;
@@ -20,11 +20,11 @@ export default function ReviewsPage() {
   ];
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      const { data, error } = await supabase
-        .from('reviews')
-        .select('*');
+    const loadReviews = async () => {
+      // Example: fetch reviews for display 1
+      const reviewsData = await fetchReviews(1);
     }
+    loadReviews();
   })
   
   return(

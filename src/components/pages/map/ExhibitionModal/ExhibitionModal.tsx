@@ -27,7 +27,8 @@ import {
   StarBorder
 } from '@mui/icons-material';
 import styles from './ExhibitionModal.module.css';
-import { supabase } from '@/src/lib/supabase/client';
+import { fetchReviews, submitReview, Review as ReviewType } from '@/lib/reviews';
+import { useAuth } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
 interface Review {
   id: number;
@@ -102,6 +103,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
   onClose,
   exhibition
 }) => {
+  const { user } = useAuth();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
@@ -119,22 +121,16 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
     }
   }, [open]);
 
-  // Keyboard event handling
+  // Fetch reviews when modal opens
   useEffect(() => {
-          if(!exhibition?.id) return;
-          
-          const fetchReviews = async () => {
-              const {data,error} = await supabase
-              .from('reviews')
-              .select('*')
-              .eq('display_id',exhibition?.id);
-  
-              if(!error && data) {
-                  setReviews(data);
-              }
-          };
-          fetchReviews();
-      },[open]);
+    if (!exhibition?.id || !open) return;
+    
+    const loadReviews = async () => {
+      const reviewsData = await fetchReviews(exhibition.id);
+      setReviews(reviewsData as any);
+    };
+    loadReviews();
+  }, [exhibition?.id, open]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -189,45 +185,31 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
     }
   };
 
-  const checkReviewLength = (comment: string) => {
-    if (comment.length === 0) {
-      alert('レビューを書いて下さい');
-      return false;
-    }
-    return true;
-  };
-
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      if (!checkReviewLength(comment)) {
-        return;
-      }
+    
+    if (!user || !exhibition) {
+      alert('ユーザー認証に失敗しました');
+      return;
+    }
 
-      const { error } = await supabase
-        .from('reviews')
-        .insert([
-          {
-            comment: comment,
-            display_id: exhibition?.id,
-            rating: rating
-          },
-        ]);
-      if (error) {
-        throw error;
-      }
+    const result = await submitReview({
+      displayId: exhibition.id,
+      userId: user.id,
+      rating: rating || 0,
+      comment,
+    });
 
+    if (result.success) {
       alert('レビューを送信しました！');
       setComment('');
-
-      const { data: newReviews } = await supabase
-        .from('reviews')
-        .select('*')
-        .eq('display_id', exhibition?.id);
-
-      setReviews(newReviews || []);
-    } catch (error) {
-      alert("投稿失敗");
+      setRating(0);
+      
+      // Reload reviews
+      const reviewsData = await fetchReviews(exhibition.id);
+      setReviews(reviewsData as any);
+    } else {
+      alert(result.error || '投稿失敗');
     }
   };
 

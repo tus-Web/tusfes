@@ -4,52 +4,11 @@ import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import { useRouter } from 'next/navigation';
 
-// 1. 作成した ExhibitionModal をインポートします
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
 import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
-import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
-
-// 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
-// マーカー表示に必要な `lngLat` も残しておきます
-const boothData = [
-  {
-    // --- マーカー表示に必要 ---
-    lngLat: [139.8632, 35.7719] as [number, number], 
-    
-    // --- 以下、ExhibitionModal に渡すデータ (ExhibitionItem 互換) ---
-    id: 1,
-    name: 'ブースA: AI研究室',
-    type: '展示',
-    // ミニマップ用の座標 (0-100のパーセンテージ)
-    position: { x: 30, y: 30 }, 
-    targetAudience: ['高校生', '大学生'],
-    description: 'AIによる画像認識のデモを行います。',
-    detailedDescription: 'AIによる画像認識のデモンストレーションを行います。サンプルの画像を持ち込んでもOKです！最先端のディープラーニングモデルを体験してください。',
-    location: '1号館 101教室',
-    schedule: '10:00 - 17:00 (終日)',
-    organizer: 'AI研究室（〇〇研究室）',
-    tags: ['展示', '子供向け', '高校生'],
-    // reviews は Modal 側で mockReviews が定義されているので空でもOK
-    reviews: [], 
-  },
-  {
-    lngLat: [139.8635, 35.7722] as [number, number],
-    id: 2,
-    name: 'ブースB: ドローンサークル',
-    type: '体験',
-    position: { x: 60, y: 40 },
-    targetAudience: ['子供向け', '高校生'],
-    description: '最新ドローンの展示と飛行体験。',
-    detailedDescription: 'サークルで開発した最新ドローンの展示と、シミュレータによる飛行体験ができます。全国大会4位の実力をぜひご覧ください。',
-    location: '中庭 特設エリア',
-    schedule: '11:00 - 16:00',
-    capacity: 10,
-    organizer: 'ドローンサークル "StampFly"',
-    tags: ['イベント', '子供向け'],
-    reviews: [],
-  },
-  // ... 他のブースデータも同様に追加
-];
+import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader';
+import { boothData } from '@/data/boothData';
+import styles from './page.module.css';
 
 
 // bounds を関数外に移動してleーー(再レンダリング時に同じ参照を保つ)
@@ -140,7 +99,7 @@ export default function SimpleMap() {
         exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
       />
  
-      <div ref={mapContainer} style={{ width: '100%', height: '100vh' }} />
+      <div ref={mapContainer} className={styles.mapContainer} />
       <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
   );

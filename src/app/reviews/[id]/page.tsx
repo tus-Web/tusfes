@@ -2,11 +2,11 @@
 
 import styles from "./page.module.css";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
-import { supabase } from '@/src/lib/supabase/client';
 import { useAuth } from '@/components/shared/providers/AuthProvider/AuthProvider';
+import { fetchReviews } from '@/lib/reviews';
+import { ReviewForm } from '@/components/shared/common/ReviewForm/ReviewForm';
 
 type Review = {
     id: number;
@@ -25,27 +25,19 @@ const displays ={
 export default function ReviewPage(){
     const { user } = useAuth();
     const params = useParams();
-    const [reviewText, setReviewText] = useState('');
     const [reviews, setReviews] = useState<Review[]>([]);
-    const [rating, setRating] = useState(5);
 
     const displayId = Array.isArray(params.id) ? params.id[0] : params.id;
     const display = displays[Number(displayId) as keyof typeof displays];
 
-    useEffect(() => {
-        if(!displayId) return;
-        
-        const fetchReviews = async () => {
-            const {data,error} = await supabase
-            .from('reviews')
-            .select('*')
-            .eq('display_id',display.id);
+    const loadReviews = async () => {
+        if (!display) return;
+        const reviewsData = await fetchReviews(display.id);
+        setReviews(reviewsData);
+    };
 
-            if(!error && data) {
-                setReviews(data);
-            }
-        };
-        fetchReviews();
+    useEffect(() => {
+        loadReviews();
     },[display?.id]);
 
     if(!display) {
@@ -55,77 +47,21 @@ export default function ReviewPage(){
         </div>;
     }
 
-    const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setReviewText(e.target.value);
-  };
-
-  const checkReviewLength = (reviewText: string) => {
-    if (reviewText.length === 0) {
-      alert('ちゃんとレビューを書いてね😢');
-      return false;
-    }
-    return true;
-  };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
     if (!user) {
-      alert('ユーザー認証に失敗しました。ページをリロードしてください。');
-      return;
+        return <div>
+            <p>認証中...</p>
+        </div>;
     }
-
-    try {
-      if (!checkReviewLength(reviewText)) {
-        return;
-      }
-    
-      const {error} = await supabase
-      .from('reviews')
-      .insert([
-        {
-            comment: reviewText,
-            display_id: display.id,
-            rating: rating,
-            user_id: user.id  // 認証済みユーザーIDを使用
-        },
-      ]);
-        if (error) {
-            throw error;
-        }
-
-        alert('レビューを送信しました！');
-        setReviewText('');
-        setRating(5);
-
-        const {data: newReviews} = await supabase
-        .from('reviews')
-        .select('*')
-        .eq('display_id', display.id);
-
-        setReviews(newReviews || []);
-    } catch (error) {
-        console.error('レビュー投稿エラー:', error);
-        alert("投稿失敗");
-    }
-};
 return(
     <div>
         <h1>レビュー</h1>
         <h2>{display.name}</h2>
 
-        <form onSubmit={handleSubmit}>
-            <h2>評価{rating}</h2>
-            <input type="range" min="0" max="5" step="1" value={rating} onChange= {(e) => setRating(parseFloat(e.target.value))}/>
-
-                <textarea
-                value={reviewText}
-                onChange={handleTextChange}
-                placeholder="レビューを入力してください"
-            />
-            <button type ="submit">
-                レビューを投稿
-            </button>
-        </form>
+        <ReviewForm 
+            displayId={display.id}
+            userId={user.id}
+            onSuccess={loadReviews}
+        />
 
         <h2>レビュー一覧</h2>
         <ul>

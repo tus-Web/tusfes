@@ -2,29 +2,30 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/components/shared/providers/AuthProvider/AuthProvider';
+import styles from './page.module.css';
 
 export default function Home() {
   const { user, loading } = useAuth();
 
   if (loading) {
     return (
-      <div style={{textAlign: 'center', marginTop: '50px'}}>
+      <div className={styles.loading}>
         <p>認証中...</p>
       </div>
     );
   }
 
   return (
-    <div style={{textAlign: 'center', marginTop: '50px'}}>
+    <div className={styles.container}>
       <h1>Now TopPage!</h1>
       {user && (
-        <div style={{ marginBottom: '20px' }}>
+        <div className={styles.userInfo}>
           <p>ユーザーID: {user.id}</p>
           <p>匿名ユーザー: {user.is_anonymous ? 'はい' : 'いいえ'}</p>
         </div>
       )}
       <Link href="/home">
-        <button style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+        <button className={styles.button}>
           Go to HomePage
         </button>
       </Link>

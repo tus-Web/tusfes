@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide} from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import './styles.css';
+import styles from './Home.module.css';
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useRouter } from 'next/navigation';

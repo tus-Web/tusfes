@@ -10,7 +10,6 @@ import styles from './Home.module.css';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
 import BottomBar from "@/src/components/shared/layout/BottomBar/BottomBar";
-import { vw } from "framer-motion";
 
 export default function Home() {
     const router = useRouter();
@@ -43,7 +42,7 @@ export default function Home() {
                 clickable: true,
             }}
             modules={[Autoplay, Pagination]}
-            className="mySwiper"
+            className={styles.mySwiper}
         >
             <SwiperSlide><img src="/img\tmp_img1.jpg" alt="tmp_img1" /></SwiperSlide>
             <SwiperSlide><img src="/img\tmp_img2.jpg" alt="tmp_img2" /></SwiperSlide>

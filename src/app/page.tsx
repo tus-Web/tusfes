@@ -2,6 +2,9 @@
 
 import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js';
+import { useEffect } from 'react';
+import React from 'react';
+import { useRouter } from "next/navigation";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -10,23 +13,32 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 
 
-
-
 export default function Home() {
 
-  
-    const action = async () => {
-      console.log("login success");
-      const { error } = await supabase.auth.signInAnonymously();
-      if(error) console.error(error);
-    };  
+  const router = useRouter();
 
-  return(
-  <div style={{textAlign: 'center', marginTop: '50px'}}>
-    <h1>Now TopPage!</h1>
-    <button onClick={action}>
-      <Link href="/home">Go to HomePage </Link>
-    </button>
-  </div>
+  useEffect(() => {
+    const getUserFromSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) console.error("error");
+      else router.push('/home');
+    };
+    getUserFromSession();
+  }
+  )
+
+  const action = async () => {
+    console.log("login success");
+    const { error } = await supabase.auth.signInAnonymously();
+    if (error) console.error(error);
+  };
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>Now TopPage!</h1>
+      <button onClick={action}>
+        <Link href="/home">Go to HomePage </Link>
+      </button>
+    </div>
   );
 }

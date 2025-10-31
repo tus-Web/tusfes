@@ -172,7 +172,7 @@ function FilterContent() {
 
 export default function Filter() {
   return (
-    <Suspense fallback={<div style={{ padding: '20px', textAlign: 'center' }}>読み込み中...</div>}>
+    <Suspense fallback={<div className={styles.loading}>読み込み中...</div>}>
       <FilterContent />
     </Suspense>
   );

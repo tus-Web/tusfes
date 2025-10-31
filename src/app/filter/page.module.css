@@ -5,6 +5,11 @@
   flex-direction: column;
 }
 
+.loading {
+  padding: 20px;
+  text-align: center;
+}
+
 .header {
   position: sticky;
   top: 0;

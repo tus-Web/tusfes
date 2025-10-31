@@ -16,10 +16,10 @@ import {
   Divider,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Close, 
-  LocationOn, 
-  AccessTime, 
+import {
+  Close,
+  LocationOn,
+  AccessTime,
   Group,
   ImageNotSupported,
   ZoomIn,
@@ -27,6 +27,12 @@ import {
   StarBorder
 } from '@mui/icons-material';
 import styles from './ExhibitionModal.module.css';
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 
 interface Review {
   id: number;
@@ -96,10 +102,10 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
   );
 };
 
-const ExhibitionModal: React.FC<ExhibitionModalProps> = ({ 
-  open, 
-  onClose, 
-  exhibition 
+const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
+  open,
+  onClose,
+  exhibition
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -107,6 +113,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
   const [tabValue, setTabValue] = useState(0);
   const [rating, setRating] = useState<number | null>(0);
   const [comment, setComment] = useState('');
+  const [reviews, setReviews] = useState<Review[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -171,19 +178,48 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
     }
   };
 
-  const handleSubmitReview = () => {
-    if (!rating || !comment.trim()) return;
-    
-    // Here you would typically send the review to your backend
-    console.log('Submitting review:', { rating, comment });
-    
-    // Reset form
-    setRating(0);
-    setComment('');
-    setTabValue(0); // Switch back to reviews tab
-    
-    // Show success message (you could add a toast notification here)
-    alert('レビューを投稿しました！');
+  const checkReviewLength = (comment: string) => {
+    if (comment.length === 0) {
+      alert('レビューを書いて下さい');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (!checkReviewLength(comment)) {
+        return;
+      }
+
+      const { error } = await supabase
+        .from('reviews')
+        .insert([
+          {
+            comment: comment,
+            display_id: 1,
+            rating: rating
+          },
+        ]);
+      if (error) {
+        throw error;
+      }
+
+      alert('レビューを送信しました！');
+      setComment('');
+
+      const { data: newReviews } = await supabase
+        .from('reviews')
+        .select('*');
+      /*
+      .eq('display_id', display.id);
+      */
+
+      setReviews(newReviews || []);
+    } catch (error) {
+      alert("投稿失敗");
+    }
   };
 
   const renderMiniMap = () => {
@@ -206,7 +242,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
             <div className={styles.miniBuilding} style={{ bottom: '20%', right: '15%', width: '25%', height: '25%' }}>
               <span className={styles.miniBuildingLabel}>中庭</span>
             </div>
-            
+
             {/* Exhibition location pin */}
             <motion.div
               className={styles.miniPin}
@@ -294,15 +330,15 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
             <DialogContent className={styles.dialogContent}>
               {/* 1. Title Section */}
               <div className={styles.titleSection}>
-                <Typography 
-                  variant="h4" 
+                <Typography
+                  variant="h4"
                   component="h1"
                   id="exhibition-modal-title"
                   className={styles.exhibitionTitle}
                 >
                   {exhibition.name}
                 </Typography>
-                
+
                 {/* Meta information */}
                 <div className={styles.metaInfo}>
                   <div className={styles.metaItem}>
@@ -373,37 +409,51 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
                       },
                     }}
                   >
+                    <Tab label="説明" />
                     <Tab label="レビュー" />
-                    <Tab label="レビューを書く" />
                   </Tabs>
                 </Box>
 
                 <Box className={styles.tabContent}>
+                  {/*tabvalueが0のときレビュー表示 */}
                   {tabValue === 0 && (
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3 }}
-                    >
+                    > <div className={styles.descriptionSection}>
+                        <Typography
+                          variant="h6"
+                          className={styles.descriptionTitle}
+                        >
+                          展示説明
+                        </Typography>
+                        <div
+                          className={styles.descriptionContent}
+                          id="exhibition-modal-description"
+                        >
+                          <Typography
+                            variant="body1"
+                            className={styles.descriptionText}
+                          >
+                            {exhibition.detailedDescription || exhibition.description}
+                          </Typography>
+
+                          {exhibition.organizer && (
+                            <div className={styles.organizerInfo}>
+                              <Typography variant="body2" className={styles.organizerLabel}>
+                                主催者:
+                              </Typography>
+                              <Typography variant="body2" className={styles.organizerName}>
+                                {exhibition.organizer}
+                              </Typography>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                       <div className={styles.reviewsList}>
                         {mockReviews.length > 0 ? (
-                          mockReviews.map((review) => (
-                            <div key={review.id} className={styles.reviewCard}>
-                              <div className={styles.reviewHeader}>
-                                <div className={styles.authorInfo}>
-                                  <div className={styles.avatar}>{review.avatar}</div>
-                                  <div className={styles.authorDetails}>
-                                    <div className={styles.authorName}>{review.author}</div>
-                                    <div className={styles.reviewDate}>{review.date}</div>
-                                  </div>
-                                </div>
-                                <StarRating rating={review.rating} />
-                              </div>
-                              <div className={styles.reviewComment}>
-                                {review.comment}
-                              </div>
-                            </div>
-                          ))
+                          <p>レビューが投稿されております</p>
                         ) : (
                           <div className={styles.noReviews}>
                             <Typography variant="body1" color="textSecondary">
@@ -415,6 +465,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
                     </motion.div>
                   )}
 
+                  {/*tabvalueが1のときレビュー投稿タブ*/}
                   {tabValue === 1 && (
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
@@ -483,59 +534,39 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
                           disabled={!rating}
                           className={styles.submitButton}
                           sx={{
-                            background: rating 
-                              ? 'var(--color-brand-main)' 
+                            background: rating
+                              ? 'var(--color-brand-main)'
                               : 'rgba(0, 0, 0, 0.12)',
                             borderRadius: '25px',
                             textTransform: 'none',
                             fontWeight: '600',
                             padding: '0.75rem 2rem',
                             '&:hover': {
-                              background: rating 
-                                ? 'var(--color-brand-main-dark)' 
+                              background: rating
+                                ? 'var(--color-brand-main-dark)'
                                 : 'rgba(0, 0, 0, 0.12)',
                             },
                           }}
                         >
                           レビューを投稿
                         </Button>
+                        <h2>レビュー一覧</h2>
+                        <ul>
+                          {reviews.map((review) => (
+                            <li key={review.id}>
+                              {review.comment} (評価:{review.rating})
+                            </li>
+                          ))}
+                        </ul>
                       </div>
+
                     </motion.div>
                   )}
                 </Box>
               </div>
 
               {/* 4. Description Section */}
-              <div className={styles.descriptionSection}>
-                <Typography 
-                  variant="h6" 
-                  className={styles.descriptionTitle}
-                >
-                  展示説明
-                </Typography>
-                <div 
-                  className={styles.descriptionContent}
-                  id="exhibition-modal-description"
-                >
-                  <Typography 
-                    variant="body1" 
-                    className={styles.descriptionText}
-                  >
-                    {exhibition.detailedDescription || exhibition.description}
-                  </Typography>
-                  
-                  {exhibition.organizer && (
-                    <div className={styles.organizerInfo}>
-                      <Typography variant="body2" className={styles.organizerLabel}>
-                        主催者:
-                      </Typography>
-                      <Typography variant="body2" className={styles.organizerName}>
-                        {exhibition.organizer}
-                      </Typography>
-                    </div>
-                  )}
-                </div>
-              </div>
+
             </DialogContent>
           </motion.div>
         )}

@@ -1,19 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './SearchResultCard.module.css';
+import { Event } from '@/types/event';
 
-export interface SearchItem {
-  id: string;
-  name: string;
-  category: '展示' | 'フード' | 'イベント' | 'アメニティ';
-  tags: string[];
-  description: string;
-  location: string;
-  imageUrl?: string;
-}
+// 後方互換性のためのエイリアス
+export type SearchItem = Event;
 
 interface SearchResultCardProps {
-  item: SearchItem;
+  item: Event;
 }
 
 export default function SearchResultCard({ item }: SearchResultCardProps) {

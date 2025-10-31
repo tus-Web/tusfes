@@ -1,0 +1,272 @@
+[
+  {
+    "id": "35",
+    "name": "理大祭公演",
+    "category": "イベント",
+    "tags": ["屋内", "学生向け", "家族におすすめ"],
+    "description": "演劇部劇団羅夢駝による舞台公演",
+    "organization": "演劇部劇団羅夢駝",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/35"
+  },
+  {
+    "id": "36",
+    "name": "合気道　理科大葛飾道場",
+    "category": "イベント",
+    "tags": ["屋内", "体験型", "学生向け"],
+    "description": "神楽坂合気道部による合気道の実演と体験",
+    "organization": "神楽坂合気道部",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/36"
+  },
+  {
+    "id": "37",
+    "name": "琥珀磨き体験",
+    "category": "展示",
+    "tags": ["体験型", "家族におすすめ", "学生向け"],
+    "description": "化石鉱物研究会による琥珀磨き体験",
+    "organization": "化石鉱物研究会",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/37"
+  },
+  {
+    "id": "38",
+    "name": "ITC ギャラリー",
+    "category": "展示",
+    "tags": ["屋内", "学生向け", "写真映え"],
+    "description": "情報技術クラブによる作品展示",
+    "organization": "情報技術クラブ",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/38"
+  },
+  {
+    "id": "39",
+    "name": "見て，触れる，ものづくりの世界",
+    "category": "展示",
+    "tags": ["体験型", "学生向け", "写真映え"],
+    "description": "デジタルファブリケーション同好会Fabri.によるものづくり展示",
+    "organization": "デジタルファブリケーション同好会Fabri.",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/39"
+  },
+  {
+    "id": "40",
+    "name": "アカペラ",
+    "category": "イベント",
+    "tags": ["屋内", "家族におすすめ", "学生向け"],
+    "description": "アカペラサークル「chum」による歌唱披露",
+    "organization": "アカペラサークル「chum」",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/40"
+  },
+  {
+    "id": "41",
+    "name": "写真展",
+    "category": "展示",
+    "tags": ["屋内", "写真映え", "家族におすすめ"],
+    "description": "理科大写真部による写真作品展示",
+    "organization": "理科大写真部",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/41"
+  },
+  {
+    "id": "42",
+    "name": "漫研展示会 2025",
+    "category": "展示",
+    "tags": ["屋内", "学生向け", "写真映え"],
+    "description": "Ⅰ部漫画研究同好会による漫画作品展示",
+    "organization": "Ⅰ部漫画研究同好会",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/42"
+  },
+  {
+    "id": "43",
+    "name": "おりがみ作品展",
+    "category": "展示",
+    "tags": ["屋内", "家族におすすめ", "写真映え"],
+    "description": "折り紙サークル Oriateによる折り紙作品展示",
+    "organization": "折り紙サークル Oriate",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/43"
+  },
+  {
+    "id": "44",
+    "name": "スマサー道場",
+    "category": "イベント",
+    "tags": ["体験型", "学生向け", "屋内"],
+    "description": "葛飾スマサーによるスマブラ体験",
+    "organization": "葛飾スマサー",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/44"
+  },
+  {
+    "id": "45",
+    "name": "アンサンブル発表",
+    "category": "イベント",
+    "tags": ["屋内", "家族におすすめ", "学生向け"],
+    "description": "管弦楽団によるアンサンブル演奏",
+    "organization": "管弦楽団",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/45"
+  },
+  {
+    "id": "46",
+    "name": "サイクリングチャレンジ",
+    "category": "イベント",
+    "tags": ["体験型", "学生向け", "家族におすすめ"],
+    "description": "東京理科大学サイクリング同好会によるサイクリング体験",
+    "organization": "東京理科大学サイクリング同好会",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/46"
+  },
+  {
+    "id": "47",
+    "name": "食品サンプルとダイラタンシー",
+    "category": "展示",
+    "tags": ["体験型", "家族におすすめ", "学生向け"],
+    "description": "東京理科大学地域貢献サークル カナラボによる科学体験",
+    "organization": "東京理科大学地域貢献サークル カナラボ",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/47"
+  },
+  {
+    "id": "48",
+    "name": "鳥科滑空機の世界",
+    "category": "展示",
+    "tags": ["屋内", "学生向け", "写真映え"],
+    "description": "東京理科大学鳥人間サークル鳥科による滑空機展示",
+    "organization": "東京理科大学鳥人間サークル鳥科",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/48"
+  },
+  {
+    "id": "49",
+    "name": "わいわいボードゲーム交流所",
+    "category": "イベント",
+    "tags": ["体験型", "家族におすすめ", "学生向け"],
+    "description": "非電源ゲーム研究会によるボードゲーム体験",
+    "organization": "非電源ゲーム研究会",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/49"
+  },
+  {
+    "id": "50",
+    "name": "Pharman教室ライブ",
+    "category": "イベント",
+    "tags": ["屋内", "学生向け", "家族におすすめ"],
+    "description": "Pharmanによる音楽ライブパフォーマンス",
+    "organization": "Pharman",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/50"
+  },
+  {
+    "id": "51",
+    "name": "みんなでポーカー",
+    "category": "イベント",
+    "tags": ["体験型", "学生向け", "屋内"],
+    "description": "理科大ポーカーサークルによるポーカー体験",
+    "organization": "理科大ポーカーサークル",
+    "location": "講義棟",
+    "detailUrl": "https://katsufes.com/2025/event/51"
+  },
+  {
+    "id": "52",
+    "name": "ヒトゴトじゃないよ認知症",
+    "category": "イベント",
+    "tags": ["家族におすすめ", "屋内", "無料"],
+    "description": "葛飾区　高齢者支援課による認知症啓発イベント",
+    "organization": "葛飾区　高齢者支援課",
+    "location": "講義棟（外部団体）",
+    "detailUrl": "https://katsufes.com/2025/event/52"
+  },
+  {
+    "id": "53",
+    "name": "エイズキャンペーン",
+    "category": "イベント",
+    "tags": ["屋内", "無料", "家族におすすめ"],
+    "description": "葛飾区保健所　保健予防課によるエイズ啓発キャンペーン",
+    "organization": "葛飾区保健所　保健予防課",
+    "location": "講義棟（外部団体）",
+    "detailUrl": "https://katsufes.com/2025/event/53"
+  },
+  {
+    "id": "54",
+    "name": "フィットネスラボbyモンチャレ",
+    "category": "イベント",
+    "tags": ["体験型", "家族におすすめ", "屋内"],
+    "description": "葛飾区・スポーツクラブルネサンス・東京ボディビル・フィットネス連盟によるフィットネス体験",
+    "organization": "葛飾区・スポーツクラブルネサンス・東京ボディビル・フィットネス連盟",
+    "location": "講義棟（外部団体）",
+    "detailUrl": "https://katsufes.com/2025/event/54"
+  },
+  {
+    "id": "55",
+    "name": "かつしか理大ファーマシー",
+    "category": "イベント",
+    "tags": ["家族におすすめ", "屋内", "無料"],
+    "description": "一般社団法人葛飾区薬剤師会による健康相談",
+    "organization": "一般社団法人葛飾区薬剤師会",
+    "location": "講義棟（外部団体）",
+    "detailUrl": "https://katsufes.com/2025/event/55"
+  },
+  {
+    "id": "65",
+    "name": "アカペラ",
+    "category": "イベント",
+    "tags": ["屋内", "家族におすすめ", "学生向け"],
+    "description": "アカペラサークル「chum」による歌唱披露",
+    "organization": "アカペラサークル「chum」",
+    "location": "図書館ホール",
+    "detailUrl": "https://katsufes.com/2025/event/65"
+  },
+  {
+    "id": "66",
+    "name": "アンサンブル・演奏",
+    "category": "イベント",
+    "tags": ["屋内", "家族におすすめ", "学生向け"],
+    "description": "管弦楽団によるアンサンブル・演奏",
+    "organization": "管弦楽団",
+    "location": "図書館ホール",
+    "detailUrl": "https://katsufes.com/2025/event/66"
+  },
+  {
+    "id": "67",
+    "name": "ピアノの会 理大祭コンサート",
+    "category": "イベント",
+    "tags": ["屋内", "家族におすすめ", "学生向け"],
+    "description": "東京理科大学ピアノの会によるピアノコンサート",
+    "organization": "東京理科大学ピアノの会",
+    "location": "図書館ホール",
+    "detailUrl": "https://katsufes.com/2025/event/67"
+  },
+  {
+    "id": "68",
+    "name": "ダンスショー",
+    "category": "イベント",
+    "tags": ["屋内", "家族におすすめ", "写真映え"],
+    "description": "LilyN Dance Studioによるダンスパフォーマンス",
+    "organization": "LilyN Dance Studio",
+    "location": "図書館ホール（外部団体）",
+    "detailUrl": "https://katsufes.com/2025/event/68"
+  },
+  {
+    "id": "69",
+    "name": "ダンスパフォーマンス披露",
+    "category": "イベント",
+    "tags": ["屋内", "家族におすすめ", "写真映え"],
+    "description": "ルネサンスKSC金町キッズダンスによるダンスパフォーマンス",
+    "organization": "ルネサンスKSC金町キッズダンス",
+    "location": "図書館ホール（外部団体）",
+    "detailUrl": "https://katsufes.com/2025/event/69"
+  },
+  {
+    "id": "70",
+    "name": "無線研究部展",
+    "category": "展示",
+    "tags": ["屋内", "学生向け", "体験型"],
+    "description": "無線研による無線技術の展示",
+    "organization": "無線研",
+    "location": "体育館(1/2面)",
+    "detailUrl": "https://katsufes.com/2025/event/70"
+  }
+]

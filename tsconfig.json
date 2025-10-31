@@ -21,6 +21,9 @@
     "paths": {
       "@/*": ["./*"],
       "@/components/*": ["./src/components/*"],
+      "@/data/*": ["./src/data/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/types/*": ["./types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/map/page.tsx"],

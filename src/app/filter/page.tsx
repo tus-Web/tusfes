@@ -4,33 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { X } from 'lucide-react';
-
-type CategoryType = '展示' | 'フード' | 'イベント' | 'アメニティ';
-
-const categories: CategoryType[] = ['展示', 'フード', 'イベント', 'アメニティ'];
-
-const allTags = [
-  '家族におすすめ',
-  '学生向け',
-  '体験型',
-  '写真映え',
-  '限定品あり',
-  '屋内',
-  '屋外',
-  '無料',
-];
-
-const locations = [
-  '1号館',
-  '2号館',
-  '3号館',
-  '4号館',
-  '中庭',
-  '正門前広場',
-  '野外ステージ',
-  '大講堂',
-  '学生食堂',
-];
+import { categories, allTags, locations, CategoryType } from '@/lib/constants';
 
 function FilterContent() {
   const router = useRouter();

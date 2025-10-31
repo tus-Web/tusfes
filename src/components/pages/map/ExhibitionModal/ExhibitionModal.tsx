@@ -66,7 +66,7 @@ interface ExhibitionModalProps {
   onClose: () => void;
   exhibition: ExhibitionItem | null;
 }
-
+/*仮データ supabaseに置き換え*/
 const mockReviews: Review[] = [
   {
     id: 1,

@@ -54,7 +54,7 @@ interface ExhibitionItem {
   organizer: string;
   imageUrl?: string;
   tags: string[];
-  reviews?: Review[];
+  reviews?: ReviewType[];
 }
 
 interface ExhibitionModalProps {
@@ -110,7 +110,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
   const [tabValue, setTabValue] = useState(0);
   const [rating, setRating] = useState<number | null>(0);
   const [comment, setComment] = useState('');
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<ReviewType[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -127,7 +127,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
     
     const loadReviews = async () => {
       const reviewsData = await fetchReviews(exhibition.id);
-      setReviews(reviewsData as any);
+      setReviews(reviewsData);
     };
     loadReviews();
   }, [exhibition?.id, open]);
@@ -207,7 +207,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
       
       // Reload reviews
       const reviewsData = await fetchReviews(exhibition.id);
-      setReviews(reviewsData as any);
+      setReviews(reviewsData);
     } else {
       alert(result.error || '投稿失敗');
     }

@@ -2,6 +2,8 @@
  * Booth data for map page
  */
 
+import { Review } from '@/lib/reviews';
+
 export interface BoothData {
   // Marker display data
   lngLat: [number, number];
@@ -19,7 +21,7 @@ export interface BoothData {
   capacity?: number;
   organizer: string;
   tags: string[];
-  reviews?: any[];
+  reviews?: Review[];
 }
 
 export const boothData: BoothData[] = [

@@ -25,7 +25,7 @@ export default function ReviewsPage() {
       const reviewsData = await fetchReviews(1);
     }
     loadReviews();
-  })
+  }, [])
   
   return(
     <main>

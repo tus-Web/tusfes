@@ -10,6 +10,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 
+
 type Review = {
   id: number;
   display_id: number;
@@ -33,7 +34,7 @@ export default function ReviewsPage() {
         .select('*');
     }
   })
-
+  
   return(
     <main>
       <h1>レビューページ</h1>

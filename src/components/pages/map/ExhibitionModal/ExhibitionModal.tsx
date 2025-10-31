@@ -126,6 +126,22 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
 
   // Keyboard event handling
   useEffect(() => {
+          if(!exhibition?.id) return;
+          
+          const fetchReviews = async () => {
+              const {data,error} = await supabase
+              .from('reviews')
+              .select('*')
+              .eq('display_id',exhibition?.id);
+  
+              if(!error && data) {
+                  setReviews(data);
+              }
+          };
+          fetchReviews();
+      },[open]);
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && open) {
         onClose();
@@ -198,7 +214,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
         .insert([
           {
             comment: comment,
-            display_id: 1,
+            display_id: exhibition?.id,
             rating: rating
           },
         ]);
@@ -211,10 +227,8 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
 
       const { data: newReviews } = await supabase
         .from('reviews')
-        .select('*');
-      /*
-      .eq('display_id', display.id);
-      */
+        .select('*')
+        .eq('display_id', exhibition?.id);
 
       setReviews(newReviews || []);
     } catch (error) {

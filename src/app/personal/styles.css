@@ -1,0 +1,243 @@
+/* お気に入り企画ページのスタイル */
+
+.personal-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  padding-bottom: 80px; /* BottomBarの高さ分 */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.no-favorites {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.favorite-card {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border-card);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 2px 8px var(--color-shadow-card);
+}
+
+.favorite-card:hover {
+  box-shadow: 0 4px 16px var(--color-shadow-medium);
+  transform: translateY(-2px);
+}
+
+.card-image {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--color-bg-secondary);
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  background-color: var(--color-bg-secondary);
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  flex: 1;
+}
+
+.category-badge {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  background-color: var(--color-cta-primary);
+  color: var(--color-text-inverse);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 2px 6px;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-muted);
+  font-size: 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.description {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.organization {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* レスポンシブデザイン */
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .favorites-list {
+    gap: 1.5rem;
+  }
+
+  .favorite-card {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .card-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .card-name {
+    font-size: 18px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .organization {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 3rem;
+  }
+
+  .favorites-list {
+    gap: 2rem;
+  }
+
+  .favorite-card {
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .card-image {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .favorite-card {
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-border-medium);
+  }
+
+  .card-image {
+    background-color: var(--color-bg-primary);
+  }
+
+  .image-placeholder {
+    background-color: var(--color-bg-primary);
+  }
+
+  .tag {
+    background-color: var(--color-bg-primary);
+  }
+}

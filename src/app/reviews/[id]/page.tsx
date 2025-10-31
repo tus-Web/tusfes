@@ -5,12 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
+import { supabase } from '@/src/lib/supabase/client';
+import { useAuth } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
 type Review = {
     id: number;
@@ -27,7 +23,7 @@ const displays ={
 }
 
 export default function ReviewPage(){
-
+    const { user } = useAuth();
     const params = useParams();
     const [reviewText, setReviewText] = useState('');
     const [reviews, setReviews] = useState<Review[]>([]);
@@ -72,6 +68,12 @@ export default function ReviewPage(){
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user) {
+      alert('ユーザー認証に失敗しました。ページをリロードしてください。');
+      return;
+    }
+
     try {
       if (!checkReviewLength(reviewText)) {
         return;
@@ -82,8 +84,9 @@ export default function ReviewPage(){
       .insert([
         {
             comment: reviewText,
-            display_id: 1,
-            rating: rating//仮のユーザーID
+            display_id: display.id,
+            rating: rating,
+            user_id: user.id  // 認証済みユーザーIDを使用
         },
       ]);
         if (error) {
@@ -92,6 +95,7 @@ export default function ReviewPage(){
 
         alert('レビューを送信しました！');
         setReviewText('');
+        setRating(5);
 
         const {data: newReviews} = await supabase
         .from('reviews')
@@ -100,6 +104,7 @@ export default function ReviewPage(){
 
         setReviews(newReviews || []);
     } catch (error) {
+        console.error('レビュー投稿エラー:', error);
         alert("投稿失敗");
     }
 };

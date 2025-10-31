@@ -1,44 +1,33 @@
 'use client';
 
-import Link from 'next/link'
-import { createClient } from '@supabase/supabase-js';
-import { useEffect } from 'react';
-import React from 'react';
-import { useRouter } from "next/navigation";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-
-const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
-
+import Link from 'next/link';
+import { useAuth } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
 export default function Home() {
+  const { user, loading } = useAuth();
 
-  const router = useRouter();
-
-  useEffect(() => {
-    const getUserFromSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) console.error("error");
-      else router.push('/home');
-    };
-    getUserFromSession();
+  if (loading) {
+    return (
+      <div style={{textAlign: 'center', marginTop: '50px'}}>
+        <p>認証中...</p>
+      </div>
+    );
   }
-  )
-
-  const action = async () => {
-    console.log("login success");
-    const { error } = await supabase.auth.signInAnonymously();
-    if (error) console.error(error);
-  };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+    <div style={{textAlign: 'center', marginTop: '50px'}}>
       <h1>Now TopPage!</h1>
-      <button onClick={action}>
-        <Link href="/home">Go to HomePage </Link>
-      </button>
+      {user && (
+        <div style={{ marginBottom: '20px' }}>
+          <p>ユーザーID: {user.id}</p>
+          <p>匿名ユーザー: {user.is_anonymous ? 'はい' : 'いいえ'}</p>
+        </div>
+      )}
+      <Link href="/home">
+        <button style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+          Go to HomePage
+        </button>
+      </Link>
     </div>
   );
 }

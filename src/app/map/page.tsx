@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 
 // 1. 作成した ExhibitionModal をインポートします
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
-import BottomBar from '@/components/shared/layout/BottomBar/BottomBar'; 
+import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
+import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
 
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
@@ -129,6 +130,9 @@ export default function SimpleMap() {
  
   return (
     <>
+      {/* 検索ヘッダーをマップの上に配置 */}
+      <SearchHeader showFilterButton={true} />
+
       {/* 4. ここを ExhibitionModal に差し替えます */}
       <ExhibitionModal 
         open={!!selectedBooth} // selectedBooth が null でなければ true

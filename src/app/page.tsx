@@ -1,10 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useAuth } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
 export default function Home() {
   const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    // セッションがあったら/homeに飛ばす
+    if (!loading && user) {
+      router.push('/home');
+    }
+  }, [loading, user, router]);
 
   if (loading) {
     return (

@@ -3,7 +3,6 @@
 import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
-import SearchTopBar from '@/components/shared/search/SearchTopBar/SearchTopBar';
 import SearchResultCard, {
   SearchItem,
 } from '@/components/shared/search/SearchResultCard/SearchResultCard';

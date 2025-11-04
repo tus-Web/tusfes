@@ -3,7 +3,6 @@
 import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
-import SearchTopBar from '@/components/shared/search/SearchTopBar/SearchTopBar';
 import SearchResultCard, {
   SearchItem,
 } from '@/components/shared/search/SearchResultCard/SearchResultCard';
@@ -84,7 +83,8 @@ function SearchContent() {
 
   return (
     <div className={styles.container}>
-      <SearchTopBar
+      {/* SearchTopBar hidden as per issue requirement */}
+      {/* <SearchTopBar
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
         searchQuery={searchQuery}
@@ -93,7 +93,7 @@ function SearchContent() {
         onTagSelect={setSelectedTag}
         selectedTags={selectedTags}
         selectedLocations={selectedLocations}
-      />
+      /> */}
 
       <div className={styles.resultsContainer}>
         <div className={styles.resultsHeader}>

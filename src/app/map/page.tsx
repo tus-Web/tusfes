@@ -3,74 +3,113 @@ import React, { useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/src/lib/supabase/client';
 
-// 1. 作成した ExhibitionModal をインポートします
+// ExhibitionModal をインポート
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
 import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
 import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
 
-// 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
-// マーカー表示に必要な `lngLat` も残しておきます
-const boothData = [
-  {
-    // --- マーカー表示に必要 ---
-    lngLat: [139.8632, 35.7719] as [number, number], 
-    
-    // --- 以下、ExhibitionModal に渡すデータ (ExhibitionItem 互換) ---
-    id: 1,
-    name: 'ブースA: AI研究室',
-    type: '展示',
-    // ミニマップ用の座標 (0-100のパーセンテージ)
-    position: { x: 30, y: 30 }, 
-    targetAudience: ['高校生', '大学生'],
-    description: 'AIによる画像認識のデモを行います。',
-    detailedDescription: 'AIによる画像認識のデモンストレーションを行います。サンプルの画像を持ち込んでもOKです！最先端のディープラーニングモデルを体験してください。',
-    location: '1号館 101教室',
-    schedule: '10:00 - 17:00 (終日)',
-    organizer: 'AI研究室（〇〇研究室）',
-    tags: ['展示', '子供向け', '高校生'],
-    // reviews は Modal 側で mockReviews が定義されているので空でもOK
-    reviews: [], 
-  },
-  {
-    lngLat: [139.8635, 35.7722] as [number, number],
-    id: 2,
-    name: 'ブースB: ドローンサークル',
-    type: '体験',
-    position: { x: 60, y: 40 },
-    targetAudience: ['子供向け', '高校生'],
-    description: '最新ドローンの展示と飛行体験。',
-    detailedDescription: 'サークルで開発した最新ドローンの展示と、シミュレータによる飛行体験ができます。全国大会4位の実力をぜひご覧ください。',
-    location: '中庭 特設エリア',
-    schedule: '11:00 - 16:00',
-    capacity: 10,
-    organizer: 'ドローンサークル "StampFly"',
-    tags: ['イベント', '子供向け'],
-    reviews: [],
-  },
-  // ... 他のブースデータも同様に追加
-];
+// Supabaseから取得する型定義
+export interface SupabaseData {
+  id: number;
+  exhibition_id: string;
+  name: string;
+  group_name: string | null;
+  explanation: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  type: string | null;
+  minimap_pos_x: number | null;
+  minimap_pos_y: number | null;
+  target_audience: string[] | null;
+  location: string | null;
+  schedule: string | null;
+  tags: string[] | null;
+};
 
+// /mapページ用にデータを変換する型
+export interface MapData {
+  lngLat: [number, number];
+  id: number;
+  name: string;
+  type: string;
+  position: { x: number; y: number };
+  targetAudience: string[];
+  description: string;
+  detailedDescription: string;
+  location: string;
+  schedule: string;
+  organizer: string;
+  tags: string[];
+  reviews: any[];
+};
 
-// bounds を関数外に移動してleーー(再レンダリング時に同じ参照を保つ)
+// bounds を関数外に移動(再レンダリング時に同じ参照を保つ)
 const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
   [139.8610, 35.7700], // 南西の座標
   [139.8650, 35.7730]  // 北東の座標
 ];
 
-export default function SimpleMap() {
-  mapboxgl.accessToken = 'pk.eyJ1IjoicmlrdS1vZ2F3YSIsImEiOiJjbWZzZGJzdDYwNG4zMmpvZXBwN2V6YXZ5In0.M7sZno-EhE51gYER_aeEjg'
-  const mapContainer = useRef(null);
-  const [map, setMap] = useState(null);
+export async function getExhibitions(): Promise<MapData[]> {
+  const { data, error } = await supabase
+    .from('exhibition table')
+    .select('*');
+
+  if (error || !data) {
+    console.error('展示データの取得に失敗しました:', error);
+    return [];
+  }
+
+  // Supabaseのデータを MapData 形式に変換
+  const transformedData: MapData[] = data
+    .filter((item: SupabaseData) => item.latitude && item.longitude) // 座標がないデータは除外
+    .map((item: SupabaseData) => ({
+      lngLat: [item.longitude!, item.latitude!] as [number, number],
+      id: item.id,
+      name: item.name || '名称未設定',
+      type: item.type || '展示',
+      position: { 
+        x: item.minimap_pos_x ? Number(item.minimap_pos_x) : 50, 
+        y: item.minimap_pos_y ? Number(item.minimap_pos_y) : 50 
+      },
+      targetAudience: item.target_audience || [],
+      description: item.explanation || '',
+      detailedDescription: item.explanation || '',
+      location: item.location || '場所未設定',
+      schedule: item.schedule || '時間未設定',
+      organizer: item.group_name || '主催者未設定',
+      tags: item.tags || [],
+      reviews: [],
+    }));
+  
+  return transformedData;
+}
+
+export default function MapClient() {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<mapboxgl.Map | null>(null);
   const router = useRouter();
 
-  // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を修正)
-  const [selectedBooth, setSelectedBooth] = useState<typeof boothData[0] | null>(null);
+  // Supabaseから取得したデータを保持する state
+  const [boothData, setBoothData] = useState<MapData[]>([]);
+  // 選択されたブースを保持する state
+  const [selectedBooth, setSelectedBooth] = useState<MapData | null>(null);
 
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
   };
 
+  // データ取得
+  useEffect(() => {
+    const fetchBoothData = async () => {
+      const data = await getExhibitions();
+      setBoothData(data);
+    };
+    fetchBoothData();
+  }, []);
+
+  // マップの初期化
   useEffect(() => {
     const initializeMap = ({
       setMap,
@@ -79,6 +118,8 @@ export default function SimpleMap() {
       setMap: any;
       mapContainer: any;
     }) => {
+      mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!;
+
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         center: [139.8632, 35.7719],
@@ -103,21 +144,6 @@ export default function SimpleMap() {
       map.on('load', () => {
         setMap(map);
         map.resize();
-
-        // データの形式が変わっただけで、マーカー生成ロジックは同じ
-        boothData.forEach(booth => {
-          const marker = new mapboxgl.Marker({
-              color: '#c00000'
-            })
-            .setLngLat(booth.lngLat) // boothData の lngLat を使用
-            .addTo(map);
-
-          // クリック時に booth オブジェクト全体を state にセット
-          marker.getElement().addEventListener('click', (e) => {
-            e.stopPropagation(); 
-            setSelectedBooth(booth);
-          });
-        });
       });
 
       map.on('click', () => {
@@ -127,13 +153,42 @@ export default function SimpleMap() {
  
     if (!map) initializeMap({ setMap, mapContainer });
   }, [map]); 
- 
+
+  // boothData が取得されたらマーカーを配置
+  useEffect(() => {
+    if (!map || boothData.length === 0) return;
+
+    // 既存のマーカーをクリア（もし必要なら）
+    const markers: mapboxgl.Marker[] = [];
+
+    boothData.forEach((booth: MapData) => {
+      const marker = new mapboxgl.Marker({
+          color: '#c00000'
+        })
+        .setLngLat(booth.lngLat)
+        .addTo(map);
+
+      // クリック時に booth オブジェクト全体を state にセット
+      marker.getElement().addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        setSelectedBooth(booth);
+      });
+
+      markers.push(marker);
+    });
+
+    // クリーンアップ関数でマーカーを削除
+    return () => {
+      markers.forEach(marker => marker.remove());
+    };
+  }, [map, boothData]);
+
   return (
     <>
       {/* 検索ヘッダーをマップの上に配置 */}
       <SearchHeader showFilterButton={true} />
 
-      {/* 4. ここを ExhibitionModal に差し替えます */}
+      {/* ExhibitionModal を表示 */}
       <ExhibitionModal 
         open={!!selectedBooth} // selectedBooth が null でなければ true
         onClose={() => setSelectedBooth(null)} // 閉じるための関数

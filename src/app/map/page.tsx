@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 // 1. 作成した ExhibitionModal をインポートします
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
+import FloorModal from '@/components/pages/map/FloorModal/FloorModal';
 import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
 import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
 
@@ -66,6 +67,7 @@ export default function SimpleMap() {
 
   // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を修正)
   const [selectedBooth, setSelectedBooth] = useState<typeof boothData[0] | null>(null);
+  const [floorOpen, setFloorOpen] = useState(false);
 
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
@@ -114,12 +116,18 @@ export default function SimpleMap() {
 
           // クリック時に booth オブジェクト全体を state にセット
           marker.getElement().addEventListener('click', (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
+            // 特定のピン（ここでは id === 1）を押したら FloorModal を開く
+            if (booth.id === 1) {
+              setFloorOpen(true);
+              return;
+            }
             setSelectedBooth(booth);
           });
         });
       });
 
+      // マップの他の部分をクリックしたらモーダルを閉じる
       map.on('click', () => {
         setSelectedBooth(null);
       });
@@ -134,6 +142,11 @@ export default function SimpleMap() {
       <SearchHeader showFilterButton={true} />
 
       {/* 4. ここを ExhibitionModal に差し替えます */}
+      <FloorModal
+        open={floorOpen}
+        onClose={() => setFloorOpen(false)}
+      />
+
       <ExhibitionModal 
         open={!!selectedBooth} // selectedBooth が null でなければ true
         onClose={() => setSelectedBooth(null)} // 閉じるための関数

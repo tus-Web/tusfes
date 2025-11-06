@@ -54,8 +54,8 @@ const boothData = [
 
 // bounds を関数外に移動してleーー(再レンダリング時に同じ参照を保つ)
 const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
-  [139.8610, 35.7700], // 南西の座標
-  [139.8650, 35.7730]  // 北東の座標
+  [139.8590, 35.7680], // 南西の座標
+  [139.8670, 35.7760]  // 北東の座標
 ];
 
 export default function SimpleMap() {
@@ -82,7 +82,7 @@ export default function SimpleMap() {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         center: [139.8632, 35.7719],
-        zoom: 17.5,
+        zoom: 17,
         pitch: 0, 
         bearing: -62,
         antialias: true,

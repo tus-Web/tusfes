@@ -25,9 +25,15 @@ const boothData = [
     position: { x: 30, y: 30 },
   },
   {
-    lngLat: [139.8632, 35.7724] as [number, number],
+    lngLat: [139.8631, 35.7724] as [number, number],
     id: 2,
     name: 'ブースB: ドローンサークル',
+    position: { x: 60, y: 40 },
+  },
+  {
+    lngLat: [139.8634, 35.7723] as [number, number],
+    id: 3,
+    name: 'ブースC: フリーマーケット',
     position: { x: 60, y: 40 },
   },
 ];

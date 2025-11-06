@@ -12,44 +12,24 @@ import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader';
 
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
+// boothData はマーカー表示に必要な最小限の情報だけを持たせます。
+// モーダルに渡す完全な ExhibitionItem 互換オブジェクトは
+// クリック時にマッピングして作成します（余計なデータを配列に持たないため）。
 const boothData = [
   {
-    // --- マーカー表示に必要 ---
-    lngLat: [139.8632, 35.7719] as [number, number], 
-    
-    // --- 以下、ExhibitionModal に渡すデータ (ExhibitionItem 互換) ---
+    // マーカー表示に必要
+    lngLat: [139.8632, 35.7719] as [number, number],
     id: 1,
     name: 'ブースA: AI研究室',
-    type: '展示',
-    // ミニマップ用の座標 (0-100のパーセンテージ)
-    position: { x: 30, y: 30 }, 
-    targetAudience: ['高校生', '大学生'],
-    description: 'AIによる画像認識のデモを行います。',
-    detailedDescription: 'AIによる画像認識のデモンストレーションを行います。サンプルの画像を持ち込んでもOKです！最先端のディープラーニングモデルを体験してください。',
-    location: '1号館 101教室',
-    schedule: '10:00 - 17:00 (終日)',
-    organizer: 'AI研究室（〇〇研究室）',
-    tags: ['展示', '子供向け', '高校生'],
-    // reviews は Modal 側で mockReviews が定義されているので空でもOK
-    reviews: [], 
+    // ミニマップ用の座標（必要ならマッピング時に使う）
+    position: { x: 30, y: 30 },
   },
   {
-    lngLat: [139.8635, 35.7722] as [number, number],
+    lngLat: [139.8632, 35.7724] as [number, number],
     id: 2,
     name: 'ブースB: ドローンサークル',
-    type: '体験',
     position: { x: 60, y: 40 },
-    targetAudience: ['子供向け', '高校生'],
-    description: '最新ドローンの展示と飛行体験。',
-    detailedDescription: 'サークルで開発した最新ドローンの展示と、シミュレータによる飛行体験ができます。全国大会4位の実力をぜひご覧ください。',
-    location: '中庭 特設エリア',
-    schedule: '11:00 - 16:00',
-    capacity: 10,
-    organizer: 'ドローンサークル "StampFly"',
-    tags: ['イベント', '子供向け'],
-    reviews: [],
   },
-  // ... 他のブースデータも同様に追加
 ];
 
 
@@ -135,7 +115,7 @@ export default function SimpleMap() {
             .setLngLat(booth.lngLat) // boothData の lngLat を使用
             .addTo(map);
 
-          // クリック時に booth オブジェクト全体を state にセット
+          // クリック時に ExhibitionModal が期待する形にマッピングして state にセット
           marker.getElement().addEventListener('click', (e) => {
             e.stopPropagation();
             // 特定のピン（ここでは id === 1）を押したら FloorModal を開く
@@ -143,7 +123,24 @@ export default function SimpleMap() {
               setFloorOpen(true);
               return;
             }
-            setSelectedBooth(booth);
+
+            // boothData 自体は軽量化しているため、モーダルに渡す形にここで組み立てる
+            const mapped = {
+              id: Number(booth.id) || booth.id,
+              name: booth.name || `ブース ${booth.id}`,
+              type: '展示',
+              position: booth.position || { x: 50, y: 50 },
+              targetAudience: [],
+              description: '',
+              detailedDescription: '',
+              location: '',
+              schedule: '',
+              organizer: '',
+              tags: [],
+              reviews: [],
+            } as any;
+
+            setSelectedBooth(mapped);
           });
         });
       });

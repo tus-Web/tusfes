@@ -57,8 +57,10 @@ export default function SimpleMap() {
   const [map, setMap] = useState(null);
   const router = useRouter();
 
-  // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を修正)
-  const [selectedBooth, setSelectedBooth] = useState<typeof boothData[0] | null>(null);
+  // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を緩めて any に)
+  // ExhibitionModal 側の ExhibitionItem 型がコンポーネント内で定義されているため
+  // ここでは any を使って互換性を確保します。必要なら共通型に差し替えてください。
+  const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
   const [floorOpen, setFloorOpen] = useState(false);
 
   const handleSelectExhibitionFromFloor = (ev: any) => {
@@ -130,11 +132,20 @@ export default function SimpleMap() {
           // クリック時に ExhibitionModal が期待する形にマッピングして state にセット
           marker.getElement().addEventListener('click', (e) => {
             e.stopPropagation();
-            // 特定のピン（ここでは id === 4）を押したら FloorModal を開く
-            if (booth.name === '講義等') {
-              setFloorOpen(true);
-              return;
-            }
+              // 食堂のピンを押したら外部サイトへ遷移（新しいタブで開く）
+              if (booth.name === '食堂') {
+                const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
+                const newWindow = window.open(url, '_blank');
+                // セキュリティのため opener を切る（可能な場合）
+                if (newWindow) newWindow.opener = null;
+                return;
+              }
+
+              // 特定のピン（ここでは id === 4）を押したら FloorModal を開く
+              if (booth.name === '講義等') {
+                setFloorOpen(true);
+                return;
+              }
 
             // boothData 自体は軽量化しているため、モーダルに渡す形にここで組み立てる
             const mapped = {

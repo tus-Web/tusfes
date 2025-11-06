@@ -20,20 +20,26 @@ const boothData = [
     // マーカー表示に必要
     lngLat: [139.8632, 35.7719] as [number, number],
     id: 1,
-    name: 'ブースA: AI研究室',
+    name: '食堂',
     // ミニマップ用の座標（必要ならマッピング時に使う）
     position: { x: 30, y: 30 },
   },
   {
     lngLat: [139.8631, 35.7724] as [number, number],
     id: 2,
-    name: 'ブースB: ドローンサークル',
+    name: 'ドローンサークル',
     position: { x: 60, y: 40 },
   },
   {
     lngLat: [139.8634, 35.7723] as [number, number],
     id: 3,
-    name: 'ブースC: フリーマーケット',
+    name: 'フリーマーケット',
+    position: { x: 60, y: 40 },
+  },
+  {
+    lngLat: [139.8644, 35.7715] as [number, number],
+    id: 4,
+    name: '講義等',
     position: { x: 60, y: 40 },
   },
 ];
@@ -124,8 +130,8 @@ export default function SimpleMap() {
           // クリック時に ExhibitionModal が期待する形にマッピングして state にセット
           marker.getElement().addEventListener('click', (e) => {
             e.stopPropagation();
-            // 特定のピン（ここでは id === 1）を押したら FloorModal を開く
-            if (booth.id === 1) {
+            // 特定のピン（ここでは id === 4）を押したら FloorModal を開く
+            if (booth.name === '講義等') {
               setFloorOpen(true);
               return;
             }

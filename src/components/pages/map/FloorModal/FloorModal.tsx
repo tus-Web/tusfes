@@ -36,8 +36,7 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
     <Dialog
       open={open}
       onClose={() => { setZoomed(null); onClose(); }}
-      maxWidth="md"
-      fullWidth
+      fullScreen
       PaperProps={{ className: styles.dialogPaper }}
       BackdropProps={{ style: { backgroundColor: 'rgba(0,0,0,0.6)' } }}
       aria-labelledby="floor-modal-title"
@@ -46,7 +45,23 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
         <Typography id="floor-modal-title" variant="h6" className={styles.title}>
           フロア写真
         </Typography>
-        <IconButton onClick={() => { setZoomed(null); onClose(); }} className={styles.closeButton} aria-label="閉じる">
+        {/* ExhibitionModal と同じスタイルの閉じるボタン */}
+        <IconButton
+          onClick={() => { setZoomed(null); onClose(); }}
+          className={styles.closeButton}
+          aria-label="モーダルを閉じる"
+          sx={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 10,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            },
+          }}
+        >
           <Close />
         </IconButton>
       </div>

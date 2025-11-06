@@ -5,13 +5,16 @@ import { Dialog, DialogContent, IconButton, Typography, Button } from '@mui/mate
 import { Close, ZoomIn } from '@mui/icons-material';
 import styles from './FloorModal.module.css';
 
+import events from '@/src/data/events.json';
+
 interface FloorModalProps {
   open: boolean;
   onClose: () => void;
   images?: string[];
+  onSelectExhibition?: (exhibition: any) => void;
 }
 
-const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
+const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelectExhibition }) => {
   const defaultImages = [
     '/img/floor/1kai.png',
     '/img/floor/3kai.png',
@@ -31,6 +34,9 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
   const [selectedFloor, setSelectedFloor] = useState<string>('1F');
   const imgs = images && images.length > 0 ? images.slice(0, 4) : (FLOOR_IMAGES[selectedFloor] ?? defaultImages);
   const [zoomed, setZoomed] = useState<string | null>(null);
+
+  // events.json から講義棟のものだけ抽出
+  const lectureEvents = (events as any[]).filter((e) => e.location && e.location.indexOf('講義棟') !== -1);
 
   return (
     <Dialog
@@ -82,12 +88,40 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
         </div>
 
         <div className={styles.grid}>
-          {imgs.map((src) => (
+          {imgs.map((src, imgIndex) => (
             <div key={src} className={styles.gridItem}>
               <div className={styles.imgWrapper} onClick={() => setZoomed(src)}>
                 <img src={src} alt={`floor-${src}`} className={styles.image} />
                 <div className={styles.overlay}>
                   <ZoomIn />
+                </div>
+
+                {/* ピンを画像上に重ねる */}
+                <div className={styles.pinsLayer} aria-hidden>
+                  {lectureEvents.map((ev, idx) => {
+                    // 仮配置: index によって等間隔に配置（後で部屋データがあれば置換）
+                    const cols = 4;
+                    const col = idx % cols;
+                    const row = Math.floor(idx / cols);
+                    const left = 10 + col * (80 / (cols - 1));
+                    const top = 15 + row * 18;
+                    return (
+                      <button
+                        key={ev.id}
+                        className={styles.pin}
+                        style={{ left: `${left}%`, top: `${top}%` }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // call parent handler if provided
+                          if (typeof onSelectExhibition === 'function') {
+                            onSelectExhibition(ev);
+                          }
+                        }}
+                        title={ev.name}
+                        aria-label={`開く ${ev.name}`}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>

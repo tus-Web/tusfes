@@ -88,6 +88,36 @@
   justify-content: center;
 }
 
+.pinsLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* 親のクリックを妨げない */
+}
+
+.pin {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #c00000;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: auto; /* ボタンとして動作 */
+}
+
+.pin:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, 0);
+  width: 2px;
+  height: 8px;
+  background: transparent;
+}
+
 .zoomOverlay {
   position: fixed;
   z-index: 3000;

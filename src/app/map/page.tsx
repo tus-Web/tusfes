@@ -69,6 +69,27 @@ export default function SimpleMap() {
   const [selectedBooth, setSelectedBooth] = useState<typeof boothData[0] | null>(null);
   const [floorOpen, setFloorOpen] = useState(false);
 
+  const handleSelectExhibitionFromFloor = (ev: any) => {
+    // Map events.json entry to ExhibitionItem-like object expected by ExhibitionModal
+    const mapped = {
+      id: Number(ev.id) || ev.id,
+      name: ev.name,
+      type: ev.category || '展示',
+      position: { x: 50, y: 50 },
+      targetAudience: ev.tags || [],
+      description: ev.description || '',
+      detailedDescription: ev.description || '',
+      location: ev.location || '',
+      schedule: ev.schedule || '',
+      organizer: ev.organization || '',
+      tags: ev.tags || [],
+      reviews: [],
+    } as any;
+
+    // Open ExhibitionModal but keep FloorModal open
+    setSelectedBooth(mapped);
+  };
+
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
   };
@@ -145,6 +166,7 @@ export default function SimpleMap() {
       <FloorModal
         open={floorOpen}
         onClose={() => setFloorOpen(false)}
+        onSelectExhibition={handleSelectExhibitionFromFloor}
       />
 
       <ExhibitionModal 

@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, IconButton, Typography, Button } from '@mui/material';
-import { Close, ZoomIn } from '@mui/icons-material';
+import { Dialog, DialogContent, IconButton, Typography, Button, Chip } from '@mui/material';
+import { Close, ZoomIn, LocationOn, AccessTime, Group } from '@mui/icons-material';
 import styles from './FloorModal.module.css';
+import exStyles from '../ExhibitionModal/ExhibitionModal.module.css';
 
 import events from '@/src/data/events.json';
 
@@ -11,10 +12,9 @@ interface FloorModalProps {
   open: boolean;
   onClose: () => void;
   images?: string[];
-  onSelectExhibition?: (exhibition: any) => void;
 }
 
-const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelectExhibition }) => {
+const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
   const defaultImages = [
     '/img/floor/1kai.png',
     '/img/floor/3kai.png',
@@ -34,6 +34,7 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
   const [selectedFloor, setSelectedFloor] = useState<string>('1F');
   const imgs = images && images.length > 0 ? images.slice(0, 4) : (FLOOR_IMAGES[selectedFloor] ?? defaultImages);
   const [zoomed, setZoomed] = useState<string | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
 
   // events.json から講義棟のものだけ抽出
   const lectureEvents = (events as any[]).filter((e) => e.location && e.location.indexOf('講義棟') !== -1);
@@ -116,9 +117,8 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
                         style={{ left, top }}
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (typeof onSelectExhibition === 'function') {
-                            onSelectExhibition(ev);
-                          }
+                          // show inline detail panel inside FloorModal
+                          setSelectedEvent(ev);
                         }}
                         title={ev.name}
                         aria-label={`開く ${ev.name}`}
@@ -130,6 +130,58 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
             </div>
           ))}
         </div>
+
+        {/* Inline detail panel shown under the floor map when a pin is selected */}
+        {selectedEvent && (
+          <div className={styles.detailPanel} role="region" aria-label="選択された展示詳細">
+            <div className={exStyles.titleSection}>
+              <Typography variant="h5" component="h3" className={exStyles.exhibitionTitle}>
+                {selectedEvent.name}
+              </Typography>
+
+              <div className={exStyles.metaInfo} style={{ marginTop: 8 }}>
+                <div className={exStyles.metaItem}>
+                  <LocationOn className={exStyles.metaIcon} />
+                  <span>{selectedEvent.location}</span>
+                </div>
+                <div className={exStyles.metaItem}>
+                  <AccessTime className={exStyles.metaIcon} />
+                  <span>{selectedEvent.schedule || ''}</span>
+                </div>
+                {selectedEvent.capacity && (
+                  <div className={exStyles.metaItem}>
+                    <Group className={exStyles.metaIcon} />
+                    <span>定員 {selectedEvent.capacity}名</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className={exStyles.tagsSection} style={{ paddingTop: 12 }}>
+              {(selectedEvent.tags || []).map((tag: string) => (
+                <Chip key={tag} label={tag} className={exStyles.tag} sx={{ mr: 1, mb: 1 }} />
+              ))}
+            </div>
+
+            <div className={exStyles.descriptionSection} style={{ marginTop: 8 }}>
+              <div className={exStyles.descriptionContent}>
+                <Typography variant="body1" className={exStyles.descriptionText}>
+                  {selectedEvent.description}
+                </Typography>
+                {selectedEvent.organization && (
+                  <div className={exStyles.organizerInfo} style={{ marginTop: 8 }}>
+                    <Typography variant="body2" className={exStyles.organizerLabel}>主催者:</Typography>
+                    <Typography variant="body2" className={exStyles.organizerName}>{selectedEvent.organization}</Typography>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+              <Button onClick={() => setSelectedEvent(null)} variant="contained" sx={{ textTransform: 'none' }}>閉じる</Button>
+            </div>
+          </div>
+        )}
 
         {/* Zoom overlay */}
         {zoomed && (

@@ -166,7 +166,6 @@ export default function SimpleMap() {
       <FloorModal
         open={floorOpen}
         onClose={() => setFloorOpen(false)}
-        onSelectExhibition={handleSelectExhibitionFromFloor}
       />
 
       <ExhibitionModal 

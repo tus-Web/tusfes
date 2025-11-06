@@ -118,6 +118,55 @@
   background: transparent;
 }
 
+.detailPanel {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--color-bg-primary);
+  border-top: 1px solid var(--color-border-light);
+  border-radius: 8px;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detailTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+}
+
+.detailClose {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.detailBody {
+  margin-top: 8px;
+}
+
+.detailLocation {
+  margin: 0 0 8px 0;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.detailDesc {
+  margin: 0 0 8px 0;
+  color: var(--color-text-primary);
+}
+
+.detailOrg {
+  margin: 0;
+  color: var(--color-brand-main);
+  font-weight: 600;
+}
+
 .zoomOverlay {
   position: fixed;
   z-index: 3000;

@@ -37,6 +37,12 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
 
   // events.json から講義棟のものだけ抽出
   const lectureEvents = (events as any[]).filter((e) => e.location && e.location.indexOf('講義棟') !== -1);
+  // 選択中のフロアに対応するイベントだけを表示
+  const lectureEventsByFloor = lectureEvents.filter((e) => {
+    // e.floor が未定義の場合は表示しない
+    if (!e.floor) return false;
+    return String(e.floor).toLowerCase() === String(selectedFloor).toLowerCase();
+  });
 
   return (
     <Dialog
@@ -98,21 +104,18 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
 
                 {/* ピンを画像上に重ねる */}
                 <div className={styles.pinsLayer} aria-hidden>
-                  {lectureEvents.map((ev, idx) => {
-                    // 仮配置: index によって等間隔に配置（後で部屋データがあれば置換）
-                    const cols = 4;
-                    const col = idx % cols;
-                    const row = Math.floor(idx / cols);
-                    const left = 10 + col * (80 / (cols - 1));
-                    const top = 15 + row * 18;
+                  {lectureEventsByFloor.map((ev) => {
+                    const pos = ev.position || { x: null, y: null };
+                    if (pos.x == null || pos.y == null) return null;
+                    const left = `${pos.x}%`;
+                    const top = `${pos.y}%`;
                     return (
                       <button
                         key={ev.id}
                         className={styles.pin}
-                        style={{ left: `${left}%`, top: `${top}%` }}
+                        style={{ left, top }}
                         onClick={(e) => {
                           e.stopPropagation();
-                          // call parent handler if provided
                           if (typeof onSelectExhibition === 'function') {
                             onSelectExhibition(ev);
                           }

@@ -7,6 +7,8 @@
     "description": "演劇部劇団羅夢駝による舞台公演",
     "organization": "演劇部劇団羅夢駝",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 18, "y": 20 },
     "detailUrl": "https://katsufes.com/2025/event/35"
   },
   {
@@ -17,6 +19,8 @@
     "description": "神楽坂合気道部による合気道の実演と体験",
     "organization": "神楽坂合気道部",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 36, "y": 20 },
     "detailUrl": "https://katsufes.com/2025/event/36"
   },
   {
@@ -27,6 +31,8 @@
     "description": "化石鉱物研究会による琥珀磨き体験",
     "organization": "化石鉱物研究会",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 54, "y": 20 },
     "detailUrl": "https://katsufes.com/2025/event/37"
   },
   {
@@ -37,6 +43,8 @@
     "description": "情報技術クラブによる作品展示",
     "organization": "情報技術クラブ",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 72, "y": 20 },
     "detailUrl": "https://katsufes.com/2025/event/38"
   },
   {
@@ -47,6 +55,8 @@
     "description": "デジタルファブリケーション同好会Fabri.によるものづくり展示",
     "organization": "デジタルファブリケーション同好会Fabri.",
     "location": "講義棟",
+    "floor": "2F",
+    "position": { "x": 22, "y": 48 },
     "detailUrl": "https://katsufes.com/2025/event/39"
   },
   {
@@ -57,6 +67,8 @@
     "description": "アカペラサークル「chum」による歌唱披露",
     "organization": "アカペラサークル「chum」",
     "location": "講義棟",
+    "floor": "2F",
+    "position": { "x": 42, "y": 48 },
     "detailUrl": "https://katsufes.com/2025/event/40"
   },
   {
@@ -67,6 +79,8 @@
     "description": "理科大写真部による写真作品展示",
     "organization": "理科大写真部",
     "location": "講義棟",
+    "floor": "2F",
+    "position": { "x": 62, "y": 48 },
     "detailUrl": "https://katsufes.com/2025/event/41"
   },
   {
@@ -77,6 +91,8 @@
     "description": "Ⅰ部漫画研究同好会による漫画作品展示",
     "organization": "Ⅰ部漫画研究同好会",
     "location": "講義棟",
+    "floor": "2F",
+    "position": { "x": 82, "y": 48 },
     "detailUrl": "https://katsufes.com/2025/event/42"
   },
   {
@@ -87,6 +103,8 @@
     "description": "折り紙サークル Oriateによる折り紙作品展示",
     "organization": "折り紙サークル Oriate",
     "location": "講義棟",
+    "floor": "3F",
+    "position": { "x": 22, "y": 76 },
     "detailUrl": "https://katsufes.com/2025/event/43"
   },
   {
@@ -97,6 +115,8 @@
     "description": "葛飾スマサーによるスマブラ体験",
     "organization": "葛飾スマサー",
     "location": "講義棟",
+    "floor": "3F",
+    "position": { "x": 42, "y": 76 },
     "detailUrl": "https://katsufes.com/2025/event/44"
   },
   {
@@ -107,6 +127,8 @@
     "description": "管弦楽団によるアンサンブル演奏",
     "organization": "管弦楽団",
     "location": "講義棟",
+    "floor": "3F",
+    "position": { "x": 62, "y": 76 },
     "detailUrl": "https://katsufes.com/2025/event/45"
   },
   {
@@ -117,6 +139,8 @@
     "description": "東京理科大学サイクリング同好会によるサイクリング体験",
     "organization": "東京理科大学サイクリング同好会",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 18, "y": 36 },
     "detailUrl": "https://katsufes.com/2025/event/46"
   },
   {
@@ -127,6 +151,8 @@
     "description": "東京理科大学地域貢献サークル カナラボによる科学体験",
     "organization": "東京理科大学地域貢献サークル カナラボ",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 36, "y": 36 },
     "detailUrl": "https://katsufes.com/2025/event/47"
   },
   {
@@ -137,6 +163,8 @@
     "description": "東京理科大学鳥人間サークル鳥科による滑空機展示",
     "organization": "東京理科大学鳥人間サークル鳥科",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 54, "y": 36 },
     "detailUrl": "https://katsufes.com/2025/event/48"
   },
   {
@@ -147,6 +175,8 @@
     "description": "非電源ゲーム研究会によるボードゲーム体験",
     "organization": "非電源ゲーム研究会",
     "location": "講義棟",
+    "floor": "1F",
+    "position": { "x": 72, "y": 36 },
     "detailUrl": "https://katsufes.com/2025/event/49"
   },
   {
@@ -157,6 +187,8 @@
     "description": "Pharmanによる音楽ライブパフォーマンス",
     "organization": "Pharman",
     "location": "講義棟",
+    "floor": "2F",
+    "position": { "x": 18, "y": 62 },
     "detailUrl": "https://katsufes.com/2025/event/50"
   },
   {
@@ -167,6 +199,8 @@
     "description": "理科大ポーカーサークルによるポーカー体験",
     "organization": "理科大ポーカーサークル",
     "location": "講義棟",
+    "floor": "2F",
+    "position": { "x": 36, "y": 62 },
     "detailUrl": "https://katsufes.com/2025/event/51"
   },
   {
@@ -177,6 +211,8 @@
     "description": "葛飾区　高齢者支援課による認知症啓発イベント",
     "organization": "葛飾区　高齢者支援課",
     "location": "講義棟（外部団体）",
+    "floor": "2F",
+    "position": { "x": 54, "y": 62 },
     "detailUrl": "https://katsufes.com/2025/event/52"
   },
   {
@@ -187,6 +223,8 @@
     "description": "葛飾区保健所　保健予防課によるエイズ啓発キャンペーン",
     "organization": "葛飾区保健所　保健予防課",
     "location": "講義棟（外部団体）",
+    "floor": "2F",
+    "position": { "x": 72, "y": 62 },
     "detailUrl": "https://katsufes.com/2025/event/53"
   },
   {
@@ -197,6 +235,8 @@
     "description": "葛飾区・スポーツクラブルネサンス・東京ボディビル・フィットネス連盟によるフィットネス体験",
     "organization": "葛飾区・スポーツクラブルネサンス・東京ボディビル・フィットネス連盟",
     "location": "講義棟（外部団体）",
+    "floor": "3F",
+    "position": { "x": 36, "y": 76 },
     "detailUrl": "https://katsufes.com/2025/event/54"
   },
   {
@@ -207,6 +247,8 @@
     "description": "一般社団法人葛飾区薬剤師会による健康相談",
     "organization": "一般社団法人葛飾区薬剤師会",
     "location": "講義棟（外部団体）",
+    "floor": "3F",
+    "position": { "x": 62, "y": 76 },
     "detailUrl": "https://katsufes.com/2025/event/55"
   },
   {

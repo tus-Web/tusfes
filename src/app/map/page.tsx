@@ -90,6 +90,7 @@ export default function MapClient() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<mapboxgl.Map | null>(null);
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Supabaseから取得したデータを保持する state
   const [boothData, setBoothData] = useState<MapData[]>([]);
@@ -147,7 +148,8 @@ export default function MapClient() {
       });
 
       map.on('click', () => {
-        setSelectedBooth(null);
+        setIsModalOpen(false);
+        setTimeout(() => setSelectedBooth(null), 300);
       });
     };
  
@@ -171,6 +173,7 @@ export default function MapClient() {
       // クリック時に booth オブジェクト全体を state にセット
       marker.getElement().addEventListener('click', (e) => {
         e.stopPropagation(); 
+        setIsModalOpen(true);
         setSelectedBooth(booth);
       });
 
@@ -190,8 +193,11 @@ export default function MapClient() {
 
       {/* ExhibitionModal を表示 */}
       <ExhibitionModal 
-        open={!!selectedBooth} // selectedBooth が null でなければ true
-        onClose={() => setSelectedBooth(null)} // 閉じるための関数
+        open={isModalOpen} // selectedBooth が null でなければ true
+        onClose={() => {
+          setIsModalOpen(false);
+          setTimeout(() => setSelectedBooth(null), 300);
+        }} // 閉じるための関数
         exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
       />
  

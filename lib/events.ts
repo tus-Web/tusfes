@@ -11,9 +11,10 @@ export function getAllEvents(): Event[] {
 /**
  * IDでイベントを取得
  */
-export function getEventById(id: string): Event | undefined {
+export function getEventById(id: string|number): Event | undefined {
+  const idStr = String(id);
   const events = getAllEvents();
-  return events.find((event) => event.id === id);
+  return events.find((event) => event.id === idStr);
 }
 
 /**

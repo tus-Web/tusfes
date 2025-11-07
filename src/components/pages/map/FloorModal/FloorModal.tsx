@@ -97,9 +97,19 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
         <div className={styles.grid}>
           {imgs.map((src, imgIndex) => (
             <div key={src} className={styles.gridItem}>
-              <div className={styles.imgWrapper} onClick={() => setZoomed(src)}>
+              {/* 画像自体のクリックでズームしないように、ラッパーの onClick は削除。
+                  ズームはオーバーレイ (虫眼鏡アイコン) をクリックしたときのみ発火する。 */}
+              <div className={styles.imgWrapper}>
                 <img src={src} alt={`floor-${src}`} className={styles.image} />
-                <div className={styles.overlay}>
+                <div
+                  className={styles.overlay}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setZoomed(src);
+                  }}
+                  role="button"
+                  aria-label="拡大表示"
+                >
                   <ZoomIn />
                 </div>
 

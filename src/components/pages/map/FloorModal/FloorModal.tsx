@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, IconButton, Typography, Button, Chip } from '@mui/material';
 import { Close, ZoomIn, LocationOn, AccessTime, Group } from '@mui/icons-material';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './FloorModal.module.css';
 import exStyles from '../ExhibitionModal/ExhibitionModal.module.css';
 import ExhibitionDetail from '@/src/components/shared/ExhibitionDetail/ExhibitionDetail';
@@ -77,108 +78,120 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
       BackdropProps={{ style: { backgroundColor: 'rgba(0,0,0,0.6)' } }}
       aria-labelledby="floor-modal-title"
     >
-      <SearchHeader position="static" onSearch={handleSearch} />
-      <div className={styles.header}>
-        <Typography id="floor-modal-title" variant="h6" className={styles.title}>
-          フロア写真
-        </Typography>
-        {/* ExhibitionModal と同じスタイルの閉じるボタン */}
-        <IconButton
-          onClick={() => { setZoomed(null); onClose(); }}
-          className={styles.closeButton}
-          aria-label="モーダルを閉じる"
-          sx={{
-            zIndex: 10,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            color: 'white',
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            },
-          }}
-        >
-          <Close />
-        </IconButton>
-      </div>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ duration: 0.28, ease: 'easeOut' }}
+            className={styles.modalContent}
+          >
+            <SearchHeader position="static" onSearch={handleSearch} />
+            <div className={styles.header}>
+              <Typography id="floor-modal-title" variant="h6" className={styles.title}>
+                フロア写真
+              </Typography>
+              {/* ExhibitionModal と同じスタイルの閉じるボタン */}
+              <IconButton
+                onClick={() => { setZoomed(null); onClose(); }}
+                className={styles.closeButton}
+                aria-label="モーダルを閉じる"
+                sx={{
+                  zIndex: 10,
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                  },
+                }}
+              >
+                <Close />
+              </IconButton>
+            </div>
 
-      <DialogContent className={styles.content}>
-        {/* フロア選択ボタン */}
-        <div className={styles.buttonGroup}>
-          {Object.keys(FLOOR_IMAGES).map((floor) => (
-            <Button
-              key={floor}
-              variant={selectedFloor === floor ? 'contained' : 'outlined'}
-              onClick={() => { setSelectedFloor(floor); setZoomed(null); }}
-              className={styles.floorButton}
-            >
-              {floor}
-            </Button>
-          ))}
-        </div>
+            <DialogContent className={styles.content}>
+              {/* フロア選択ボタン */}
+              <div className={styles.buttonGroup}>
+                {Object.keys(FLOOR_IMAGES).map((floor) => (
+                  <Button
+                    key={floor}
+                    variant={selectedFloor === floor ? 'contained' : 'outlined'}
+                    onClick={() => { setSelectedFloor(floor); setZoomed(null); }}
+                    className={styles.floorButton}
+                  >
+                    {floor}
+                  </Button>
+                ))}
+              </div>
 
-        <div className={styles.grid}>
-          {imgs.map((src, imgIndex) => (
-            <div key={src} className={styles.gridItem}>
-              {/* 画像自体のクリックでズームしないように、ラッパーの onClick は削除。
-                  ズームはオーバーレイ (虫眼鏡アイコン) をクリックしたときのみ発火する。 */}
-              <div className={styles.imgWrapper}>
-                <img src={src} alt={`floor-${src}`} className={styles.image} />
-                <div
-                  className={styles.overlay}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setZoomed(src);
-                  }}
-                  role="button"
-                  aria-label="拡大表示"
-                >
-                  <ZoomIn />
-                </div>
-
-                {/* ピンを画像上に重ねる */}
-                <div className={styles.pinsLayer} aria-hidden>
-                  {lectureEventsByFloorFiltered.map((ev) => {
-                    const pos = ev.position || { x: null, y: null };
-                    if (pos.x == null || pos.y == null) return null;
-                    const left = `${pos.x}%`;
-                    const top = `${pos.y}%`;
-                    return (
-                      <button
-                        key={ev.id}
-                        className={styles.pin}
-                        style={{ left, top }}
+              <div className={styles.grid}>
+                {imgs.map((src, imgIndex) => (
+                  <div key={src} className={styles.gridItem}>
+                    {/* 画像自体のクリックでズームしないように、ラッパーの onClick は削除。
+                        ズームはオーバーレイ (虫眼鏡アイコン) をクリックしたときのみ発火する。 */}
+                    <div className={styles.imgWrapper}>
+                      <img src={src} alt={`floor-${src}`} className={styles.image} />
+                      <div
+                        className={styles.overlay}
                         onClick={(e) => {
                           e.stopPropagation();
-                          // show inline detail panel inside FloorModal
-                          setSelectedEvent(ev);
+                          setZoomed(src);
                         }}
-                        title={ev.name}
-                        aria-label={`開く ${ev.name}`}
-                      />
-                    );
-                  })}
-                </div>
+                        role="button"
+                        aria-label="拡大表示"
+                      >
+                        <ZoomIn />
+                      </div>
+
+                      {/* ピンを画像上に重ねる */}
+                      <div className={styles.pinsLayer} aria-hidden>
+                        {lectureEventsByFloorFiltered.map((ev) => {
+                          const pos = ev.position || { x: null, y: null };
+                          if (pos.x == null || pos.y == null) return null;
+                          const left = `${pos.x}%`;
+                          const top = `${pos.y}%`;
+                          return (
+                            <button
+                              key={ev.id}
+                              className={styles.pin}
+                              style={{ left, top }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // show inline detail panel inside FloorModal
+                                setSelectedEvent(ev);
+                              }}
+                              title={ev.name}
+                              aria-label={`開く ${ev.name}`}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
 
-        {/* Inline detail panel shown under the floor map when a pin is selected */}
-        {selectedEvent && (
-          <div className={styles.detailPanel} role="region" aria-label="選択された展示詳細">
-            <ExhibitionDetail exhibition={selectedEvent} />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
-              <Button onClick={() => setSelectedEvent(null)} variant="contained" sx={{ textTransform: 'none' }}>閉じる</Button>
-            </div>
-          </div>
-        )}
+              {/* Inline detail panel shown under the floor map when a pin is selected */}
+              {selectedEvent && (
+                <div className={styles.detailPanel} role="region" aria-label="選択された展示詳細">
+                  <ExhibitionDetail exhibition={selectedEvent} />
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+                    <Button onClick={() => setSelectedEvent(null)} variant="contained" sx={{ textTransform: 'none' }}>閉じる</Button>
+                  </div>
+                </div>
+              )}
 
-        {/* Zoom overlay */}
-        {zoomed && (
-          <div className={styles.zoomOverlay} onClick={() => setZoomed(null)}>
-            <img src={zoomed} alt="zoomed-floor" className={styles.zoomImage} />
-          </div>
+              {/* Zoom overlay */}
+              {zoomed && (
+                <div className={styles.zoomOverlay} onClick={() => setZoomed(null)}>
+                  <img src={zoomed} alt="zoomed-floor" className={styles.zoomImage} />
+                </div>
+              )}
+            </DialogContent>
+          </motion.div>
         )}
-      </DialogContent>
+      </AnimatePresence>
     </Dialog>
   );
 };

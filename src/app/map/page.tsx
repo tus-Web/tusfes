@@ -267,7 +267,7 @@ export default function SimpleMap() {
         exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
       />
  
-      <div ref={mapContainer} style={{ width: '100%', height: '100vh' }} />
+  <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
       <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
   );

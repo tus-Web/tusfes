@@ -138,9 +138,30 @@
 
 .pinBackground {
   position: absolute;
-  font-size: 40px !important;
-  color: var(--color-brand-main);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* use SVG background instead of icon font */
+  background-size: 70% 70%;
+  background-repeat: no-repeat;
+  background-position: center;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.pinBgDefault {
+  background-image: url('/img/pin/question-circle-svgrepo-com.svg');
+}
+
+.pinBgFood {
+  background-image: url('/img/pin/food-dish-svgrepo-com.svg');
+}
+
+.pinBgShop {
+  background-image: url('/img/pin/shop-svgrepo-com.svg');
+}
+
+.pinBgStage {
+  background-image: url('/img/pin/stage-movie-appreciation-svgrepo-com.svg');
 }
 
 .pinEmoji {
@@ -213,9 +234,7 @@
     height: 35px;
   }
   
-  .pinBackground {
-    font-size: 35px !important;
-  }
+  /* background-size remains percentage-based so it scales with .pinIcon */
   
   .pinEmoji {
     font-size: 14px;
@@ -245,9 +264,7 @@
     height: 30px;
   }
   
-  .pinBackground {
-    font-size: 30px !important;
-  }
+  /* smaller screens: background-size kept as percentage */
   
   .pinEmoji {
     font-size: 12px;

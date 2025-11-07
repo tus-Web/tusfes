@@ -25,14 +25,9 @@
   font-weight: 700;
   color: var(--color-text-primary);
 }
-
-.closeButton {
-  color: var(--color-text-muted);
-}
-
+ 
 .content {
   padding: 1rem 1.25rem 2rem 1.25rem;
-  position: relative;
 }
 
 .buttonGroup {
@@ -100,17 +95,39 @@
   pointer-events: none; /* 親のクリックを妨げない */
 }
 
+
 .pin {
   position: absolute;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #c00000;
+  /* show SVG via additional type classes (pinDefault/pinFood/...) */
+  background: transparent;
   border: 2px solid white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   transform: translate(-50%, -50%);
   cursor: pointer;
   pointer-events: auto; /* ボタンとして動作 */
+  background-size: 70% 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pinDefault {
+  /* fallback/default pin */
+  background-image: url('/img/pin/question-circle-svgrepo-com.svg');
+}
+
+.pinFood {
+  background-image: url('/img/pin/food-dish-svgrepo-com.svg');
+}
+
+.pinShop {
+  background-image: url('/img/pin/shop-svgrepo-com.svg');
+}
+
+.pinStage {
+  background-image: url('/img/pin/stage-movie-appreciation-svgrepo-com.svg');
 }
 
 .pin:after {

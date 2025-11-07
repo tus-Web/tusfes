@@ -154,6 +154,50 @@ export default function SimpleMap() {
 
         // create markers and keep refs for toggling visibility later
         boothData.forEach(booth => {
+          // If this is the cafeteria ('食堂'), use a custom SVG marker
+          if (booth.name === '食堂') {
+            const el = document.createElement('div');
+            el.className = 'marker marker-cafeteria';
+            // public フォルダ配下はビルド時にルート `/` にマップされるので先頭に `/` を付ける
+            el.style.backgroundImage = 'url(/img/pin/food-dish-svgrepo-com.svg)';
+            el.style.backgroundSize = 'contain';
+            // el.style.backgroundRepeat = 'no-repeat';
+            // el.style.backgroundPosition = 'center';
+
+            // sizing & accessibility
+            el.style.width = '58px';
+            el.style.height = '58px';
+            // el.style.cursor = 'pointer';
+            el.tabIndex = 0;
+            el.setAttribute('role', 'button');
+            el.setAttribute('aria-label', `${booth.name} のピン`);
+
+            const marker = new mapboxgl.Marker(el)
+              .setLngLat(booth.lngLat)
+              .addTo(map);
+
+            // store association
+            markersRef.current.push({ booth, marker });
+
+            // preserve existing click behaviour for cafeteria
+            el.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
+              setExternalConfirm({ url, name: booth.name });
+            });
+
+            el.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
+                setExternalConfirm({ url, name: booth.name });
+              }
+            });
+
+            return; // continue to next booth
+          }
+
+          // default marker for other booths
           const marker = new mapboxgl.Marker({ color: '#c00000' })
             .setLngLat(booth.lngLat)
             .addTo(map);
@@ -163,12 +207,6 @@ export default function SimpleMap() {
 
           marker.getElement().addEventListener('click', (e) => {
             e.stopPropagation();
-            if (booth.name === '食堂') {
-              const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
-              // show confirmation UI instead of opening immediately
-              setExternalConfirm({ url, name: booth.name });
-              return;
-            }
 
             if (booth.name === '講義等') {
               setFloorOpen(true);

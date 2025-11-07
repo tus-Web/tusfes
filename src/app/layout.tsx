@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import ThemeProvider from '@/components/shared/providers/ThemeProvider/ThemeProvider';
 import LanguageProvider from '@/components/shared/providers/LanguageProvider/LanguageProvider';
+import { AuthProvider } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -56,11 +57,13 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <ThemeProvider>
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <LanguageProvider>
+              {children}
+            </LanguageProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

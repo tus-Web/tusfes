@@ -416,32 +416,42 @@ const MapPage: React.FC<MapPageProps> = ({ onLocationSelect }) => {
           </div>
 
           {/* Location Pins */}
-          {filteredExhibitions.map((exhibition) => (
-            <motion.div
-              key={exhibition.id}
-              className={styles.locationPin}
-              style={{
-                left: `${exhibition.position.x}%`,
-                top: `${exhibition.position.y}%`,
-              }}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => handleExhibitionClick(exhibition)}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: exhibition.id * 0.1 }}
-            >
-              <div className={styles.pinIcon}>
-                <LocationOn className={styles.pinBackground} />
-                <span className={styles.pinEmoji}>
-                  {getLocationIcon(exhibition.type, exhibition.subType)}
-                </span>
-              </div>
-              <div className={styles.pinLabel}>
-                {exhibition.name}
-              </div>
-            </motion.div>
-          ))}
+          {filteredExhibitions.map((exhibition) => {
+                const pinBgClass = exhibition.type === 'フード'
+                  ? styles.pinBgFood
+                  : exhibition.type === '展示'
+                    ? styles.pinBgShop
+                    : exhibition.type === 'イベント'
+                      ? styles.pinBgStage
+                      : styles.pinBgDefault;
+
+                return (
+                  <motion.div
+                    key={exhibition.id}
+                    className={styles.locationPin}
+                    style={{
+                      left: `${exhibition.position.x}%`,
+                      top: `${exhibition.position.y}%`,
+                    }}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => handleExhibitionClick(exhibition)}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: exhibition.id * 0.1 }}
+                  >
+                    <div className={styles.pinIcon}>
+                      <div className={`${styles.pinBackground} ${pinBgClass}`} />
+                      <span className={styles.pinEmoji}>
+                        {getLocationIcon(exhibition.type, exhibition.subType)}
+                      </span>
+                    </div>
+                    <div className={styles.pinLabel}>
+                      {exhibition.name}
+                    </div>
+                  </motion.div>
+                );
+              })}
         </div>
       </div>
 

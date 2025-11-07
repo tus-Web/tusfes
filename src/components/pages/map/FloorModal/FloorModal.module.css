@@ -1,0 +1,231 @@
+.dialogPaper {
+  /* フルスクリーン表示用に角丸を無くし、フル高さを確保 */
+  border-radius: 0 !important;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+  border: 0;
+  height: 100vh;
+}
+
+.modalContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.title {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+ 
+.content {
+  padding: 1rem 1.25rem 2rem 1.25rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  /* 横一列で収め、幅が足りないときはスクロール */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.floorButton {
+  text-transform: none !important;
+  border-radius: 999px !important;
+  padding: 6px 12px !important;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  /* 画像は横幅いっぱいに表示するため1カラムにする */
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.gridItem {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-bg-primary);
+}
+
+.imgWrapper {
+  width: 100%;
+  position: relative;
+  cursor: zoom-in;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background: rgba(0,0,0,0.4);
+  color: white;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pinsLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* 親のクリックを妨げない */
+}
+
+
+.pin {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  /* show SVG via additional type classes (pinDefault/pinFood/...) */
+  background: transparent;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: auto; /* ボタンとして動作 */
+  background-size: 70% 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pinDefault {
+  /* fallback/default pin */
+  background-image: url('/img/pin/question-circle-svgrepo-com.svg');
+}
+
+.pinFood {
+  background-image: url('/img/pin/food-dish-svgrepo-com.svg');
+}
+
+.pinShop {
+  background-image: url('/img/pin/shop-svgrepo-com.svg');
+}
+
+.pinStage {
+  background-image: url('/img/pin/stage-movie-appreciation-svgrepo-com.svg');
+}
+
+.pin:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, 0);
+  width: 2px;
+  height: 8px;
+  background: transparent;
+}
+
+.detailPanel {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--color-bg-primary);
+  border-top: 1px solid var(--color-border-light);
+  border-radius: 8px;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detailTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+}
+
+.detailClose {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.detailBody {
+  margin-top: 8px;
+}
+
+.detailLocation {
+  margin: 0 0 8px 0;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.detailDesc {
+  margin: 0 0 8px 0;
+  color: var(--color-text-primary);
+}
+
+.detailOrg {
+  margin: 0;
+  color: var(--color-brand-main);
+  font-weight: 600;
+}
+
+.zoomOverlay {
+  position: fixed;
+  z-index: 3000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.zoomImage {
+  width: 100vw;
+  height: auto;
+  max-height: 100vh;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+/* モバイルファースト: デフォルトは1カラム（スマホで横幅いっぱい）
+   640px 以上で2カラム表示にする */
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .gridItem {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* 小さい画面向けの微調整: 画像がコンテナ幅を超えないようにする */
+@media (max-width: 400px) {
+  .content {
+    padding: 0.75rem 0.75rem 1.25rem 0.75rem;
+  }
+  .buttonGroup {
+    gap: 6px;
+  }
+}

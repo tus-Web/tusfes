@@ -16,10 +16,10 @@ import {
   Divider,
 } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Close, 
-  LocationOn, 
-  AccessTime, 
+import {
+  Close,
+  LocationOn,
+  AccessTime,
   Group,
   ImageNotSupported,
   ZoomIn,
@@ -27,6 +27,8 @@ import {
   StarBorder
 } from '@mui/icons-material';
 import styles from './ExhibitionModal.module.css';
+import ExhibitionDetail from '@/src/components/shared/ExhibitionDetail/ExhibitionDetail';
+import { supabase } from '@/src/lib/supabase/client';
 
 interface Review {
   id: number;
@@ -60,7 +62,7 @@ interface ExhibitionModalProps {
   onClose: () => void;
   exhibition: ExhibitionItem | null;
 }
-
+/*仮データ supabaseに置き換え*/
 const mockReviews: Review[] = [
   {
     id: 1,
@@ -96,10 +98,10 @@ const StarRating: React.FC<{ rating: number }> = ({ rating }) => {
   );
 };
 
-const ExhibitionModal: React.FC<ExhibitionModalProps> = ({ 
-  open, 
-  onClose, 
-  exhibition 
+const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
+  open,
+  onClose,
+  exhibition
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -107,6 +109,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
   const [tabValue, setTabValue] = useState(0);
   const [rating, setRating] = useState<number | null>(0);
   const [comment, setComment] = useState('');
+  const [reviews, setReviews] = useState<Review[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -118,6 +121,22 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
   }, [open]);
 
   // Keyboard event handling
+  useEffect(() => {
+          if(!exhibition?.id) return;
+          
+          const fetchReviews = async () => {
+              const {data,error} = await supabase
+              .from('reviews')
+              .select('*')
+              .eq('display_id',exhibition?.id);
+  
+              if(!error && data) {
+                  setReviews(data);
+              }
+          };
+          fetchReviews();
+      },[open]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && open) {
@@ -171,19 +190,46 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
     }
   };
 
-  const handleSubmitReview = () => {
-    if (!rating || !comment.trim()) return;
-    
-    // Here you would typically send the review to your backend
-    console.log('Submitting review:', { rating, comment });
-    
-    // Reset form
-    setRating(0);
-    setComment('');
-    setTabValue(0); // Switch back to reviews tab
-    
-    // Show success message (you could add a toast notification here)
-    alert('レビューを投稿しました！');
+  const checkReviewLength = (comment: string) => {
+    if (comment.length === 0) {
+      alert('レビューを書いて下さい');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (!checkReviewLength(comment)) {
+        return;
+      }
+
+      const { error } = await supabase
+        .from('reviews')
+        .insert([
+          {
+            comment: comment,
+            display_id: exhibition?.id,
+            rating: rating
+          },
+        ]);
+      if (error) {
+        throw error;
+      }
+
+      alert('レビューを送信しました！');
+      setComment('');
+
+      const { data: newReviews } = await supabase
+        .from('reviews')
+        .select('*')
+        .eq('display_id', exhibition?.id);
+
+      setReviews(newReviews || []);
+    } catch (error) {
+      alert("投稿失敗");
+    }
   };
 
   const renderMiniMap = () => {
@@ -206,7 +252,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
             <div className={styles.miniBuilding} style={{ bottom: '20%', right: '15%', width: '25%', height: '25%' }}>
               <span className={styles.miniBuildingLabel}>中庭</span>
             </div>
-            
+
             {/* Exhibition location pin */}
             <motion.div
               className={styles.miniPin}
@@ -292,250 +338,7 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
             </IconButton>
 
             <DialogContent className={styles.dialogContent}>
-              {/* 1. Title Section */}
-              <div className={styles.titleSection}>
-                <Typography 
-                  variant="h4" 
-                  component="h1"
-                  id="exhibition-modal-title"
-                  className={styles.exhibitionTitle}
-                >
-                  {exhibition.name}
-                </Typography>
-                
-                {/* Meta information */}
-                <div className={styles.metaInfo}>
-                  <div className={styles.metaItem}>
-                    <LocationOn className={styles.metaIcon} />
-                    <span>{exhibition.location}</span>
-                  </div>
-                  <div className={styles.metaItem}>
-                    <AccessTime className={styles.metaIcon} />
-                    <span>{exhibition.schedule}</span>
-                  </div>
-                  {exhibition.capacity && (
-                    <div className={styles.metaItem}>
-                      <Group className={styles.metaIcon} />
-                      <span>定員 {exhibition.capacity}名</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* 2. Tags Section */}
-              <div className={styles.tagsSection}>
-                {exhibition.tags.map((tag, index) => {
-                  const tagStyle = getTagColor(tag);
-                  return (
-                    <motion.div
-                      key={tag}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <Chip
-                        label={tag}
-                        className={styles.tag}
-                        sx={{
-                          backgroundColor: tagStyle.bg,
-                          color: tagStyle.color,
-                          fontWeight: 600,
-                          fontSize: '0.8rem',
-                          '&:hover': {
-                            backgroundColor: tagStyle.bg,
-                            opacity: 0.8,
-                          },
-                        }}
-                      />
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              {/* 3. Reviews Section */}
-              <div className={styles.reviewsSection}>
-                <Box className={styles.tabsContainer}>
-                  <Tabs
-                    value={tabValue}
-                    onChange={(_, newValue) => setTabValue(newValue)}
-                    className={styles.tabs}
-                    sx={{
-                      '& .MuiTab-root': {
-                        textTransform: 'none',
-                        fontWeight: 600,
-                        color: 'var(--color-text-muted)',
-                      },
-                      '& .MuiTab-root.Mui-selected': {
-                        color: 'var(--color-brand-main)',
-                      },
-                      '& .MuiTabs-indicator': {
-                        backgroundColor: 'var(--color-brand-main)',
-                      },
-                    }}
-                  >
-                    <Tab label="レビュー" />
-                    <Tab label="レビューを書く" />
-                  </Tabs>
-                </Box>
-
-                <Box className={styles.tabContent}>
-                  {tabValue === 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className={styles.reviewsList}>
-                        {mockReviews.length > 0 ? (
-                          mockReviews.map((review) => (
-                            <div key={review.id} className={styles.reviewCard}>
-                              <div className={styles.reviewHeader}>
-                                <div className={styles.authorInfo}>
-                                  <div className={styles.avatar}>{review.avatar}</div>
-                                  <div className={styles.authorDetails}>
-                                    <div className={styles.authorName}>{review.author}</div>
-                                    <div className={styles.reviewDate}>{review.date}</div>
-                                  </div>
-                                </div>
-                                <StarRating rating={review.rating} />
-                              </div>
-                              <div className={styles.reviewComment}>
-                                {review.comment}
-                              </div>
-                            </div>
-                          ))
-                        ) : (
-                          <div className={styles.noReviews}>
-                            <Typography variant="body1" color="textSecondary">
-                              まだレビューがありません。最初のレビューを投稿してみませんか？
-                            </Typography>
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {tabValue === 1 && (
-                    <motion.div
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className={styles.reviewForm}>
-                        <Box className={styles.ratingSection}>
-                          <Typography variant="h6" className={styles.ratingLabel}>
-                            評価 <span className={styles.required}>*</span>
-                          </Typography>
-                          <Rating
-                            size="large"
-                            value={rating}
-                            onChange={(_, newValue) => setRating(newValue)}
-                            className={styles.rating}
-                            sx={{
-                              '& .MuiRating-iconFilled': {
-                                color: '#ffd700',
-                              },
-                              '& .MuiRating-iconEmpty': {
-                                color: '#e0e0e0',
-                              },
-                            }}
-                          />
-                        </Box>
-
-                        <Box className={styles.commentSection}>
-                          <Typography variant="h6" className={styles.commentLabel}>
-                            コメント
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            multiline
-                            rows={4}
-                            variant="outlined"
-                            placeholder="体験の感想をお聞かせください..."
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                            className={styles.textField}
-                            inputProps={{
-                              maxLength: 500,
-                            }}
-                            helperText={`${comment.length}/500文字`}
-                            sx={{
-                              '& .MuiOutlinedInput-root': {
-                                borderRadius: '12px',
-                                backgroundColor: 'var(--color-bg-primary)',
-                                '& fieldset': {
-                                  borderColor: 'var(--color-border-medium)',
-                                },
-                                '&:hover fieldset': {
-                                  borderColor: 'var(--color-brand-main)',
-                                },
-                                '&.Mui-focused fieldset': {
-                                  borderColor: 'var(--color-brand-main)',
-                                },
-                              },
-                            }}
-                          />
-                        </Box>
-
-                        <Button
-                          onClick={handleSubmitReview}
-                          variant="contained"
-                          disabled={!rating}
-                          className={styles.submitButton}
-                          sx={{
-                            background: rating 
-                              ? 'var(--color-brand-main)' 
-                              : 'rgba(0, 0, 0, 0.12)',
-                            borderRadius: '25px',
-                            textTransform: 'none',
-                            fontWeight: '600',
-                            padding: '0.75rem 2rem',
-                            '&:hover': {
-                              background: rating 
-                                ? 'var(--color-brand-main-dark)' 
-                                : 'rgba(0, 0, 0, 0.12)',
-                            },
-                          }}
-                        >
-                          レビューを投稿
-                        </Button>
-                      </div>
-                    </motion.div>
-                  )}
-                </Box>
-              </div>
-
-              {/* 4. Description Section */}
-              <div className={styles.descriptionSection}>
-                <Typography 
-                  variant="h6" 
-                  className={styles.descriptionTitle}
-                >
-                  展示説明
-                </Typography>
-                <div 
-                  className={styles.descriptionContent}
-                  id="exhibition-modal-description"
-                >
-                  <Typography 
-                    variant="body1" 
-                    className={styles.descriptionText}
-                  >
-                    {exhibition.detailedDescription || exhibition.description}
-                  </Typography>
-                  
-                  {exhibition.organizer && (
-                    <div className={styles.organizerInfo}>
-                      <Typography variant="body2" className={styles.organizerLabel}>
-                        主催者:
-                      </Typography>
-                      <Typography variant="body2" className={styles.organizerName}>
-                        {exhibition.organizer}
-                      </Typography>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <ExhibitionDetail exhibition={exhibition} />
             </DialogContent>
           </motion.div>
         )}

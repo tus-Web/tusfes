@@ -1,24 +1,51 @@
-.title{
-    font-size: 32px;
-    font-weight: bold;
-    color: red
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
 }
 
-.box1{
-    display: flex;
-    background-color: aquamarine;
-    justify-content: space-around;
+.resultsContainer {
+  padding: 16px;
 }
 
-.box2{
-    display: flex;
-    background-color: aquamarine;
-    overflow-x:scroll
+.resultsHeader {
+  margin-bottom: 16px;
 }
 
-.subbox{
-    background-color: red;
-    width: 100px;
-    text-align: center;
-    border-radius: 50%;
+.resultsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.noResults {
+  text-align: center;
+  padding: 48px 16px;
+  color: #6b7280;
+}
+
+.noResults p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.noResults p:first-child {
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 16px;
+  color: #6b7280;
 }

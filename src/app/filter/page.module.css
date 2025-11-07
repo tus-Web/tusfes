@@ -1,0 +1,206 @@
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 100;
+}
+
+.closeButton {
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #374151;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: #111827;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.applyButton {
+  padding: 8px 20px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.applyButton:hover {
+  background-color: #2563eb;
+}
+
+.content {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 32px;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 12px 0;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+  border-color: #3b82f6;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.optionButton {
+  padding: 14px 20px;
+  background-color: white;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.optionButton:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.optionButtonActive {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.optionButtonActive:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.tagsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.tagButton {
+  position: relative;
+  padding: 12px 16px;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.tagButton:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.tagButtonActive {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  color: #1e40af;
+  padding-right: 36px;
+}
+
+.checkMark {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #3b82f6;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.resetButton {
+  width: 100%;
+  padding: 14px;
+  background-color: white;
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+}
+
+.resetButton:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* タブレット以上のサイズ */
+@media (min-width: 640px) {
+  .optionsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .tagsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* PC サイズ */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .tagsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

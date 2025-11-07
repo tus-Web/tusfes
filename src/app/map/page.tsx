@@ -2,66 +2,124 @@
 import React, { useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import { useRouter } from 'next/navigation';
 
 // 1. 作成した ExhibitionModal をインポートします
-import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal'; 
+import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
+import FloorModal from '@/components/pages/map/FloorModal/FloorModal';
+import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
+import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
+
+import type { Feature, Polygon } from 'geojson';
 
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
+// boothData はマーカー表示に必要な最小限の情報だけを持たせます。
+// モーダルに渡す完全な ExhibitionItem 互換オブジェクトは
+// クリック時にマッピングして作成します（余計なデータを配列に持たないため）。
 const boothData = [
   {
-    // --- マーカー表示に必要 ---
-    lngLat: [139.8632, 35.7719] as [number, number], 
-    
-    // --- 以下、ExhibitionModal に渡すデータ (ExhibitionItem 互換) ---
-    id: 1,
-    name: 'ブースA: AI研究室',
-    type: '展示',
-    // ミニマップ用の座標 (0-100のパーセンテージ)
-    position: { x: 30, y: 30 }, 
-    targetAudience: ['高校生', '大学生'],
-    description: 'AIによる画像認識のデモを行います。',
-    detailedDescription: 'AIによる画像認識のデモンストレーションを行います。サンプルの画像を持ち込んでもOKです！最先端のディープラーニングモデルを体験してください。',
-    location: '1号館 101教室',
-    schedule: '10:00 - 17:00 (終日)',
-    organizer: 'AI研究室（〇〇研究室）',
-    tags: ['展示', '子供向け', '高校生'],
-    // reviews は Modal 側で mockReviews が定義されているので空でもOK
-    reviews: [], 
+    // マーカー表示に必要
+    lngLat: [139.8632, 35.7719] as [number, number],
+  id: 1,
+  name: '食堂',
+  type: 'フード',
+  tags: ['フード'],
+    // ミニマップ用の座標（必要ならマッピング時に使う）
+    position: { x: 30, y: 30 },
   },
   {
-    lngLat: [139.8635, 35.7722] as [number, number],
+    // 無線研究部展：位置はそのまま、内容だけ置き換え
+    lngLat: [139.8631, 35.7724] as [number, number],
     id: 2,
-    name: 'ブースB: ドローンサークル',
-    type: '体験',
+    name: '無線研究部展',
+    type: '展示',
+    tags: ['屋内', '学生向け', '体験型'],
+    description: '無線研による無線技術の展示',
+    organization: '無線研',
+    location: '体育館(1/2面)',
+    imageUrl: '/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp',
+    detailUrl: 'https://katsufes.com/2025/event/70',
     position: { x: 60, y: 40 },
-    targetAudience: ['子供向け', '高校生'],
-    description: '最新ドローンの展示と飛行体験。',
-    detailedDescription: 'サークルで開発した最新ドローンの展示と、シミュレータによる飛行体験ができます。全国大会4位の実力をぜひご覧ください。',
-    location: '中庭 特設エリア',
-    schedule: '11:00 - 16:00',
-    capacity: 10,
-    organizer: 'ドローンサークル "StampFly"',
-    tags: ['イベント', '子供向け'],
-    reviews: [],
   },
-  // ... 他のブースデータも同様に追加
+  {
+    lngLat: [139.8634, 35.7723] as [number, number],
+  id: 3,
+  name: 'フリーマーケット',
+  type: 'フード',
+  tags: ['屋外'],
+    position: { x: 60, y: 40 },
+  },
+  {
+    lngLat: [139.8644, 35.7715] as [number, number],
+  id: 4,
+  name: '講義等',
+  type: 'イベント',
+  tags: ['屋内'],
+    position: { x: 60, y: 40 },
+  },
 ];
 
 
 // bounds を関数外に移動してleーー(再レンダリング時に同じ参照を保つ)
 const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
-  [139.8610, 35.7700], // 南西の座標
-  [139.8650, 35.7730]  // 北東の座標
+  [139.8590, 35.7680], // 南西の座標
+  [139.8670, 35.7760]  // 北東の座標
 ];
 
 export default function SimpleMap() {
   mapboxgl.accessToken = 'pk.eyJ1IjoicmlrdS1vZ2F3YSIsImEiOiJjbWZzZGJzdDYwNG4zMmpvZXBwN2V6YXZ5In0.M7sZno-EhE51gYER_aeEjg'
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
+  const router = useRouter();
 
-  // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を修正)
-  const [selectedBooth, setSelectedBooth] = useState<typeof boothData[0] | null>(null);
+  // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を緩めて any に)
+  // ExhibitionModal 側の ExhibitionItem 型がコンポーネント内で定義されているため
+  // ここでは any を使って互換性を確保します。必要なら共通型に差し替えてください。
+  const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
+  const [floorOpen, setFloorOpen] = useState(false);
+  const [filterParams, setFilterParams] = useState<{ category: string; query: string; tag: string | null }>({
+    category: '全て',
+    query: '',
+    tag: null,
+  });
+
+  // external link confirmation state for 食堂
+  const [externalConfirm, setExternalConfirm] = useState<{ url: string; name?: string } | null>(null);
+
+  // keep markers so we can toggle visibility without changing positions
+  const markersRef = useRef<Array<{ booth: any; marker: mapboxgl.Marker }>>([]);
+
+  const handleSelectExhibitionFromFloor = (ev: any) => {
+    // Map events.json entry to ExhibitionItem-like object expected by ExhibitionModal
+    const mapped = {
+      id: Number(ev.id) || ev.id,
+      name: ev.name,
+      type: ev.category || '展示',
+      position: { x: 50, y: 50 },
+      targetAudience: ev.tags || [],
+      description: ev.description || '',
+      detailedDescription: ev.description || '',
+      location: ev.location || '',
+      schedule: ev.schedule || '',
+      organizer: ev.organization || '',
+      imageUrl: ev.imageUrl || ev.image || null,
+      tags: ev.tags || [],
+      reviews: [],
+    } as any;
+
+    // Open ExhibitionModal but keep FloorModal open
+    setSelectedBooth(mapped);
+  };
+
+  const onBottomBarPressed = (id: string) => {
+    router.push(`/${id}`);
+  };
+
+  // SearchHeader からの検索条件を受け取る（マップ上のピンは位置を変えず表示/非表示を切替）
+  const handleSearch = (params: { category: string; query: string; tag: string | null }) => {
+    setFilterParams(params);
+  };
 
   useEffect(() => {
     const initializeMap = ({
@@ -74,7 +132,7 @@ export default function SimpleMap() {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         center: [139.8632, 35.7719],
-        zoom: 17.5,
+        zoom: 17,
         pitch: 0, 
         bearing: -62,
         antialias: true,
@@ -88,6 +146,26 @@ export default function SimpleMap() {
         },
         maxBounds: bounds
       });
+
+      const maskGeoJson: Feature<Polygon> = {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            // 外側
+            [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]],
+            // 内側
+            [
+            [139.8646755466632, 35.77044008345895], 
+            [139.8654115207003, 35.7720285864812], 
+            [139.86196030264287, 35.77310689526999], 
+            [139.86102425799376, 35.772022789082584],
+            [139.8622215080269, 35.7709264084083],
+            ]
+          ]
+        }
+      }
       
       const language = new MapboxLanguage({ defaultLanguage: 'ja' });
       map.addControl(language);
@@ -96,22 +174,104 @@ export default function SimpleMap() {
         setMap(map);
         map.resize();
 
-        // データの形式が変わっただけで、マーカー生成ロジックは同じ
+        map.addSource('mask-source', {
+          type: 'geojson',
+          data: maskGeoJson
+        });
+
+        map.addLayer({
+          id: 'mask-layer',
+          type: 'fill',
+          source: 'mask-source',
+          'paint': {
+            'fill-color': '#34D399',
+            // 'fill-opacity': 0.7
+          }
+        })
+
+        // create markers and keep refs for toggling visibility later
         boothData.forEach(booth => {
-          const marker = new mapboxgl.Marker({
-              color: '#c00000'
-            })
-            .setLngLat(booth.lngLat) // boothData の lngLat を使用
+          // If this is the cafeteria ('食堂'), use a custom SVG marker
+          if (booth.name === '食堂') {
+            const el = document.createElement('div');
+            el.className = 'marker marker-cafeteria';
+            // public フォルダ配下はビルド時にルート `/` にマップされるので先頭に `/` を付ける
+            el.style.backgroundImage = 'url(/img/pin/food-dish-svgrepo-com.svg)';
+            el.style.backgroundSize = 'contain';
+            // el.style.backgroundRepeat = 'no-repeat';
+            // el.style.backgroundPosition = 'center';
+
+            // sizing & accessibility
+            el.style.width = '58px';
+            el.style.height = '58px';
+            // el.style.cursor = 'pointer';
+            el.tabIndex = 0;
+            el.setAttribute('role', 'button');
+            el.setAttribute('aria-label', `${booth.name} のピン`);
+
+            const marker = new mapboxgl.Marker(el)
+              .setLngLat(booth.lngLat)
+              .addTo(map);
+
+            // store association
+            markersRef.current.push({ booth, marker });
+
+            // preserve existing click behaviour for cafeteria
+            el.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
+              setExternalConfirm({ url, name: booth.name });
+            });
+
+            el.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
+                setExternalConfirm({ url, name: booth.name });
+              }
+            });
+
+            return; // continue to next booth
+          }
+
+          // default marker for other booths
+          const marker = new mapboxgl.Marker({ color: '#c00000' })
+            .setLngLat(booth.lngLat)
             .addTo(map);
 
-          // クリック時に booth オブジェクト全体を state にセット
+          // store association
+          markersRef.current.push({ booth, marker });
+
           marker.getElement().addEventListener('click', (e) => {
-            e.stopPropagation(); 
-            setSelectedBooth(booth);
+            e.stopPropagation();
+
+            if (booth.name === '講義等') {
+              setFloorOpen(true);
+              return;
+            }
+
+            const mapped = {
+              id: Number(booth.id) || booth.id,
+              name: booth.name || `ブース ${booth.id}`,
+              type: booth.type || '展示',
+              position: booth.position || { x: 50, y: 50 },
+              targetAudience: [],
+              description: (booth as any).description || '',
+              detailedDescription: (booth as any).description || '',
+              location: (booth as any).location || '',
+              schedule: (booth as any).schedule || '',
+              organizer: (booth as any).organization || '',
+              imageUrl: (booth as any).imageUrl || (booth as any).image || null,
+              tags: booth.tags || [],
+              reviews: [],
+            } as any;
+
+            setSelectedBooth(mapped);
           });
         });
       });
 
+      // マップの他の部分をクリックしたらモーダルを閉じる
       map.on('click', () => {
         setSelectedBooth(null);
       });
@@ -119,17 +279,71 @@ export default function SimpleMap() {
  
     if (!map) initializeMap({ setMap, mapContainer });
   }, [map]); 
+
+  // toggle marker visibility based on filterParams without changing positions
+  useEffect(() => {
+    if (!markersRef.current || markersRef.current.length === 0) return;
+
+    const { category, query, tag } = filterParams;
+
+    markersRef.current.forEach(({ booth, marker }) => {
+      let visible = true;
+      // treat '全て' or empty as no filtering for category
+      if (category && category !== '全て') {
+        visible = visible && (booth.type === category);
+      }
+      if (query) {
+        visible = visible && booth.name.toLowerCase().includes(query.toLowerCase());
+      }
+      if (tag) {
+        visible = visible && Array.isArray(booth.tags) && booth.tags.includes(tag);
+      }
+
+      const el = marker.getElement();
+      el.style.display = visible ? '' : 'none';
+    });
+  }, [filterParams]);
  
   return (
     <>
+  {/* 検索ヘッダーをマップの上に配置 */}
+  <SearchHeader showFilterButton={true} onSearch={handleSearch} />
+
+      {/* 外部リンク確認バー （食堂） */}
+      {externalConfirm && (
+        <div style={{position: 'fixed', left: 16, right: 16, top: 80, zIndex: 9999, display: 'flex', justifyContent: 'center'}}>
+          <div style={{background: 'white', padding: '10px 16px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.12)', display: 'flex', gap: 8, alignItems: 'center'}}>
+            <div style={{fontWeight: 600}}>{externalConfirm.name} の外部サイトに移動しますか？</div>
+            <button
+              onClick={() => {
+                const newWindow = window.open(externalConfirm.url, '_blank');
+                if (newWindow) newWindow.opener = null;
+                setExternalConfirm(null);
+              }}
+              style={{background: '#10B981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+            >移動する</button>
+            <button
+              onClick={() => setExternalConfirm(null)}
+              style={{background: 'transparent', border: '1px solid #ddd', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+            >キャンセル</button>
+          </div>
+        </div>
+      )}
+
       {/* 4. ここを ExhibitionModal に差し替えます */}
+      <FloorModal
+        open={floorOpen}
+        onClose={() => setFloorOpen(false)}
+      />
+
       <ExhibitionModal 
         open={!!selectedBooth} // selectedBooth が null でなければ true
         onClose={() => setSelectedBooth(null)} // 閉じるための関数
         exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
       />
  
-      <div ref={mapContainer} style={{ width: '100%', height: '100vh' }} />
+  <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
+      <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
   );
 }

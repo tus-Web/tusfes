@@ -38,7 +38,7 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
   const [zoomed, setZoomed] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
   const [filterParams, setFilterParams] = useState<{ category: string; query: string; tag: string | null }>({
-    category: '',
+    category: '全て',
     query: '',
     tag: null,
   });
@@ -60,7 +60,8 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
   const lectureEventsByFloorFiltered = lectureEventsByFloor.filter((ev) => {
     const { category, query, tag } = filterParams;
     let ok = true;
-    if (category) ok = ok && ev.category === category;
+    // treat '全て' as no filter
+    if (category && category !== '全て') ok = ok && ev.category === category;
     if (query) ok = ok && ev.name.toLowerCase().includes(query.toLowerCase());
     if (tag) ok = ok && Array.isArray(ev.tags) && ev.tags.includes(tag);
     return ok;

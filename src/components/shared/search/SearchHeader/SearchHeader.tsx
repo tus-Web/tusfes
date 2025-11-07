@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styles from './SearchHeader.module.css';
 import { Search } from 'lucide-react';
 
-type CategoryType = '展示' | 'フード' | 'イベント' | 'アメニティ';
+type CategoryType = '全て' | '展示' | 'フード' | 'イベント' | 'アメニティ';
 
 interface SearchHeaderProps {
   onSearch?: (params: {
@@ -18,7 +18,7 @@ interface SearchHeaderProps {
   position?: 'absolute' | 'static';
 }
 
-const categories: CategoryType[] = ['展示', 'フード', 'イベント', 'アメニティ'];
+const categories: CategoryType[] = ['全て', '展示', 'フード', 'イベント', 'アメニティ'];
 
 const popularTags = [
   '家族におすすめ',
@@ -36,7 +36,7 @@ export default function SearchHeader({
   showFilterButton = true,
   position = 'absolute',
 }: SearchHeaderProps) {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType>('展示');
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>('全て');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);

@@ -71,7 +71,7 @@ export default function SimpleMap() {
   const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
   const [floorOpen, setFloorOpen] = useState(false);
   const [filterParams, setFilterParams] = useState<{ category: string; query: string; tag: string | null }>({
-    category: '',
+    category: '全て',
     query: '',
     tag: null,
   });
@@ -202,7 +202,8 @@ export default function SimpleMap() {
 
     markersRef.current.forEach(({ booth, marker }) => {
       let visible = true;
-      if (category) {
+      // treat '全て' or empty as no filtering for category
+      if (category && category !== '全て') {
         visible = visible && (booth.type === category);
       }
       if (query) {

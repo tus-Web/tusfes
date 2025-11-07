@@ -1,9 +1,8 @@
 "use client"
 
-import { motion, Variants } from "motion/react"
+import { motion, Variants } from "framer-motion"
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { time } from "console";
 
 const draw: Variants = {
     hidden: { 

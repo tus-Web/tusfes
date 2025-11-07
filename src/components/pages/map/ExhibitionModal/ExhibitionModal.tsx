@@ -24,10 +24,12 @@ import {
   ImageNotSupported,
   ZoomIn,
   Star,
-  StarBorder
+  StarBorder,
+  Favorite
 } from '@mui/icons-material';
 import styles from './ExhibitionModal.module.css';
 import { supabase } from '@/src/lib/supabase/client';
+import { useAuth } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
 interface Review {
   id: number;
@@ -111,6 +113,8 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
   const [reviews, setReviews] = useState<Review[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const { user, loading } = useAuth();
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   // Focus management for accessibility
   useEffect(() => {
@@ -153,6 +157,23 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
       document.body.style.overflow = 'unset';
     };
   }, [open, onClose]);
+
+  useEffect(() => {
+    if (!exhibition?.id || !user?.id) return;
+
+    const fetchFavoriteStatus = async () => {
+      const { data, error } = await supabase
+        .from('favorite')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('exhibition_id', exhibition.id);
+
+      if (!error) {
+        setIsFavorite(data.length > 0);
+      }
+    };
+    fetchFavoriteStatus();
+  }, [loading, exhibition, open]);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -279,6 +300,39 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
     );
   };
 
+  const onFavorite = (exhibition_id: number) => () => {
+    if (loading || !user?.id) return;
+
+    const toggleFavorite = async () => {
+      if (isFavorite) {
+        const { error } = await supabase
+          .from('favorite')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('exhibition_id', exhibition_id);
+
+        if (!error) {
+          setIsFavorite(false);
+        }
+      } else {
+        const { error } = await supabase
+          .from('favorite')
+          .insert([
+            {
+              user_id: user.id,
+              exhibition_id: exhibition_id,
+            },
+          ]);
+
+        if (!error) {
+          setIsFavorite(true);
+        }
+      }
+    };
+
+    toggleFavorite();
+  };
+
   if (!exhibition) return null;
 
   return (
@@ -335,6 +389,28 @@ const ExhibitionModal: React.FC<ExhibitionModalProps> = ({
             >
               <Close />
             </IconButton>
+            
+            {/* Favorite Button */}
+            {loading || (
+              <IconButton
+                onClick={onFavorite(exhibition.id)}
+                className={styles.favoriteButton}
+                aria-label="お気に入りに登録"
+                sx={{
+                  position: 'absolute',
+                  top: 16,
+                  right: 70,
+                  zIndex: 10,
+                  backgroundColor: isFavorite ? 'rgba(255, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: isFavorite ? 'rgba(255, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.7)',
+                  },
+                }}
+              >
+                <Favorite />
+              </IconButton>
+            )}
 
             <DialogContent className={styles.dialogContent}>
               {/* 1. Title Section */}

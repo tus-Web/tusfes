@@ -185,10 +185,12 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
               {/* Inline detail panel shown under the floor map when a pin is selected */}
               {selectedEvent && (
                 <div className={styles.detailPanel} role="region" aria-label="選択された展示詳細">
-                  <ExhibitionDetail exhibition={selectedEvent} />
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
-                    <Button onClick={() => setSelectedEvent(null)} variant="contained" sx={{ textTransform: 'none' }}>閉じる</Button>
-                  </div>
+                  <ExhibitionDetail 
+                    open={true}
+                    onClose={() => setSelectedEvent(null)}
+                    exhibition={selectedEvent} 
+                  />
+                  
                 </div>
               )}
 

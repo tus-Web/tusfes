@@ -8,6 +8,8 @@ import exStyles from '../ExhibitionModal/ExhibitionModal.module.css';
 
 import events from '@/src/data/events.json';
 
+import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
+
 interface FloorModalProps {
   open: boolean;
   onClose: () => void;
@@ -54,6 +56,7 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
       BackdropProps={{ style: { backgroundColor: 'rgba(0,0,0,0.6)' } }}
       aria-labelledby="floor-modal-title"
     >
+  <SearchHeader position="static" />
       <div className={styles.header}>
         <Typography id="floor-modal-title" variant="h6" className={styles.title}>
           フロア写真
@@ -64,9 +67,6 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
           className={styles.closeButton}
           aria-label="モーダルを閉じる"
           sx={{
-            position: 'absolute',
-            top: 16,
-            right: 16,
             zIndex: 10,
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
             color: 'white',

@@ -14,6 +14,8 @@ interface SearchHeaderProps {
     tag: string | null;
   }) => void;
   showFilterButton?: boolean;
+  // モーダル内などで絶対配置を無効化したいときに使用
+  position?: 'absolute' | 'static';
 }
 
 const categories: CategoryType[] = ['展示', 'フード', 'イベント', 'アメニティ'];
@@ -32,6 +34,7 @@ const popularTags = [
 export default function SearchHeader({
   onSearch,
   showFilterButton = true,
+  position = 'absolute',
 }: SearchHeaderProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>('展示');
   const [searchQuery, setSearchQuery] = useState('');
@@ -74,8 +77,13 @@ export default function SearchHeader({
     return `/filter?${params.toString()}`;
   };
 
+  const containerStyle: React.CSSProperties | undefined =
+    position === 'absolute'
+      ? undefined
+      : { position: 'static', boxShadow: 'none' };
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={containerStyle}>
       {/* カテゴリー選択とフィルター */}
       <div className={styles.topBar}>
         <div className={styles.categorySelector}>

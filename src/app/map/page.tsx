@@ -10,6 +10,8 @@ import FloorModal from '@/components/pages/map/FloorModal/FloorModal';
 import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
 import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
 
+import type { Feature, Polygon } from 'geojson';
+
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
 // boothData はマーカー表示に必要な最小限の情報だけを持たせます。
@@ -144,6 +146,26 @@ export default function SimpleMap() {
         },
         maxBounds: bounds
       });
+
+      const maskGeoJson: Feature<Polygon> = {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            // 外側
+            [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]],
+            // 内側
+            [
+            [139.8646755466632, 35.77044008345895], 
+            [139.8654115207003, 35.7720285864812], 
+            [139.86196030264287, 35.77310689526999], 
+            [139.86102425799376, 35.772022789082584],
+            [139.8622215080269, 35.7709264084083],
+            ]
+          ]
+        }
+      }
       
       const language = new MapboxLanguage({ defaultLanguage: 'ja' });
       map.addControl(language);
@@ -151,6 +173,21 @@ export default function SimpleMap() {
       map.on('load', () => {
         setMap(map);
         map.resize();
+
+        map.addSource('mask-source', {
+          type: 'geojson',
+          data: maskGeoJson
+        });
+
+        map.addLayer({
+          id: 'mask-layer',
+          type: 'fill',
+          source: 'mask-source',
+          'paint': {
+            'fill-color': '#34D399',
+            // 'fill-opacity': 0.7
+          }
+        })
 
         // create markers and keep refs for toggling visibility later
         boothData.forEach(booth => {

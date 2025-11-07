@@ -76,6 +76,9 @@ export default function SimpleMap() {
     tag: null,
   });
 
+  // external link confirmation state for 食堂
+  const [externalConfirm, setExternalConfirm] = useState<{ url: string; name?: string } | null>(null);
+
   // keep markers so we can toggle visibility without changing positions
   const markersRef = useRef<Array<{ booth: any; marker: mapboxgl.Marker }>>([]);
 
@@ -155,8 +158,8 @@ export default function SimpleMap() {
             e.stopPropagation();
             if (booth.name === '食堂') {
               const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
-              const newWindow = window.open(url, '_blank');
-              if (newWindow) newWindow.opener = null;
+              // show confirmation UI instead of opening immediately
+              setExternalConfirm({ url, name: booth.name });
               return;
             }
 
@@ -222,6 +225,27 @@ export default function SimpleMap() {
     <>
   {/* 検索ヘッダーをマップの上に配置 */}
   <SearchHeader showFilterButton={true} onSearch={handleSearch} />
+
+      {/* 外部リンク確認バー （食堂） */}
+      {externalConfirm && (
+        <div style={{position: 'fixed', left: 16, right: 16, top: 80, zIndex: 9999, display: 'flex', justifyContent: 'center'}}>
+          <div style={{background: 'white', padding: '10px 16px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.12)', display: 'flex', gap: 8, alignItems: 'center'}}>
+            <div style={{fontWeight: 600}}>{externalConfirm.name} の外部サイトに移動しますか？</div>
+            <button
+              onClick={() => {
+                const newWindow = window.open(externalConfirm.url, '_blank');
+                if (newWindow) newWindow.opener = null;
+                setExternalConfirm(null);
+              }}
+              style={{background: '#10B981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+            >移動する</button>
+            <button
+              onClick={() => setExternalConfirm(null)}
+              style={{background: 'transparent', border: '1px solid #ddd', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+            >キャンセル</button>
+          </div>
+        </div>
+      )}
 
       {/* 4. ここを ExhibitionModal に差し替えます */}
       <FloorModal

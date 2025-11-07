@@ -37,6 +37,15 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
   const imgs = images && images.length > 0 ? images.slice(0, 4) : (FLOOR_IMAGES[selectedFloor] ?? defaultImages);
   const [zoomed, setZoomed] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+  const [filterParams, setFilterParams] = useState<{ category: string; query: string; tag: string | null }>({
+    category: '',
+    query: '',
+    tag: null,
+  });
+
+  const handleSearch = (params: { category: string; query: string; tag: string | null }) => {
+    setFilterParams(params);
+  };
 
   // events.json から講義棟のものだけ抽出
   const lectureEvents = (events as any[]).filter((e) => e.location && e.location.indexOf('講義棟') !== -1);
@@ -45,6 +54,16 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
     // e.floor が未定義の場合は表示しない
     if (!e.floor) return false;
     return String(e.floor).toLowerCase() === String(selectedFloor).toLowerCase();
+  });
+
+  // フィルタパラメータに基づきピンを絞る（表示/非表示）
+  const lectureEventsByFloorFiltered = lectureEventsByFloor.filter((ev) => {
+    const { category, query, tag } = filterParams;
+    let ok = true;
+    if (category) ok = ok && ev.category === category;
+    if (query) ok = ok && ev.name.toLowerCase().includes(query.toLowerCase());
+    if (tag) ok = ok && Array.isArray(ev.tags) && ev.tags.includes(tag);
+    return ok;
   });
 
   return (
@@ -56,7 +75,7 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
       BackdropProps={{ style: { backgroundColor: 'rgba(0,0,0,0.6)' } }}
       aria-labelledby="floor-modal-title"
     >
-  <SearchHeader position="static" />
+  <SearchHeader position="static" onSearch={handleSearch} />
       <div className={styles.header}>
         <Typography id="floor-modal-title" variant="h6" className={styles.title}>
           フロア写真
@@ -115,7 +134,7 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
 
                 {/* ピンを画像上に重ねる */}
                 <div className={styles.pinsLayer} aria-hidden>
-                  {lectureEventsByFloor.map((ev) => {
+                  {lectureEventsByFloorFiltered.map((ev) => {
                     const pos = ev.position || { x: null, y: null };
                     if (pos.x == null || pos.y == null) return null;
                     const left = `${pos.x}%`;

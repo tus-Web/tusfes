@@ -19,27 +19,35 @@ const boothData = [
   {
     // マーカー表示に必要
     lngLat: [139.8632, 35.7719] as [number, number],
-    id: 1,
-    name: '食堂',
+  id: 1,
+  name: '食堂',
+  type: 'フード',
+  tags: ['フード'],
     // ミニマップ用の座標（必要ならマッピング時に使う）
     position: { x: 30, y: 30 },
   },
   {
     lngLat: [139.8631, 35.7724] as [number, number],
-    id: 2,
-    name: 'ドローンサークル',
+  id: 2,
+  name: 'ドローンサークル',
+  type: '展示',
+  tags: ['学生向け'],
     position: { x: 60, y: 40 },
   },
   {
     lngLat: [139.8634, 35.7723] as [number, number],
-    id: 3,
-    name: 'フリーマーケット',
+  id: 3,
+  name: 'フリーマーケット',
+  type: 'フード',
+  tags: ['屋外'],
     position: { x: 60, y: 40 },
   },
   {
     lngLat: [139.8644, 35.7715] as [number, number],
-    id: 4,
-    name: '講義等',
+  id: 4,
+  name: '講義等',
+  type: 'イベント',
+  tags: ['屋内'],
     position: { x: 60, y: 40 },
   },
 ];
@@ -62,6 +70,14 @@ export default function SimpleMap() {
   // ここでは any を使って互換性を確保します。必要なら共通型に差し替えてください。
   const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
   const [floorOpen, setFloorOpen] = useState(false);
+  const [filterParams, setFilterParams] = useState<{ category: string; query: string; tag: string | null }>({
+    category: '',
+    query: '',
+    tag: null,
+  });
+
+  // keep markers so we can toggle visibility without changing positions
+  const markersRef = useRef<Array<{ booth: any; marker: mapboxgl.Marker }>>([]);
 
   const handleSelectExhibitionFromFloor = (ev: any) => {
     // Map events.json entry to ExhibitionItem-like object expected by ExhibitionModal
@@ -86,6 +102,11 @@ export default function SimpleMap() {
 
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
+  };
+
+  // SearchHeader からの検索条件を受け取る（マップ上のピンは位置を変えず表示/非表示を切替）
+  const handleSearch = (params: { category: string; query: string; tag: string | null }) => {
+    setFilterParams(params);
   };
 
   useEffect(() => {
@@ -121,37 +142,33 @@ export default function SimpleMap() {
         setMap(map);
         map.resize();
 
-        // データの形式が変わっただけで、マーカー生成ロジックは同じ
+        // create markers and keep refs for toggling visibility later
         boothData.forEach(booth => {
-          const marker = new mapboxgl.Marker({
-              color: '#c00000'
-            })
-            .setLngLat(booth.lngLat) // boothData の lngLat を使用
+          const marker = new mapboxgl.Marker({ color: '#c00000' })
+            .setLngLat(booth.lngLat)
             .addTo(map);
 
-          // クリック時に ExhibitionModal が期待する形にマッピングして state にセット
+          // store association
+          markersRef.current.push({ booth, marker });
+
           marker.getElement().addEventListener('click', (e) => {
             e.stopPropagation();
-              // 食堂のピンを押したら外部サイトへ遷移（新しいタブで開く）
-              if (booth.name === '食堂') {
-                const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
-                const newWindow = window.open(url, '_blank');
-                // セキュリティのため opener を切る（可能な場合）
-                if (newWindow) newWindow.opener = null;
-                return;
-              }
+            if (booth.name === '食堂') {
+              const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
+              const newWindow = window.open(url, '_blank');
+              if (newWindow) newWindow.opener = null;
+              return;
+            }
 
-              // 特定のピン（ここでは id === 4）を押したら FloorModal を開く
-              if (booth.name === '講義等') {
-                setFloorOpen(true);
-                return;
-              }
+            if (booth.name === '講義等') {
+              setFloorOpen(true);
+              return;
+            }
 
-            // boothData 自体は軽量化しているため、モーダルに渡す形にここで組み立てる
             const mapped = {
               id: Number(booth.id) || booth.id,
               name: booth.name || `ブース ${booth.id}`,
-              type: '展示',
+              type: booth.type || '展示',
               position: booth.position || { x: 50, y: 50 },
               targetAudience: [],
               description: '',
@@ -159,7 +176,7 @@ export default function SimpleMap() {
               location: '',
               schedule: '',
               organizer: '',
-              tags: [],
+              tags: booth.tags || [],
               reviews: [],
             } as any;
 
@@ -176,11 +193,34 @@ export default function SimpleMap() {
  
     if (!map) initializeMap({ setMap, mapContainer });
   }, [map]); 
+
+  // toggle marker visibility based on filterParams without changing positions
+  useEffect(() => {
+    if (!markersRef.current || markersRef.current.length === 0) return;
+
+    const { category, query, tag } = filterParams;
+
+    markersRef.current.forEach(({ booth, marker }) => {
+      let visible = true;
+      if (category) {
+        visible = visible && (booth.type === category);
+      }
+      if (query) {
+        visible = visible && booth.name.toLowerCase().includes(query.toLowerCase());
+      }
+      if (tag) {
+        visible = visible && Array.isArray(booth.tags) && booth.tags.includes(tag);
+      }
+
+      const el = marker.getElement();
+      el.style.display = visible ? '' : 'none';
+    });
+  }, [filterParams]);
  
   return (
     <>
-      {/* 検索ヘッダーをマップの上に配置 */}
-      <SearchHeader showFilterButton={true} />
+  {/* 検索ヘッダーをマップの上に配置 */}
+  <SearchHeader showFilterButton={true} onSearch={handleSearch} />
 
       {/* 4. ここを ExhibitionModal に差し替えます */}
       <FloorModal

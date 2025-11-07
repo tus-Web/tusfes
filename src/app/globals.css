@@ -9,7 +9,53 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --primary-color: #10B981;
+
+  /* Background Colors - 背景色 */
+  --color-bg-primary: #FFFFFF;        /* メイン背景色（純白） */
+  --color-bg-secondary: #FFFFFF;       /* セカンダリ背景色（純白） */
+  --color-bg-overlay: rgba(255, 255, 255, 0.95); /* オーバーレイ背景 */
+  --color-bg-card: #FFFFFF;           /* カード背景色 */
+  --color-bg-navigation: #FFFFFF;     /* ナビゲーション背景色 */
+  
+  /* Text Colors - テキスト色 */
+  --color-text-primary: #000000;       /* メインテキスト色（純黒） */
+  --color-text-secondary: #333333;     /* セカンダリテキスト色 */
+  --color-text-muted: #666666;         /* 補助テキスト色 */
+  --color-text-inverse: #FFFFFF;       /* 反転テキスト色（白） */
+  --color-text-navigation: #666666;    /* ナビゲーションテキスト色 */
+  --color-text-navigation-active: #3B7C5B; /* アクティブナビゲーション色 */
+  
+  /* Brand Colors - ブランド色 */
+  --color-brand-main: #10B981;         /* メインブランド色（エメラルドグリーン） */
+  --color-brand-main-light: #34D399;   /* ライトバリエーション */
+  --color-brand-main-dark: #059669;    /* ダークバリエーション */
+  
+  /* CTA Colors - Call to Action色 */
+  --color-cta-primary: #3B82F6;        /* メインCTA色（ブルー系） */
+  --color-cta-primary-hover: #2563EB;  /* ホバー時CTA色 */
+  --color-cta-primary-active: #1D4ED8; /* アクティブ時CTA色 */
+  
+  /* ==========================================================================
+     Semantic Colors - セマンティック色
+     ========================================================================== */
+  
+  /* State Colors - 状態色 */
+  --color-success: var(--color-brand-main);
+  --color-error: #E53E3E;
+  --color-warning: #F6AD55;
+  --color-info: #4299E1;
+  
+  /* Border Colors - ボーダー色 */
+  --color-border-light: #E2E8F0;
+  --color-border-medium: #CBD5E0;
+  --color-border-dark: #A0AEC0;
+  --color-border-card: #E2E8F0;        /* カードボーダー色 */
+  
+  /* Shadow Colors - シャドウ色 */
+  --color-shadow-light: rgba(26, 26, 26, 0.1);
+  --color-shadow-medium: rgba(26, 26, 26, 0.15);
+  --color-shadow-dark: rgba(26, 26, 26, 0.25);
+  --color-shadow-card: rgba(0, 0, 0, 0.08); /* カードシャドウ色 */
 }
 
 @media (prefers-color-scheme: dark) {

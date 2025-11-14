@@ -6,7 +6,10 @@ import { Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import './styles.css';
+import styles from './styles.css';
 import ExhibitionCard from "@/src/components/shared/ExhibitionCard/page";
+import Ranking from "@/src/components/pages/home/Ranking/page";
+
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
@@ -15,6 +18,8 @@ import { useEffect } from "react";
 import { createClient } from '@supabase/supabase-js';
 import { getEventById } from "@/lib/events";
 import { motion, Variants } from "framer-motion";
+
+import { CiStar } from "react-icons/ci";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -218,7 +223,7 @@ useEffect(() => {
             <h1>人気ランキング</h1>
 
             <ol>
-                {rankedDisplays.map((display, idx) => {
+                {rankedDisplays.slice(0,5).map((display, idx) => {
                     const event = getEventById(display.display_id);
                     if (!event) {
                         return (
@@ -228,9 +233,10 @@ useEffect(() => {
                         );
                     }
                     return (
-                        <li key={display.display_id}>
-                            <ExhibitionCard {...(event as any)} />（平均点: {display.average.toFixed(2)}）
-                        </li>
+                        <div key={display.display_id} >
+                        <Ranking {...display} index={idx}/>          
+                        <ExhibitionCard {...(event as any)} />
+                        </div>
                     );
                 })}
             </ol>

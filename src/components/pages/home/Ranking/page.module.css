@@ -1,0 +1,65 @@
+/* --- ベーススタイル (スマホ優先) --- */
+.rank_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    /* スマホでの余白を調整 */
+    padding: 12px 16px;
+
+    /* (2) フォントサイズを大きく (ベースを18pxに) */
+    font-size: 18px;
+    color: #333;
+}
+
+/* 順位 */
+.rank {
+    /* (4) フォントを目立たせる (太字・サイズUP) */
+    font-weight: 700; /* 500(Medium) -> 700(Bold) */
+    font-size: 1.8em; /* 1.1em -> 1.3em (親の1.3倍) */
+    color: #000;
+}
+
+/* 平均値 */
+.average {
+    display: flex;
+    align-items: center;
+    
+    /* アイコンと数字の隙間を調整 */
+    gap: 6px; 
+
+    /* (4) フォントを目立たせる (少し太く・サイズUP) */
+    font-weight: 600; /* 500 -> 600 (Semi-bold) */
+    font-size: 1.8em; /* (親の1.1倍) */
+    color: #222;
+}
+
+/* (3) 星の色を淡い黄色に */
+/* CiStar (svg要素) をターゲット */
+.average svg {
+    /* (例: 少し明るめの黄色) */
+    color: #faaf00; 
+    
+    /* (4) 星アイコンもフォントに合わせて少し大きく */
+    font-size: 1.2em;
+    /* アイコンがテキストより下がって見える場合、以下で微調整 */
+    /* transform: translateY(-1px); */
+}
+
+
+/* --- (1) レスポンシブ対応 (PC) --- */
+/* 画面幅が 768px (タブレット・PC) 以上の場合 */
+@media (min-width: 768px) {
+    .rank_header {
+        /* (2) PCではさらにフォントを大きく */
+        font-size: 20px; 
+
+        /* PCでは左右の余白を増やす */
+        padding: 16px 24px;
+    }
+    
+    /* .rank と .average のフォントサイズは em (親要素基準) で
+     指定しているため、.rank_header のフォントサイズが大きくなれば
+     自動的にPCでも大きく表示されます。
+    */
+}

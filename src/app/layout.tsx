@@ -2,11 +2,18 @@ import './globals.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { Noto_Sans_JP } from 'next/font/google';
 import ThemeProvider from '@/components/shared/providers/ThemeProvider/ThemeProvider';
 import LanguageProvider from '@/components/shared/providers/LanguageProvider/LanguageProvider';
 import { AuthProvider } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
+
+const noto = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-noto',
+});
 
 export const metadata: Metadata = {
   // 1. 基本情報 (SEOの最重要項目)
@@ -56,7 +63,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={inter.className}>
+      <body className={noto.className}>
         <AuthProvider>
           <ThemeProvider>
             <LanguageProvider>

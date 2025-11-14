@@ -24,7 +24,7 @@ import { PostgrestError } from '@supabase/supabase-js';
 
 interface BoothData {
   lngLat: [number, number];
-  id: number | string;
+  id: number;
   name: string;
   type: string;
   position?: { x: number; y: number };
@@ -157,7 +157,7 @@ export default function SimpleMap() {
         // Map SupabaseExhibition to BoothData
         const mappedBoothData: BoothData[] = data.map((item) => ({
           lngLat: [item.longitude || 0, item.latitude || 0],
-          id: item.exhibition_id || '',
+          id: item.id || -1,
           name: item.name || '無題',
           type: item.type || '展示',
           position: item.minimap_pos_x && item.minimap_pos_y ? { x: item.minimap_pos_x, y: item.minimap_pos_y } : undefined,
@@ -301,7 +301,7 @@ export default function SimpleMap() {
             }
 
             const mapped = {
-              id: Number(booth.id) || booth.id,
+              id: booth.id,
               name: booth.name || `ブース ${booth.id}`,
               type: booth.type || '展示',
               position: booth.position || { x: 50, y: 50 },

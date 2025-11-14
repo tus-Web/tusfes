@@ -21,6 +21,8 @@ import { ZoomIn, ImageNotSupported, Star, StarBorder } from '@mui/icons-material
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/src/lib/supabase/client';
 import styles from './ExhibitionDetail.module.css';
+import { SupabaseExhibition } from '@/types/event';
+import { useAuth } from '@/src/components/shared/providers/AuthProvider/AuthProvider';
 
 interface Review {
   id: number;
@@ -32,7 +34,7 @@ interface Review {
 }
 
 interface ExhibitionItem {
-  id?: string | number;
+  id?: number;
   name?: string;
   type?: string;
   subType?: string;
@@ -67,9 +69,12 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
   const [comment, setComment] = useState('');
   const [reviews, setReviews] = useState<Review[]>([]);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     if (!exhibition?.id) return;
+
     const fetchReviews = async () => {
       const { data, error } = await supabase
         .from('reviews')
@@ -82,6 +87,24 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
     };
     fetchReviews();
   }, [exhibition?.id]);
+
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      if (loading || !exhibition?.id || !user?.id) return;
+
+      const { data, error } = await supabase
+        .from('favorite')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('exhibition_id', exhibition.id);
+
+      if (!error && data) {
+        setIsFavorite(data.length > 0);
+      }
+    };
+
+    checkFavoriteStatus();
+  }, [exhibition, user?.id, loading]);
 
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,6 +176,52 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
     };
   }, [open, onClose]);
 
+  const onFavoriteClick = () => {
+    const updateFavorite = async () => {
+      if (loading || !exhibition?.id || !user?.id) return;
+
+      const { data, error } = await supabase
+        .from('favorite')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('exhibition_id', exhibition.id);
+
+      if (error) {
+        console.error('Error checking favorite:', error);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const { error: deleteError } = await supabase
+          .from('favorite')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('exhibition_id', exhibition.id);
+
+        if (deleteError) {
+          console.error('Error removing favorite:', deleteError);
+        } else {
+          setIsFavorite(false);
+        }
+      } else {
+        const { error: insertError } = await supabase
+          .from('favorite')
+          .insert([{
+            user_id: user.id,
+            exhibition_id: exhibition.id,
+          }]);
+
+        if (insertError) {
+          console.error('Error adding favorite:', insertError);
+        } else {
+          setIsFavorite(true);
+        }
+      }
+    };
+
+    updateFavorite();
+  };
+
   if (!exhibition) return null;
 
   return (
@@ -167,14 +236,32 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
           top: 16,
           right: 16,
           zIndex: 10,
-          backgroundColor: 'rgba(70, 48, 48, 0.5)',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
           color: 'white',
           '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            backgroundColor: 'rgba(70, 48, 48, 0.5)',
           },
         }}
       >
         <Close />
+      </IconButton>
+      <IconButton
+        className={styles.favoriteButton}
+        aria-label="お気に入りに追加"
+        onClick={onFavoriteClick}
+        sx={{
+          position: 'absolute',
+          top: 16,
+          right: 64,
+          zIndex: 10,
+          backgroundColor: isFavorite ? 'rgba(255, 15, 55, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          '&:hover': {
+            backgroundColor: isFavorite ? 'rgba(255, 117, 142, 0.5)' : 'rgba(70, 48, 48, 0.5)',
+          },
+        }}
+      >
+        <Favorite />
       </IconButton>
       <DialogContent className={styles.dialogContent}>
         <div className={styles.dialogContent}>

@@ -11,6 +11,7 @@ export interface Event {
 }
 
 export interface SupabaseExhibition {
+  id: number | null,
   exhibition_id: string | null;
   name: string | null;
   group_name: string | null;

@@ -317,22 +317,6 @@ const shape2_Green: React.CSSProperties = {
     fill: "url(#outsideGradient_Green)",
 }
 
-const ball: React.CSSProperties = { 
-    width: 100,
-    height: 100,
-    backgroundColor: "#dd00ee",
-    borderRadius: "50%",
-    
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white",
-    fontWeight: "bold",
-    fontSize: "18px",
-
-    cursor: "pointer"
-};
-
 function Paths_T(){
   return (
     <>

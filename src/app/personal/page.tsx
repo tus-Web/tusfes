@@ -101,39 +101,34 @@ export default function PersonalPage() {
 
   useEffect(() => {
     const fetchFavoriteData = async () => { 
-      const { data: favoriteData, error: favoriteError } : { data: number[] | null, error: PostgrestError | null } = await supabase
+      const { data: favoriteExhibitions, error } : { data: any[] | null, error: PostgrestError | null } = await supabase
         .from("favorite")
-        .select("exhibition_id")
+        .select(`
+          exhibition_id,
+          "exhibition table"!favorite_exhibition_id_fkey (
+            *
+          )
+        `);
 
-      if (favoriteError) {
-        console.error('Error fetching favorite data:', favoriteError);
-        return;
-      }
-
-      if (!favoriteData) return;
-
-      const favoriteExhibitionIds = favoriteData.map((item) => item.exhibition_id);
-      const { data: favoriteExhibitions, error: exhibitionError } : { data: SupabaseExhibition[] | null, error: PostgrestError | null } = await supabase
-        .from("exhibition table")
-        .select("*")
-        .in("id", favoriteExhibitionIds)
-
-      if (exhibitionError) {
-        console.error('Error fetching exhibition data:', favoriteError);
+      if (error) {
+        console.error('Error fetching favorite data:', error);
         return;
       }
 
       if (favoriteExhibitions) {
-        const mappedFavoriteItems: FavoriteItem[] = favoriteExhibitions.map((item) => ({
-          id: item.exhibition_id || '',
-          name: item.name || '無題',
-          location: item.location || '',
-          schedule: item.schedule || '',
-          tags: item.tags || [],
-          description: item.explanation || '',
-          organizer: item.group_name || '',
-          type: item.type || '展示',
-        }));
+        const mappedFavoriteItems: FavoriteItem[] = favoriteExhibitions
+          .map((item: any) => item['exhibition table'])
+          .filter((item: SupabaseExhibition | null) => item !== null)
+          .map((item: SupabaseExhibition) => ({
+            id: item.exhibition_id || '',
+            name: item.name || '無題',
+            location: item.location || '',
+            schedule: item.schedule || '',
+            tags: item.tags || [],
+            description: item.explanation || '',
+            organizer: item.group_name || '',
+            type: item.type || '展示',
+          }));
 
         setFavoriteItems(mappedFavoriteItems);
       }

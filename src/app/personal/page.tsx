@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MapPin, Clock } from 'lucide-react';
 import BottomBar from '@/src/components/shared/layout/BottomBar/BottomBar';
+import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
 import './styles.css';
 
 import { SupabaseExhibition } from '@/types/event';
@@ -12,7 +13,7 @@ import { supabase } from '@/src/lib/supabase/client';
 import { PostgrestError } from '@supabase/supabase-js';
 
 interface FavoriteItem {
-  id: string;
+  id: number;
   name: string;
   location: string;
   schedule: string;
@@ -94,6 +95,7 @@ interface FavoriteItem {
 export default function PersonalPage() {
   const router = useRouter();
   const [favoriteItems, setFavoriteItems] = useState<FavoriteItem[]>([]);
+  const [selectedExhibition, setSelectedExhibition] = useState<any | null>(null);
 
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
@@ -120,7 +122,7 @@ export default function PersonalPage() {
           .map((item: any) => item['exhibition table'])
           .filter((item: SupabaseExhibition | null) => item !== null)
           .map((item: SupabaseExhibition) => ({
-            id: item.exhibition_id || '',
+            id: item.id || -1,
             name: item.name || '無題',
             location: item.location || '',
             schedule: item.schedule || '',
@@ -137,6 +139,26 @@ export default function PersonalPage() {
     fetchFavoriteData();
   }, []);
 
+  const handleCardClick = (e: React.MouseEvent, item: FavoriteItem) => {
+    e.preventDefault();
+    const mapped = {
+      id: Number(item.id) || item.id,
+      name: item.name,
+      type: item.type || '展示',
+      position: { x: 50, y: 50 },
+      targetAudience: item.tags || [],
+      description: item.description || '',
+      detailedDescription: item.description || '',
+      location: item.location || '',
+      schedule: item.schedule || '',
+      organizer: item.organizer || '',
+      imageUrl: item.imageUrl || null,
+      tags: item.tags || [],
+      reviews: [],
+    } as any;
+    setSelectedExhibition(mapped);
+  };
+
   return (
     <div className="personal-page">
       <div className="container">
@@ -146,7 +168,12 @@ export default function PersonalPage() {
         ) : (
           <div className="favorites-list">
             {favoriteItems.map((item) => (
-              <Link key={item.id} href={`/search/detail?id=${item.id}`} className="favorite-card">
+              <div 
+                key={item.id} 
+                onClick={(e) => handleCardClick(e, item)}
+                className="favorite-card"
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="card-image">
                   {item.imageUrl ? (
                     <img src={item.imageUrl} alt={item.name} />
@@ -177,11 +204,18 @@ export default function PersonalPage() {
                   <p className="description">{item.description}</p>
                   <p className="organizer">{item.organizer}</p>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
       </div>
+      
+      <ExhibitionModal 
+        open={!!selectedExhibition}
+        onClose={() => setSelectedExhibition(null)}
+        exhibition={selectedExhibition}
+      />
+      
       <BottomBar activeTab="personal" onTabChange={onBottomBarPressed} />
     </div>
   );

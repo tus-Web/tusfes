@@ -295,7 +295,7 @@ export default function SimpleMap() {
           marker.getElement().addEventListener('click', (e) => {
             e.stopPropagation();
 
-            if (booth.name === '講義等') {
+            if (booth.name === '講義棟') {
               setFloorOpen(true);
               return;
             }

@@ -12,53 +12,72 @@ import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader';
 
 import type { Feature, Polygon } from 'geojson';
 
+import { supabase } from '@/src/lib/supabase/client';
+import { SupabaseExhibition } from '@/types/event';
+import { PostgrestError } from '@supabase/supabase-js';
+
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
 // boothData はマーカー表示に必要な最小限の情報だけを持たせます。
 // モーダルに渡す完全な ExhibitionItem 互換オブジェクトは
 // クリック時にマッピングして作成します（余計なデータを配列に持たないため）。
-const boothData = [
-  {
-    // マーカー表示に必要
-    lngLat: [139.8632, 35.7719] as [number, number],
-  id: 1,
-  name: '食堂',
-  type: 'フード',
-  tags: ['フード'],
-    // ミニマップ用の座標（必要ならマッピング時に使う）
-    position: { x: 30, y: 30 },
-  },
-  {
-    // 無線研究部展：位置はそのまま、内容だけ置き換え
-    lngLat: [139.8631, 35.7724] as [number, number],
-    id: 2,
-    name: '無線研究部展',
-    type: '展示',
-    tags: ['屋内', '学生向け', '体験型'],
-    description: '無線研による無線技術の展示',
-    organization: '無線研',
-    location: '体育館(1/2面)',
-    imageUrl: '/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp',
-    detailUrl: 'https://katsufes.com/2025/event/70',
-    position: { x: 60, y: 40 },
-  },
-  {
-    lngLat: [139.8634, 35.7723] as [number, number],
-  id: 3,
-  name: 'フリーマーケット',
-  type: 'フード',
-  tags: ['屋外'],
-    position: { x: 60, y: 40 },
-  },
-  {
-    lngLat: [139.8644, 35.7715] as [number, number],
-  id: 4,
-  name: '講義等',
-  type: 'イベント',
-  tags: ['屋内'],
-    position: { x: 60, y: 40 },
-  },
-];
+
+interface BoothData {
+  lngLat: [number, number];
+  id: number | string;
+  name: string;
+  type: string;
+  position?: { x: number; y: number };
+  description?: string;
+  organization?: string;
+  location?: string;
+  imageUrl?: string;
+  detailUrl?: string;
+  tags?: string[];
+}
+
+// const boothData = [
+//   {
+//     // マーカー表示に必要
+//     lngLat: [139.8632, 35.7719] as [number, number],
+//   id: 1,
+//   name: '食堂',
+//   type: 'フード',
+//   tags: ['フード'],
+//     // ミニマップ用の座標（必要ならマッピング時に使う）
+//     position: { x: 30, y: 30 },
+//   },
+//   {
+//     // 無線研究部展：位置はそのまま、内容だけ置き換え
+//     lngLat: [139.8631, 35.7724] as [number, number],
+//     id: 2,
+//     name: '無線研究部展',
+//     type: '展示',
+//     tags: ['屋内', '学生向け', '体験型'],
+//     description: '無線研による無線技術の展示',
+//     organization: '無線研',
+//     location: '体育館(1/2面)',
+//     imageUrl: '/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp',
+//     detailUrl: 'https://katsufes.com/2025/event/70',
+//     position: { x: 60, y: 40 },
+//   },
+//   {
+//     lngLat: [139.8634, 35.7723] as [number, number],
+//   id: 3,
+//   name: 'フリーマーケット',
+//   type: 'フード',
+//   tags: ['屋外'],
+//     position: { x: 60, y: 40 },
+//   },
+//   {
+//     lngLat: [139.8644, 35.7715] as [number, number],
+//   id: 4,
+//   name: '講義等',
+//   type: 'イベント',
+//   tags: ['屋内'],
+//     position: { x: 60, y: 40 },
+//   },
+// ];
 
 
 // bounds を関数外に移動してleーー(再レンダリング時に同じ参照を保つ)
@@ -71,6 +90,7 @@ export default function SimpleMap() {
   mapboxgl.accessToken = 'pk.eyJ1IjoicmlrdS1vZ2F3YSIsImEiOiJjbWZzZGJzdDYwNG4zMmpvZXBwN2V6YXZ5In0.M7sZno-EhE51gYER_aeEjg'
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
+  const [boothData, setBoothData] = useState<BoothData[]>([]);
   const router = useRouter();
 
   // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を緩めて any に)
@@ -120,6 +140,36 @@ export default function SimpleMap() {
   const handleSearch = (params: { category: string; query: string; tag: string | null }) => {
     setFilterParams(params);
   };
+
+  useEffect(() => {
+    // Fetch booth data from Supabase on component mount
+    const fetchBoothData = async () => {
+      const { data, error }: { data: SupabaseExhibition[] | null, error: PostgrestError | null } = await supabase
+        .from('exhibition table')
+        .select('*');
+
+      if (error) {
+        console.error('Error fetching booth data:', error);
+        return;
+      }
+
+      if (data) {
+        // Map SupabaseExhibition to BoothData
+        const mappedBoothData: BoothData[] = data.map((item) => ({
+          lngLat: [item.longitude || 0, item.latitude || 0],
+          id: item.exhibition_id || '',
+          name: item.name || '無題',
+          type: item.type || '展示',
+          position: item.minimap_pos_x && item.minimap_pos_y ? { x: item.minimap_pos_x, y: item.minimap_pos_y } : undefined,
+          description: item.explanation || undefined,
+        }));
+
+        setBoothData(mappedBoothData);
+      }
+    };
+
+    fetchBoothData();
+  }, []);
 
   useEffect(() => {
     const initializeMap = ({
@@ -278,7 +328,7 @@ export default function SimpleMap() {
     };
  
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]); 
+  }, [map, boothData]); 
 
   // toggle marker visibility based on filterParams without changing positions
   useEffect(() => {

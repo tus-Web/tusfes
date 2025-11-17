@@ -219,8 +219,8 @@ useEffect(() => {
         
         <BottomBar activeTab="home" onTabChange={onBottomBarPressed} />
 
-        <main>
-            <h1>人気ランキング</h1>
+        <main className="main">
+            <h1 className="rankTitle">人気ランキング</h1>
 
             <ol>
                 {rankedDisplays.slice(0,5).map((display, idx) => {

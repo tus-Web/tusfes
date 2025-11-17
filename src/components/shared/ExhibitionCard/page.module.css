@@ -1,42 +1,19 @@
-/* お気に入り企画ページのスタイル */
-
-.personal-page {
-  min-height: 100vh;
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  padding-bottom: 80px; /* BottomBarの高さ分 */
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.pageTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: 1.5rem;
-  text-decoration: underline;
-  text-underline-offset: 0.5rem;
-  text-align: center;
-}
-
-.no-favorites {
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 1rem;
-  margin-top: 2rem;
-}
-
-.favoritesList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
+/* --- 変数定義とカード本体 --- */
 .favoriteCard {
+  /* 変数をここに移動（このコンポーネント専用として定義） */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-card: #ffffff;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  --color-text-inverse: #ffffff;
+  --color-border-card: #e0e0e0;
+  --color-border-medium: #444444;
+  --color-shadow-card: rgba(0, 0, 0, 0.05);
+  --color-shadow-medium: rgba(0, 0, 0, 0.1);
+  --color-cta-primary: #007bff;
+
   display: flex;
   gap: 16px;
   padding: 16px;
@@ -44,7 +21,7 @@
   border: 1px solid var(--color-border-card);
   border-radius: 16px;
   text-decoration: none;
-  color: inherit;
+  color: var(--color-text-primary); /* inherit から変更 */
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   box-shadow: 0 2px 8px var(--color-shadow-card);
@@ -55,9 +32,12 @@
   transform: translateY(-2px);
 }
 
+/* --- 子要素のスタイル --- */
+
 .cardImage {
   flex-shrink: 0;
   width: 100%;
+  height: 200px; /* スマホ時は高さ固定 */
   border-radius: 8px;
   overflow: hidden;
   background-color: var(--color-bg-secondary);
@@ -67,6 +47,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .imagePlaceholder {
@@ -165,7 +146,8 @@
   font-weight: 500;
 }
 
-/* レスポンシブデザイン */
+/* --- レスポンシブ対応（カード関連のみ保持） --- */
+
 @media (max-width: 768px) {
   .favoriteCard {
     flex-direction: column;
@@ -173,24 +155,12 @@
 }
 
 @media (min-width: 768px) {
-  .container {
-    padding: 2rem;
-  }
-
-  .pageTitle {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .favoritesList {
-    gap: 1.5rem;
-  }
-
   .favoriteCard {
     padding: 20px;
     gap: 16px;
   }
 
+  /* PC表示：画像を正方形にする */
   .cardImage {
     width: 120px;
     height: 120px;
@@ -210,14 +180,6 @@
 }
 
 @media (min-width: 1024px) {
-  .container {
-    padding: 3rem;
-  }
-
-  .favoritesList {
-    gap: 2rem;
-  }
-
   .favoriteCard {
     padding: 24px;
     gap: 20px;
@@ -229,9 +191,19 @@
   }
 }
 
-/* ダークモード対応 */
+/* --- ダークモード対応 --- */
 @media (prefers-color-scheme: dark) {
   .favoriteCard {
+    /* ダークモード用の変数上書き */
+    --color-bg-primary: #1a1a1a;
+    --color-bg-secondary: #2d2d2d;
+    --color-bg-card: #242424;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #cccccc;
+    --color-text-muted: #888888;
+    --color-border-card: #333333;
+    --color-shadow-card: rgba(0, 0, 0, 0.2);
+    
     background-color: var(--color-bg-secondary);
     border-color: var(--color-border-medium);
   }

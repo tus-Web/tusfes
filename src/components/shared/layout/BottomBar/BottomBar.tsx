@@ -58,19 +58,6 @@ const BottomBar: React.FC<BottomBarProps> = ({ activeTab, onTabChange }) => {
             >
               {t(tab.label)}
             </motion.span>
-
-            {activeTab === tab.id && (
-              <motion.div
-                className={styles.activeIndicator}
-                layoutId="activeTab"
-                initial={false}
-                transition={{
-                  type: "spring",
-                  stiffness: 500,
-                  damping: 30,
-                }}
-              />
-            )}
           </motion.button>
         ))}
       </div>

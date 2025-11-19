@@ -59,16 +59,6 @@
   line-height: 1;
 }
 
-.activeIndicator {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 3px;
-  background: var(--color-brand-main);
-  border-radius: 0 0 3px 3px;
-}
 
 @media (max-width: 768px) {
   .tabContainer {
@@ -101,11 +91,6 @@
   
   .label {
     font-size: 0.65rem;
-  }
-  
-  .activeIndicator {
-    width: 25px;
-    height: 2px;
   }
 }
 

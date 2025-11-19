@@ -101,7 +101,7 @@ const wrapperStyle: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   minHeight: "100vh",
-  width: "100vw",
+  width: "100v%",
 };
 
 export default function PathDrawing() {

@@ -224,7 +224,7 @@ const wrapperStyle: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   minHeight: "100vh",
-  width: "100vw",
+  width: "100%",
 };
 
 const image: React.CSSProperties = {

@@ -185,7 +185,7 @@ export default function SimpleMap() {
           source: 'mask-source',
           'paint': {
             'fill-color': '#34D399',
-            // 'fill-opacity': 0.7
+            'fill-opacity': 0.7
           }
         })
 

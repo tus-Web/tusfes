@@ -1,24 +1,23 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, IconButton, Typography, Button, Chip } from '@mui/material';
-import { Close, ZoomIn, LocationOn, AccessTime, Group } from '@mui/icons-material';
+import { Dialog, DialogContent, IconButton, Typography, Button } from '@mui/material';
+import { Close, ZoomIn } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './FloorModal.module.css';
-import exStyles from '../ExhibitionModal/ExhibitionModal.module.css';
-import ExhibitionDetail from '@/src/components/shared/ExhibitionDetail/ExhibitionDetail';
 
 import events from '@/src/data/events.json';
 
-import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
+import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader';
 
 interface FloorModalProps {
   open: boolean;
   onClose: () => void;
   images?: string[];
+  onSelectExhibition?: (event: any) => void;
 }
 
-const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
+const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelectExhibition }) => {
   const defaultImages = [
     '/img/floor/1kai.png',
     '/img/floor/3kai.png',
@@ -38,7 +37,6 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
   const [selectedFloor, setSelectedFloor] = useState<string>('1F');
   const imgs = images && images.length > 0 ? images.slice(0, 4) : (FLOOR_IMAGES[selectedFloor] ?? defaultImages);
   const [zoomed, setZoomed] = useState<string | null>(null);
-  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
   const [filterParams, setFilterParams] = useState<{ category: string; query: string; tag: string | null }>({
     category: '全て',
     query: '',
@@ -166,8 +164,9 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
                               style={{ left, top }}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                // show inline detail panel inside FloorModal
-                                setSelectedEvent(ev);
+                                if (onSelectExhibition) {
+                                  onSelectExhibition(ev);
+                                }
                               }}
                               title={ev.name}
                               aria-label={`開く ${ev.name}`}
@@ -179,18 +178,6 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
                   </div>
                 ))}
               </div>
-
-              {/* Inline detail panel shown under the floor map when a pin is selected */}
-              {selectedEvent && (
-                <div className={styles.detailPanel} role="region" aria-label="選択された展示詳細">
-                  <ExhibitionDetail 
-                    open={true}
-                    onClose={() => setSelectedEvent(null)}
-                    exhibition={selectedEvent} 
-                  />
-                  
-                </div>
-              )}
 
               {/* Zoom overlay */}
               {zoomed && (

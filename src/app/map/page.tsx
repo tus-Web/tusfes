@@ -108,8 +108,9 @@ export default function SimpleMap() {
       reviews: [],
     } as any;
 
-    // Open ExhibitionModal but keep FloorModal open
+    // Open ExhibitionModal and close floor modal to mimic outdoor behaviour
     setSelectedBooth(mapped);
+    setFloorOpen(false);
   };
 
   const onBottomBarPressed = (id: string) => {
@@ -334,6 +335,7 @@ export default function SimpleMap() {
       <FloorModal
         open={floorOpen}
         onClose={() => setFloorOpen(false)}
+        onSelectExhibition={handleSelectExhibitionFromFloor}
       />
 
       <ExhibitionModal 

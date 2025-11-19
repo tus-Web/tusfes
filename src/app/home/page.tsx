@@ -60,6 +60,10 @@ export default function Home() {
         router.push(`/${id}`);
     };
 
+    const handleSlideClick = (id: string) => {
+      router.push(`/search/detail?id=${id}`);
+    }
+
     const [rankedDisplays, setRankedDisplays] = useState<{display_id: number, average: number}[]>([]);
 
 useEffect(() => {
@@ -158,7 +162,10 @@ useEffect(() => {
             
             
             <SwiperSlide key={event.id}>
-              <div className="slide-content-weapper">
+              <div className="slide-content-weapper"
+                onClick={() => handleSlideClick(event.id)}
+                style={{ cursor: 'pointer'}}
+              >
               {event.imageUrl && (
               <img
                 src={event.imageUrl}

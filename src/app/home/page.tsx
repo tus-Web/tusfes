@@ -20,6 +20,13 @@ import { getEventById } from "@/lib/events";
 import { motion, Variants } from "framer-motion";
 
 import { CiStar } from "react-icons/ci";
+import eventsData from '@/data/events.json';
+
+type EventData = {
+  id: string;
+  name: string;
+  imageUrl: string;
+};
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -115,38 +122,63 @@ useEffect(() => {
         <Paths_c2 />
         <Paths_e3 />
       </motion.svg>
+
+      <div className="svg-caption">
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 50 }}
+
+          transition={{
+            type: "tween",
+            repeat: Infinity,
+            repeatType: "reverse",
+            duration: 1,
+          }}
+          >
+            ↓SCROOL
+          </motion.div>
+      </div>
     </div>
         <Swiper
             loop={true}
-            autoplay={{
+            /*autoplay={{
                 delay: 2500,
                 disableOnInteraction: false,
-            }}
+            }} */
             slidesPerView={1.2}
-            breakpoints={{
-                320: {
-                  spaceBetween: 16 
-                },
-                768: {
-                  spaceBetween: 24 
-                },
-                1024: {
-                  spaceBetween: 38 
-                }
-            }}
+            spaceBetween={20}
             centeredSlides={true}
             pagination={{
                 clickable: true,
             }}
-            modules={[Autoplay, Pagination]}
+            modules={[Autoplay]}
             className="mySwiper"
         >
-            <SwiperSlide><img src="/img\tmp_img1.jpg" alt="tmp_img1" /></SwiperSlide>
-            <SwiperSlide><img src="/img\tmp_img2.jpg" alt="tmp_img2" /></SwiperSlide>
-            <SwiperSlide><img src="/img\tmp_img3.jpg" alt="tmp_img3" /></SwiperSlide>
-            <SwiperSlide><img src="/img\tmp_img4.jpg" alt="tmp_img4" /></SwiperSlide>
-            <SwiperSlide><img src="/img\tmp_img5.jpg" alt="tmp_img5" /></SwiperSlide>
-            <SwiperSlide><img src="/img\tmp_img6.jpg" alt="tmp_img6" /></SwiperSlide>
+          {eventsData.map((event: EventData, index) => (
+            
+            
+            <SwiperSlide key={event.id}>
+              <div className="slide-content-weapper">
+              {event.imageUrl && (
+              <img
+                src={event.imageUrl}
+                alt={event.name}
+                //style={{width: '100%', height: '100%', objectFit: 'cover'}}
+              />
+              )}
+
+              <div className="slide-name-overlay">
+                {event.name}
+              </div>
+
+              {!event.imageUrl && (
+                <div className="slide-no-image-placeholder">
+                  {event.name}
+                </div>
+              )}
+              </div>
+            </SwiperSlide>
+          ))}
         </Swiper>
         
         <BottomBar activeTab="home" onTabChange={onBottomBarPressed} />
@@ -180,9 +212,10 @@ useEffect(() => {
 }
 
 const shape: React.CSSProperties = {
-    stroke: "#000000",
+    stroke: "var(--svg-color, #000000)",
     strokeWidth: 0.5,
     strokeLinecap: "round", 
+    fill: "var(--svg-color, #000000)",
 }
 
 const wrapperStyle: React.CSSProperties = {
@@ -199,11 +232,6 @@ const image: React.CSSProperties = {
     height: "auto",
     maxWidth: "95vw",
     maxHeight: "95vh",
-}
-
-const ColorofBack: React.CSSProperties = {
-    backgroundColor: "#222222",
-    color: "#ffffff",
 }
 
 function Paths_T(){

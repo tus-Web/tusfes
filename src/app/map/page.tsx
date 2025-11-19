@@ -53,7 +53,7 @@ const boothData = [
   {
     lngLat: [139.8644, 35.7715] as [number, number],
   id: 4,
-  name: '講義等',
+  name: '講義棟',
   type: 'イベント',
   tags: ['屋内'],
     position: { x: 60, y: 40 },

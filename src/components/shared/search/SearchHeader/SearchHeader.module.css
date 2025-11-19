@@ -53,6 +53,11 @@
   gap: 6px;
 }
 
+.filterButtonAction {
+  border: none;
+  cursor: pointer;
+}
+
 .filterButton:hover {
   background-color: var(--color-brand-main-dark);
 }

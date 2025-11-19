@@ -108,9 +108,8 @@ export default function SimpleMap() {
       reviews: [],
     } as any;
 
-    // Open ExhibitionModal and close floor modal to mimic outdoor behaviour
+    // Open ExhibitionModal but keep the floor modal visible so users can easily reopen other booths
     setSelectedBooth(mapped);
-    setFloorOpen(false);
   };
 
   const onBottomBarPressed = (id: string) => {

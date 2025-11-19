@@ -20,6 +20,7 @@ import { getEventById } from "@/lib/events";
 import { motion, Variants } from "framer-motion";
 
 import { CiStar } from "react-icons/ci";
+import { FiChevronDown } from "react-icons/fi";
 import eventsData from '@/data/events.json';
 
 type EventData = {
@@ -129,18 +130,19 @@ useEffect(() => {
 
       <div className="svg-caption">
         <motion.div
+          className="scroll-indicator"
           initial={{ y: 100 }}
           animate={{ y: 50 }}
-
           transition={{
             type: "tween",
             repeat: Infinity,
             repeatType: "reverse",
             duration: 1,
           }}
-          >
-            ↓SCROOL
-          </motion.div>
+        >
+          <span className="scroll-label">SCROLL</span>
+          <FiChevronDown className="scroll-icon" aria-hidden="true" />
+        </motion.div>
       </div>
     </div>
         <Swiper

@@ -152,14 +152,12 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images }) => {
                           const left = `${pos.x}%`;
                           const top = `${pos.y}%`;
 
-                          // Choose an appropriate pin SVG based on category/tags
-                          const pinTypeClass = (ev.category === 'フード' || (Array.isArray(ev.tags) && ev.tags.includes('フード')))
-                            ? styles.pinFood
-                            : ev.category === '展示'
-                              ? styles.pinShop
-                              : ev.category === 'イベント'
-                                ? styles.pinStage
-                                : styles.pinDefault;
+                          const hasHandsOnTag = Array.isArray(ev.tags) && ev.tags.includes('体験型');
+                          const pinTypeClass = hasHandsOnTag
+                            ? styles.pinWorkshop
+                            : ev.category === 'イベント'
+                              ? styles.pinEvent
+                              : styles.pinExhibition;
 
                           return (
                             <button

@@ -96,38 +96,51 @@
 }
 
 
+
 .pin {
   position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  /* show SVG via additional type classes (pinDefault/pinFood/...) */
-  background: transparent;
-  border: 2px solid white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25);
   transform: translate(-50%, -50%);
   cursor: pointer;
   pointer-events: auto; /* ボタンとして動作 */
-  background-size: 70% 70%;
+  background-size: 68% 68%;
   background-repeat: no-repeat;
   background-position: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pin:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.28);
+}
+
+.pin:focus-visible {
+  outline: 3px solid #2563EB;
+  outline-offset: 2px;
 }
 
 .pinDefault {
-  /* fallback/default pin */
+  background-color: #E5E7EB;
   background-image: url('/img/pin/question-circle-svgrepo-com.svg');
 }
 
-.pinFood {
-  background-image: url('/img/pin/food-dish-svgrepo-com.svg');
+.pinExhibition {
+  background-color: #FEE2E2;
+  background-image: url('/img/pin/indoor-exhibition.svg');
 }
 
-.pinShop {
-  background-image: url('/img/pin/shop-svgrepo-com.svg');
+.pinEvent {
+  background-color: #DBEAFE;
+  background-image: url('/img/pin/indoor-event.svg');
 }
 
-.pinStage {
-  background-image: url('/img/pin/stage-movie-appreciation-svgrepo-com.svg');
+.pinWorkshop {
+  background-color: #FEF3C7;
+  background-image: url('/img/pin/indoor-workshop.svg');
 }
 
 .pin:after {

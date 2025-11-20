@@ -27,7 +27,7 @@ import eventsData from '@/data/events.json';
 type EventData = {
   id: string;
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
 };
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

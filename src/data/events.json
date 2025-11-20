@@ -705,6 +705,49 @@
     "description": "無線研による無線技術の展示",
     "organization": "無線研",
     "location": "体育館(1/2面)",
-  "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp"
+  "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp",
+    "position": { "lng": 139.8631, "lat": 35.7724 }
+  },
+  {
+    "id": "71",
+    "name": "食堂",
+    "category": "フード",
+    "tags": ["フード"],
+    "position": { "x": 30, "y": 30, "lng": 139.8632, "lat": 35.7719 },
+    "location": "食堂"
+  },
+  {
+    "id": "72",
+    "name": "フリーマーケット",
+    "category": "フード",
+    "tags": ["屋外"],
+    "position": { "x": 60, "y": 40, "lng": 139.8634, "lat": 35.7723 },
+    "location": "フリーマーケット会場"
+  },
+  {
+    "id": "73",
+    "name": "講義棟",
+    "category": "イベント",
+    "tags": ["屋内"],
+    "position": { "x": 60, "y": 40, "lng": 139.8644, "lat": 35.7715 },
+    "location": "講義棟"
+  },
+  {
+    "id": "74",
+    "name": "中庭ステージ企画",
+    "category": "イベント",
+    "tags": ["屋外", "ステージ"],
+    "description": "中庭ステージにて様々な団体がパフォーマンスを披露！",
+    "position": { "x": 40, "y": 60, "lng": 139.8638, "lat": 35.7717 },
+    "location": "中庭"
+  },
+  {
+    "id": "75",
+    "name": "図書館ホール",
+    "category": "イベント",
+    "tags": ["屋内", "ステージ"],
+    "description": "図書館2階ホールにて様々なステージイベントを開催！",
+    "position": { "x": 50, "y": 70, "lng": 139.86204197387917, "lat": 35.77202347444657 },
+    "location": "図書館ホール"
   }
 ]

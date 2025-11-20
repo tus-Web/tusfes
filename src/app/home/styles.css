@@ -134,9 +134,9 @@
   background-color: #007AFF; /* 青色 (ブルー) */
 }
 
-.main{ 
+.main{
   background-color: var(--color-bg-primary);
-  color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   padding-bottom:80px;
   max-width: 1200px;
   margin: 0 auto;

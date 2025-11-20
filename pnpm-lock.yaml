@@ -47,6 +47,9 @@ importers:
       '@types/react-dom':
         specifier: 18.2.7
         version: 18.2.7
+      abuse-detection:
+        specifier: ^1.1.0
+        version: 1.1.0
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
@@ -108,9 +111,6 @@ importers:
       '@types/geojson':
         specifier: ^7946.0.16
         version: 7946.0.16
-      sharp:
-        specifier: ^0.34.5
-        version: 0.34.5
 
 packages:
 
@@ -1634,6 +1634,9 @@ packages:
 
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
+
+  abuse-detection@1.1.0:
+    resolution: {integrity: sha512-BlythXTcEBJFwT87RD7itz0wJNRkzAhqoggaO1GP8C1YHoseEIBPOXRtZL+8rW8/C9LgaKd5UFHp8FB3OC+QEA==}
 
   acorn-import-phases@1.0.4:
     resolution: {integrity: sha512-wKmbr/DDiIXzEOiWrTTUcDm24kQ2vGfZQvM2fwg2vXqR5uW6aapr7ObPtj1th32b9u90/Pf4AItvdTh42fBmVQ==}
@@ -4720,7 +4723,8 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@img/colour@1.0.0': {}
+  '@img/colour@1.0.0':
+    optional: true
 
   '@img/sharp-darwin-arm64@0.34.5':
     optionalDependencies:
@@ -5565,6 +5569,8 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
+  abuse-detection@1.1.0: {}
+
   acorn-import-phases@1.0.4(acorn@8.15.0):
     dependencies:
       acorn: 8.15.0
@@ -5953,7 +5959,8 @@ snapshots:
       pify: 4.0.1
       rimraf: 2.7.1
 
-  detect-libc@2.1.2: {}
+  detect-libc@2.1.2:
+    optional: true
 
   detect-node-es@1.1.0: {}
 
@@ -7511,6 +7518,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.34.5
       '@img/sharp-win32-ia32': 0.34.5
       '@img/sharp-win32-x64': 0.34.5
+    optional: true
 
   shebang-command@2.0.0:
     dependencies:

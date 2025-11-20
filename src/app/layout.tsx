@@ -1,6 +1,6 @@
 import './globals.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { Noto_Sans_JP } from 'next/font/google';
 import ThemeProvider from '@/components/shared/providers/ThemeProvider/ThemeProvider';
@@ -15,6 +15,14 @@ const noto = Noto_Sans_JP({
   variable: '--font-noto',
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#10B981',
+};
+
 export const metadata: Metadata = {
   // 1. 基本情報 (SEOの最重要項目)
   title: {
@@ -26,13 +34,6 @@ export const metadata: Metadata = {
 
   // PWA設定
   manifest: '/manifest.json',
-  themeColor: '#10B981',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

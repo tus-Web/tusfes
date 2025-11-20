@@ -708,7 +708,7 @@
   "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp"
   },
   {
-    "id": "1",
+    "id": "71",
     "name": "食堂",
     "category": "フード",
     "tags": ["フード"],
@@ -716,7 +716,7 @@
     "location": "食堂"
   },
   {
-    "id": "3",
+    "id": "72",
     "name": "フリーマーケット",
     "category": "フード",
     "tags": ["屋外"],
@@ -724,7 +724,7 @@
     "location": "フリーマーケット会場"
   },
   {
-    "id": "4",
+    "id": "73",
     "name": "講義棟",
     "category": "イベント",
     "tags": ["屋内"],

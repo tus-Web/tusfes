@@ -730,3 +730,92 @@
 .descriptionContent::-webkit-scrollbar-thumb:hover {
   background: var(--color-border-dark);
 }
+
+/* --- レビューリストのモダン化 --- */
+
+/* 1. リスト全体 (ul) */
+.reviewList {
+  list-style: none;      /* デフォルトの・を消す */
+  padding: 0;
+  margin: 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;             /* カード間の隙間 */
+}
+
+/* 2. 各レビューカード (li) */
+.reviewItem {
+  background-color: #ffffff;
+  border-radius: 12px;    /* 角丸 */
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* 柔らかい影 */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reviewItem:hover {
+  transform: translateY(-2px); /* ホバー時に少し浮く */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* 3. ヘッダー（アイコン・名前・評価） */
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.authorSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.reviewDate {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* 4. コメント本文 */
+.reviewComment {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+  margin: 0;
+  white-space: pre-wrap; /* 改行を反映 */
+}
+
+/* レビューがない場合 */
+.noReview {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  background: #f9f9f9;
+  border-radius: 8px;
+  list-style: none;
+}

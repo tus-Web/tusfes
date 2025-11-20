@@ -9,6 +9,7 @@ import './styles.css';
 import styles from './styles.css';
 import ExhibitionCard from "@/src/components/shared/ExhibitionCard/page";
 import Ranking from "@/src/components/pages/home/Ranking/page";
+import PWAInstallPrompt from "@/src/components/shared/PWAInstallPrompt/PWAInstallPrompt";
 
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -95,6 +96,7 @@ useEffect(() => {
 
     return(
     <div>
+        <PWAInstallPrompt />
         <div style={wrapperStyle}>
     <motion.svg
       viewBox="0 0 77.0 57.0"

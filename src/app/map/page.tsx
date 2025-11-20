@@ -129,7 +129,7 @@ export default function SimpleMap() {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         center: [139.8632, 35.7719],
-        zoom: 17,
+        zoom: 15,
         pitch: 0, 
         bearing: -62,
         antialias: true,

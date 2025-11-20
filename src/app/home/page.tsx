@@ -156,6 +156,10 @@ useEffect(() => {
         </motion.div>
       </div>
     </div>
+
+        <div className="featured-heading">
+          <h1>おすすめ企画</h1>
+        </div>
         <Swiper
             loop={true}
             /*autoplay={{

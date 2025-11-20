@@ -41,14 +41,6 @@ function DetailContent() {
         ))}
       </div>
       <p className={styles.description}>{event.description}</p>
-      <a
-        href={event.detailUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.detailLink}
-      >
-        詳細を見る
-      </a>
     </div>
   );
 }

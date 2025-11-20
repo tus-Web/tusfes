@@ -134,12 +134,14 @@
 }
 
 .tagActive {
-  background-color: var(--color-brand-main);
-  color: white;
+  background-color: #ecfdf3;
+  color: #065f46;
   border-color: var(--color-brand-main);
+  font-weight: 700;
 }
 
 .tagActive:hover {
-  background-color: var(--color-brand-main-dark);
+  background-color: #d1fae5;
   border-color: var(--color-brand-main-dark);
+  color: #064e3b;
 }

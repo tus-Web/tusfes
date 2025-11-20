@@ -19,6 +19,7 @@ import {
 } from '@mui/icons-material';
 import { ZoomIn, ImageNotSupported, Star, StarBorder } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
+import { detectAbuse } from 'abuse-detection';
 import { supabase } from '@/src/lib/supabase/client';
 import styles from './ExhibitionDetail.module.css';
 import { SupabaseExhibition } from '@/types/event';
@@ -109,8 +110,11 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!exhibition?.id) return;
-    if (comment.length === 0) {
-      alert('レビューを書いて下さい');
+    
+    const result = detectAbuse(comment);
+
+    if(result.hasAbusiveWords){
+      alert('不適切な言葉が含まれています。');
       return;
     }
 

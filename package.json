@@ -22,6 +22,7 @@
     "@types/node": "20.6.2",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
+    "abuse-detection": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "eslint": "8.49.0",
@@ -42,6 +43,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@types/geojson": "^7946.0.16"
+    "@types/geojson": "^7946.0.16",
+    "@types/leo-profanity": "^1.5.4"
   }
 }

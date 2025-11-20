@@ -6,6 +6,7 @@ import { Noto_Sans_JP } from 'next/font/google';
 import ThemeProvider from '@/components/shared/providers/ThemeProvider/ThemeProvider';
 import LanguageProvider from '@/components/shared/providers/LanguageProvider/LanguageProvider';
 import { AuthProvider } from '@/components/shared/providers/AuthProvider/AuthProvider';
+import PWAInstallPrompt from '@/components/shared/PWAInstallPrompt/PWAInstallPrompt';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -84,6 +85,7 @@ export default function RootLayout({
           <ThemeProvider>
             <LanguageProvider>
               {children}
+              <PWAInstallPrompt />
             </LanguageProvider>
           </ThemeProvider>
         </AuthProvider>

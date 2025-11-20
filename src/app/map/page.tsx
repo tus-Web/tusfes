@@ -189,34 +189,56 @@ export default function SimpleMap() {
           }
         })
 
+        const createMarkerElement = (booth: any) => {
+          const el = document.createElement('div');
+          el.className = 'custom-map-pin';
+          el.style.width = '48px';
+          el.style.height = '48px';
+          el.style.backgroundSize = 'contain';
+          el.style.backgroundRepeat = 'no-repeat';
+          el.style.backgroundPosition = 'center';
+          el.tabIndex = 0;
+          el.setAttribute('role', 'button');
+          el.setAttribute('aria-label', `${booth.name} のピン`);
+
+          const name: string = booth.name || '';
+          const tags: string[] = booth.tags || [];
+          const isStage = name.includes('ステージ') || tags.includes('ステージ');
+          const isLibrary = name.includes('図書館');
+
+          // ピン画像の振り分け
+          let icon = '/img/pin/question-circle-svgrepo-com.svg';
+          if (booth.type === '模擬店') {
+            icon = '/img/pin/shop-svgrepo-com.svg';
+          } else if (isStage) {
+            icon = '/img/pin/stage-movie-appreciation-svgrepo-com.svg';
+          } else if (booth.type === 'フード') {
+            icon = '/img/pin/food-dish-svgrepo-com.svg';
+          } else if (booth.type === '展示') {
+            icon = '/img/pin/indoor-exhibition.svg';
+          } else if (booth.type === 'イベント' || isLibrary) {
+            icon = '/img/pin/indoor-event.svg';
+          }
+
+          el.style.backgroundImage = `url(${icon})`;
+          return el;
+        };
+
         // create markers and keep refs for toggling visibility later
         boothData.forEach(booth => {
-          // If this is the cafeteria ('食堂'), use a custom SVG marker
+          // If this is the cafeteria ('食堂'), use a custom SVG marker with existing behaviour
           if (booth.name === '食堂') {
-            const el = document.createElement('div');
-            el.className = 'marker marker-cafeteria';
-            // public フォルダ配下はビルド時にルート `/` にマップされるので先頭に `/` を付ける
-            el.style.backgroundImage = 'url(/img/pin/food-dish-svgrepo-com.svg)';
-            el.style.backgroundSize = 'contain';
-            // el.style.backgroundRepeat = 'no-repeat';
-            // el.style.backgroundPosition = 'center';
-
-            // sizing & accessibility
+            const el = createMarkerElement(booth);
             el.style.width = '58px';
             el.style.height = '58px';
-            // el.style.cursor = 'pointer';
-            el.tabIndex = 0;
-            el.setAttribute('role', 'button');
-            el.setAttribute('aria-label', `${booth.name} のピン`);
+            el.style.backgroundImage = 'url(/img/pin/food-dish-svgrepo-com.svg)';
 
             const marker = new mapboxgl.Marker(el)
               .setLngLat(booth.lngLat)
               .addTo(map);
 
-            // store association
             markersRef.current.push({ booth, marker });
 
-            // preserve existing click behaviour for cafeteria
             el.addEventListener('click', (e) => {
               e.stopPropagation();
               const url = 'https://tus-dining.starpayorder.com/shops/shp_107fa915bbc4e3360d40a5a';
@@ -234,15 +256,16 @@ export default function SimpleMap() {
             return; // continue to next booth
           }
 
-          // default marker for other booths
-          const marker = new mapboxgl.Marker({ color: '#c00000' })
+          const el = createMarkerElement(booth);
+
+          const marker = new mapboxgl.Marker(el)
             .setLngLat(booth.lngLat)
             .addTo(map);
 
           // store association
           markersRef.current.push({ booth, marker });
 
-          marker.getElement().addEventListener('click', (e) => {
+          el.addEventListener('click', (e) => {
             e.stopPropagation();
 
             if (booth.name === '講義棟') {

@@ -1,0 +1,25 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#10B981" rx="96"/>
+  
+  <!-- Main Icon Design - 理大祭 -->
+  <g transform="translate(256, 256)">
+    <!-- Center Circle -->
+    <circle cx="0" cy="0" r="140" fill="#FFFFFF" opacity="0.95"/>
+    
+    <!-- Festival Icon - Abstract Design -->
+    <path d="M -60 -40 L -40 40 L -20 -20 L 0 50 L 20 -20 L 40 40 L 60 -40" 
+          stroke="#10B981" stroke-width="12" stroke-linecap="round" 
+          stroke-linejoin="round" fill="none"/>
+    
+    <!-- Text - 祭 (Festival) -->
+    <text x="0" y="20" font-family="sans-serif" font-size="80" font-weight="bold" 
+          fill="#059669" text-anchor="middle" dominant-baseline="middle">祭</text>
+  </g>
+  
+  <!-- Corner Decoration -->
+  <circle cx="80" cy="80" r="20" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="432" cy="80" r="20" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="80" cy="432" r="20" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="432" cy="432" r="20" fill="#FFFFFF" opacity="0.3"/>
+</svg>

@@ -24,6 +24,21 @@ export const metadata: Metadata = {
   description: '東京理科大学葛飾キャンパスで開催される理大祭の当日用サイトです。開催日程、企画情報、アクセス、出展団体、ゲスト情報などを掲載しています。皆様のご来場をお待ちしております！',
   keywords: ['理大祭', '東京理科大学', '理科大', '学園祭', '大学祭', '神楽坂', '葛飾', '野田'],
 
+  // PWA設定
+  manifest: '/manifest.json',
+  themeColor: '#10B981',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '理大祭',
+  },
+
   // 2. OGP (SNSシェア対策)
   openGraph: {
     title: '第13回 東京理科大学 理大祭 当日サイト',

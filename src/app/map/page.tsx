@@ -1,8 +1,9 @@
 'use client';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import { useRouter } from 'next/navigation';
+import { useTheme } from '@/hooks/use-theme';
 
 // 1. 作成した ExhibitionModal をインポートします
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
@@ -44,10 +45,32 @@ const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
   [139.8670, 35.7760]  // 北東の座標
 ];
 
+const maskGeoJson: Feature<Polygon> = {
+  type: 'Feature',
+  properties: {},
+  geometry: {
+    type: 'Polygon',
+    coordinates: [
+      // 外側
+      [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]],
+      // 内側
+      [
+        [139.8646755466632, 35.77044008345895],
+        [139.8654115207003, 35.7720285864812],
+        [139.86196030264287, 35.77310689526999],
+        [139.86102425799376, 35.772022789082584],
+        [139.8622215080269, 35.7709264084083],
+      ],
+    ],
+  },
+};
+
 export default function SimpleMap() {
   mapboxgl.accessToken = 'pk.eyJ1IjoicmlrdS1vZ2F3YSIsImEiOiJjbWZzZGJzdDYwNG4zMmpvZXBwN2V6YXZ5In0.M7sZno-EhE51gYER_aeEjg'
-  const mapContainer = useRef(null);
-  const [map, setMap] = useState(null);
+  const mapContainer = useRef<HTMLDivElement | null>(null);
+  const [map, setMap] = useState<mapboxgl.Map | null>(null);
+  const mapStyleRef = useRef<string | null>(null);
+  const { resolvedTheme } = useTheme();
   const router = useRouter();
 
   // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を緩めて any に)
@@ -74,6 +97,36 @@ export default function SimpleMap() {
 
   // keep markers so we can toggle visibility without changing positions
   const markersRef = useRef<Array<{ booth: any; marker: mapboxgl.Marker }>>([]);
+
+  const getMapStyle = useCallback(
+    (theme: 'light' | 'dark') =>
+      theme === 'dark' ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/streets-v11',
+    [],
+  );
+
+  const addMaskLayer = useCallback(
+    (mapInstance: mapboxgl.Map) => {
+      if (!mapInstance.getSource('mask-source')) {
+        mapInstance.addSource('mask-source', {
+          type: 'geojson',
+          data: maskGeoJson,
+        });
+      }
+
+      if (!mapInstance.getLayer('mask-layer')) {
+        mapInstance.addLayer({
+          id: 'mask-layer',
+          type: 'fill',
+          source: 'mask-source',
+          paint: {
+            'fill-color': '#34D399',
+            'fill-opacity': 0.7,
+          },
+        });
+      }
+    },
+    [],
+  );
 
   const handleSelectExhibitionFromFloor = (ev: any) => {
     // Map events.json entry to ExhibitionItem-like object expected by ExhibitionModal
@@ -123,17 +176,20 @@ export default function SimpleMap() {
       setMap,
       mapContainer,
     }: {
-      setMap: any;
-      mapContainer: any;
+      setMap: React.Dispatch<React.SetStateAction<mapboxgl.Map | null>>;
+      mapContainer: React.RefObject<HTMLDivElement>;
     }) => {
+      if (!mapContainer.current) return;
+
+      const initialStyle = getMapStyle(resolvedTheme);
       const map = new mapboxgl.Map({
-        container: mapContainer.current,
+        container: mapContainer.current as HTMLElement,
         center: [139.8632, 35.7719],
         zoom: 17,
-        pitch: 0, 
+        pitch: 0,
         bearing: -62,
         antialias: true,
-        style: 'mapbox://styles/mapbox/streets-v11',
+        style: initialStyle,
         config: {
           basemap: {
             theme: 'custom',
@@ -144,47 +200,18 @@ export default function SimpleMap() {
         maxBounds: bounds
       });
 
-      const maskGeoJson: Feature<Polygon> = {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "Polygon",
-          coordinates: [
-            // 外側
-            [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]],
-            // 内側
-            [
-            [139.8646755466632, 35.77044008345895], 
-            [139.8654115207003, 35.7720285864812], 
-            [139.86196030264287, 35.77310689526999], 
-            [139.86102425799376, 35.772022789082584],
-            [139.8622215080269, 35.7709264084083],
-            ]
-          ]
-        }
-      }
-      
+      mapStyleRef.current = initialStyle;
+
       const language = new MapboxLanguage({ defaultLanguage: 'ja' });
       map.addControl(language);
-      
+
+      map.on('style.load', () => addMaskLayer(map));
+
       map.on('load', () => {
         setMap(map);
         map.resize();
 
-        map.addSource('mask-source', {
-          type: 'geojson',
-          data: maskGeoJson
-        });
-
-        map.addLayer({
-          id: 'mask-layer',
-          type: 'fill',
-          source: 'mask-source',
-          'paint': {
-            'fill-color': '#34D399',
-            'fill-opacity': 0.7
-          }
-        })
+        addMaskLayer(map);
 
         // create markers and keep refs for toggling visibility later
         boothData.forEach(booth => {
@@ -273,9 +300,19 @@ export default function SimpleMap() {
         setSelectedBooth(null);
       });
     };
- 
+
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]); 
+  }, [addMaskLayer, getMapStyle, map, resolvedTheme]);
+
+  useEffect(() => {
+    if (!map) return;
+
+    const targetStyle = getMapStyle(resolvedTheme);
+    if (mapStyleRef.current === targetStyle) return;
+
+    mapStyleRef.current = targetStyle;
+    map.setStyle(targetStyle);
+  }, [getMapStyle, map, resolvedTheme]);
 
   // toggle marker visibility based on filterParams without changing positions
   useEffect(() => {
@@ -314,26 +351,66 @@ export default function SimpleMap() {
  
   return (
     <>
-  {/* 検索ヘッダーをマップの上に配置 */}
-  <SearchHeader showFilterButton={true} onSearch={handleSearch} filterMode="modal" />
+      {/* 検索ヘッダーをマップの上に配置 */}
+      <SearchHeader showFilterButton={true} onSearch={handleSearch} filterMode="modal" />
 
       {/* 外部リンク確認バー （食堂） */}
       {externalConfirm && (
-        <div style={{position: 'fixed', left: 16, right: 16, top: 80, zIndex: 9999, display: 'flex', justifyContent: 'center'}}>
-          <div style={{background: 'white', padding: '10px 16px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.12)', display: 'flex', gap: 8, alignItems: 'center'}}>
-            <div style={{fontWeight: 600}}>{externalConfirm.name} の外部サイトに移動しますか？</div>
+        <div
+          style={{
+            position: 'fixed',
+            left: 16,
+            right: 16,
+            top: 80,
+            zIndex: 9999,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              background: 'var(--color-bg-primary)',
+              color: 'var(--color-text-primary)',
+              padding: '10px 16px',
+              borderRadius: 8,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+              display: 'flex',
+              gap: 8,
+              alignItems: 'center',
+              border: '1px solid var(--color-border-medium)',
+            }}
+          >
+            <div style={{ fontWeight: 600 }}>{externalConfirm.name} の外部サイトに移動しますか？</div>
             <button
               onClick={() => {
                 const newWindow = window.open(externalConfirm.url, '_blank');
                 if (newWindow) newWindow.opener = null;
                 setExternalConfirm(null);
               }}
-              style={{background: '#10B981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
-            >移動する</button>
+              style={{
+                background: '#10B981',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: 6,
+                cursor: 'pointer',
+              }}
+            >
+              移動する
+            </button>
             <button
               onClick={() => setExternalConfirm(null)}
-              style={{background: 'transparent', border: '1px solid #ddd', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
-            >キャンセル</button>
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--color-border-medium)',
+                padding: '8px 12px',
+                borderRadius: 6,
+                cursor: 'pointer',
+                color: 'var(--color-text-primary)',
+              }}
+            >
+              キャンセル
+            </button>
           </div>
         </div>
       )}
@@ -345,13 +422,13 @@ export default function SimpleMap() {
         onSelectExhibition={handleSelectExhibitionFromFloor}
       />
 
-      <ExhibitionModal 
+      <ExhibitionModal
         open={!!selectedBooth} // selectedBooth が null でなければ true
         onClose={() => setSelectedBooth(null)} // 閉じるための関数
         exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
       />
- 
-  <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
+
+      <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
       <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
   );

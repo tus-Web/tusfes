@@ -24,6 +24,9 @@ import { CiStar } from "react-icons/ci";
 import { FiChevronDown } from "react-icons/fi";
 import eventsData from '@/data/events.json';
 
+import ExhibitionModal from '@/src/components/pages/map/ExhibitionModal/ExhibitionModal';
+
+
 type EventData = {
   id: string;
   name: string;
@@ -57,13 +60,19 @@ interface FavoriteItem {
 
 
 export default function Home() {
+
+   const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
+
     const router = useRouter();
     const onBottomBarPressed = (id: string) => {
         router.push(`/${id}`);
     };
 
     const handleSlideClick = (id: string) => {
-      router.push(`/search/detail?id=${id}`);
+      const event = eventsData.find((e) => e.id === id);
+      if (event) {
+        setSelectedBooth(event);
+      }
     }
 
     const [rankedDisplays, setRankedDisplays] = useState<{display_id: number, average: number}[]>([]);
@@ -195,6 +204,11 @@ useEffect(() => {
         <BottomBar activeTab="home" onTabChange={onBottomBarPressed} />
 
         <main className="main">
+           <ExhibitionModal 
+        open={!!selectedBooth} // selectedBooth が null でなければ true
+        onClose={() => setSelectedBooth(null)} // 閉じるための関数
+        exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
+        />
             <h1 className="rankTitle">人気ランキング</h1>
 
             <ol>

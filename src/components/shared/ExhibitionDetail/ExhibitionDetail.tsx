@@ -145,13 +145,6 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
     }
   };
 
-  // Focus management for accessibility
-  useEffect(() => {
-    if (open && closeButtonRef.current) {
-      closeButtonRef.current.focus();
-    }
-  }, [open]);
-
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && open) {

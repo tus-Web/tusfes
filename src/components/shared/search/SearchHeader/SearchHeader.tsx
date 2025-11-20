@@ -190,7 +190,10 @@ export default function SearchHeader({
           <button
             type="button"
             className={`${styles.filterButton} ${styles.filterButtonAction}`}
-            onClick={() => setIsFilterOpen(true)}
+            onClick={(event) => {
+              setIsFilterOpen(true);
+              event.currentTarget.blur();
+            }}
           >
             フィルター
           </button>

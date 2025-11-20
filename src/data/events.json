@@ -705,7 +705,8 @@
     "description": "無線研による無線技術の展示",
     "organization": "無線研",
     "location": "体育館(1/2面)",
-  "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp"
+  "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp",
+    "position": { "lng": 139.8631, "lat": 35.7724 }
   },
   {
     "id": "71",

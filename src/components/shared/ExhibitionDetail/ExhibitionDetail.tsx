@@ -21,8 +21,6 @@ import { ZoomIn, ImageNotSupported, Star, StarBorder } from '@mui/icons-material
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/src/lib/supabase/client';
 import styles from './ExhibitionDetail.module.css';
-import { SupabaseExhibition } from '@/types/event';
-import { useAuth } from '@/src/components/shared/providers/AuthProvider/AuthProvider';
 
 interface Review {
   id: number;
@@ -70,7 +68,6 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
   const [reviews, setReviews] = useState<Review[]>([]);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const { user, loading } = useAuth();
 
   useEffect(() => {
     if (!exhibition?.id) return;
@@ -89,22 +86,15 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
   }, [exhibition?.id]);
 
   useEffect(() => {
-    const checkFavoriteStatus = async () => {
-      if (loading || !exhibition?.id || !user?.id) return;
-
-      const { data, error } = await supabase
-        .from('favorite')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('exhibition_id', exhibition.id);
-
-      if (!error && data) {
-        setIsFavorite(data.length > 0);
-      }
-    };
-
-    checkFavoriteStatus();
-  }, [exhibition, user?.id, loading]);
+    // まず、お気に入りリストをローカルストレージから取得
+    const favoriteExhibitions = JSON.parse(localStorage.getItem('favoriteExhibitions') || '[]');
+    // 現在の展示がリストに含まれているか確認
+    if (exhibition?.id && favoriteExhibitions.includes(exhibition.id)) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  }, [exhibition]);
 
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -177,49 +167,18 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
   }, [open, onClose]);
 
   const onFavoriteClick = () => {
-    const updateFavorite = async () => {
-      if (loading || !exhibition?.id || !user?.id) return;
+    if (!exhibition?.id) return;
 
-      const { data, error } = await supabase
-        .from('favorite')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('exhibition_id', exhibition.id);
-
-      if (error) {
-        console.error('Error checking favorite:', error);
-        return;
-      }
-
-      if (data && data.length > 0) {
-        const { error: deleteError } = await supabase
-          .from('favorite')
-          .delete()
-          .eq('user_id', user.id)
-          .eq('exhibition_id', exhibition.id);
-
-        if (deleteError) {
-          console.error('Error removing favorite:', deleteError);
-        } else {
-          setIsFavorite(false);
-        }
-      } else {
-        const { error: insertError } = await supabase
-          .from('favorite')
-          .insert([{
-            user_id: user.id,
-            exhibition_id: exhibition.id,
-          }]);
-
-        if (insertError) {
-          console.error('Error adding favorite:', insertError);
-        } else {
-          setIsFavorite(true);
-        }
-      }
-    };
-
-    updateFavorite();
+    const favoriteExhibitions = JSON.parse(localStorage.getItem('favoriteExhibitions') || '[]');
+    if (isFavorite) {
+      const updatedFavorites = favoriteExhibitions.filter((id: number) => id !== exhibition.id);
+      localStorage.setItem('favoriteExhibitions', JSON.stringify(updatedFavorites));
+      setIsFavorite(false);
+    } else {
+      favoriteExhibitions.push(exhibition.id);
+      localStorage.setItem('favoriteExhibitions', JSON.stringify(favoriteExhibitions));
+      setIsFavorite(true);
+    }
   };
 
   if (!exhibition) return null;

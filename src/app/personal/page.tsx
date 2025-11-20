@@ -8,10 +8,8 @@ import BottomBar from '@/src/components/shared/layout/BottomBar/BottomBar';
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
 import './styles.css';
 
-import { SupabaseExhibition } from '@/types/event';
-import { supabase } from '@/src/lib/supabase/client';
-import { PostgrestError } from '@supabase/supabase-js';
-import { useAuth } from '@/src/components/shared/providers/AuthProvider/AuthProvider';
+import events from '@/src/data/events.json';
+
 
 interface FavoriteItem {
   id: number;
@@ -23,6 +21,20 @@ interface FavoriteItem {
   organizer: string;
   type: '展示' | 'フード' | 'イベント' | 'アメニティ';
   imageUrl?: string;
+}
+
+interface EventsJSONItem {
+  id: string;
+  name: string;
+  category: string;
+  tags: string[];
+  description: string;
+  organization: string;
+  location: string;
+  floor: string;
+  position: { x: number; y: number };
+  imageUrl?: string;
+  detailUrl?: string;
 }
 
 // const favoriteData: FavoriteItem[] = [
@@ -97,61 +109,32 @@ export default function PersonalPage() {
   const router = useRouter();
   const [favoriteItems, setFavoriteItems] = useState<FavoriteItem[]>([]);
   const [selectedExhibition, setSelectedExhibition] = useState<any | null>(null);
-  const { user, loading } = useAuth();
 
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
   };
 
   useEffect(() => {
-    if (loading || !user?.id) {
-      return;
-    }
+    const favoriteIds = JSON
+      .parse(localStorage.getItem('favoriteExhibitions') || '[]')
+      .map((id: any) => String(id));
 
-    const fetchFavoriteData = async () => {
-      const { data: favoriteExhibitions, error } : { data: any[] | null, error: PostgrestError | null } = await supabase
-        .from("favorite")
-        .select(`
-          exhibition_id,
-          "exhibition table"!favorite_exhibition_id_fkey (
-            id,
-            name,
-            location,
-            schedule,
-            tags,
-            explanation,
-            group_name,
-            type
-          )
-        `)
-        .eq('user_id', user.id);
+    // events.jsonからお気に入りの企画データをフィルタリング
+    const favoriteEvents: EventsJSONItem[] = events.filter(event => favoriteIds.includes(event.id));
+    const favoriteItems: FavoriteItem[] = favoriteEvents.map(event => ({
+      id: Number(event.id),
+      name: event.name,
+      location: event.location,
+      schedule: '',
+      tags: event.tags || [],
+      description: event.description,
+      organizer: event.organization,
+      type: (event.category as '展示' | 'フード' | 'イベント' | 'アメニティ') || '展示',
+      imageUrl: event.imageUrl || undefined,
+    }));
 
-      if (error) {
-        console.error('Error fetching favorite data:', error);
-        return;
-      }
-
-      if (favoriteExhibitions) {
-        const mappedFavoriteItems: FavoriteItem[] = favoriteExhibitions
-          .map((item: any) => item['exhibition table'])
-          .filter((item: SupabaseExhibition | null) => item !== null)
-          .map((item: SupabaseExhibition) => ({
-            id: item.id || -1,
-            name: item.name || '無題',
-            location: item.location || '',
-            schedule: item.schedule || '',
-            tags: item.tags || [],
-            description: item.explanation || '',
-            organizer: item.group_name || '',
-            type: item.type || '展示',
-          }));
-
-        setFavoriteItems(mappedFavoriteItems);
-      }
-    }
-
-    fetchFavoriteData();
-  }, [loading, user?.id]);
+    setFavoriteItems(favoriteItems);
+  }, []);
 
   const handleCardClick = (e: React.MouseEvent, item: FavoriteItem) => {
     e.preventDefault();
@@ -177,11 +160,7 @@ export default function PersonalPage() {
     <div className="personal-page">
       <div className="container">
         <h1 className="page-title">お気に入りの企画</h1>
-        {loading ? (
-          <p className="no-favorites">読み込み中...</p>
-        ) : !user?.id ? (
-          <p className="no-favorites">お気に入りを表示するにはサインインしてください。</p>
-        ) : favoriteItems.length === 0 ? (
+        {favoriteItems.length === 0 ? (
           <p className="no-favorites">お気に入りの企画がありません。</p>
         ) : (
           <div className="favorites-list">

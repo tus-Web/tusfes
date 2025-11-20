@@ -147,4 +147,5 @@
   padding-left: 0;
   margin: 0;
   list-style: none; /* デフォルトの数字（1. 2.）も消す（コンポーネント側で順位を表示しているようなので） */
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
 }

@@ -19,19 +19,19 @@ interface FloorModalProps {
 
 const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelectExhibition }) => {
   const defaultImages = [
-    '/img/floor/1kai.png',
-    '/img/floor/3kai.png',
-    '/img/floor/4kai.png',
-    '/img/floor/5kai.png',
+    '/img/floor/1kai.svg',
+    '/img/floor/3kai.svg',
+    '/img/floor/4kai.svg',
+    '/img/floor/5kai.svg',
   ];
 
   // フロアごとの画像マッピング
   const FLOOR_IMAGES: Record<string, string[]> = {
-    '1F': ['/img/floor/1kai.png'],
-    '3F': ['/img/floor/3kai.png'],
-    '4F': ['/img/floor/4kai.png'],
-    '5F': ['/img/floor/5kai.png'],
-    '6F': ['/img/floor/6kai.png'],
+    '1F': ['/img/floor/1kai.svg'],
+    '3F': ['/img/floor/3kai.svg'],
+    '4F': ['/img/floor/4kai.svg'],
+    '5F': ['/img/floor/5kai.svg'],
+    '6F': ['/img/floor/6kai.svg'],
   };
 
   const [selectedFloor, setSelectedFloor] = useState<string>('1F');

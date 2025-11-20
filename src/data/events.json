@@ -9,7 +9,7 @@
     "location": "模擬店 21",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/1.webp"
   },
   {
     "id": "2",
@@ -21,7 +21,7 @@
     "location": "模擬店 9",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/2.webp"
   },
   {
     "id": "3",
@@ -33,7 +33,7 @@
     "location": "模擬店 23",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/3.webp"
   },
   {
     "id": "4",
@@ -45,7 +45,7 @@
     "location": "模擬店 27",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/4.webp"
   },
   {
     "id": "5",
@@ -57,7 +57,7 @@
     "location": "模擬店 13",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/5.webp"
   },
   {
     "id": "6",
@@ -69,7 +69,7 @@
     "location": "模擬店 24",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/6.webp"
   },
   {
     "id": "7",
@@ -81,7 +81,7 @@
     "location": "模擬店 28",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/7.webp"
   },
   {
     "id": "8",
@@ -93,7 +93,7 @@
     "location": "模擬店 3",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/8.webp"
   },
   {
     "id": "9",
@@ -105,7 +105,7 @@
     "location": "模擬店 10",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/9.webp"
   },
   {
     "id": "10",
@@ -117,7 +117,7 @@
     "location": "模擬店 15",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/10.webp"
   },
   {
     "id": "11",
@@ -129,7 +129,7 @@
     "location": "模擬店 17",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/11.webp"
   },
   {
     "id": "12",
@@ -141,7 +141,7 @@
     "location": "模擬店 5",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/12.webp"
   },
   {
     "id": "13",
@@ -153,7 +153,7 @@
     "location": "模擬店 1",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/13.webp"
   },
   {
     "id": "14",
@@ -165,7 +165,7 @@
     "location": "模擬店 18",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/14.webp"
   },
   {
     "id": "15",
@@ -177,7 +177,7 @@
     "location": "模擬店 25",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/15.webp"
   },
   {
     "id": "16",
@@ -189,7 +189,7 @@
     "location": "模擬店 22",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/16.webp"
   },
   {
     "id": "17",
@@ -201,7 +201,7 @@
     "location": "模擬店 7",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/17.webp"
   },
   {
     "id": "18",
@@ -213,7 +213,7 @@
     "location": "模擬店 11",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/18.webp"
   },
   {
     "id": "19",
@@ -225,7 +225,7 @@
     "location": "模擬店 2",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/19.webp"
   },
   {
     "id": "20",
@@ -237,7 +237,7 @@
     "location": "模擬店 6",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/20.webp"
   },
   {
     "id": "21",
@@ -249,7 +249,7 @@
     "location": "模擬店 4",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/21.webp"
   },
   {
     "id": "22",
@@ -261,7 +261,7 @@
     "location": "模擬店 26",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/22.webp"
   },
   {
     "id": "23",
@@ -273,7 +273,7 @@
     "location": "模擬店 8",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/23.webp"
   },
   {
     "id": "24",
@@ -285,7 +285,7 @@
     "location": "模擬店 20",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/24.webp"
   },
   {
     "id": "25",
@@ -297,7 +297,7 @@
     "location": "模擬店 19",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/25.webp"
   },
   {
     "id": "26",
@@ -309,7 +309,7 @@
     "location": "模擬店 12",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/26.webp"
   },
   {
     "id": "27",
@@ -321,7 +321,7 @@
     "location": "模擬店 14",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/27.webp"
   },
   {
     "id": "28",
@@ -333,7 +333,7 @@
     "location": "模擬店(外部団体） B",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/28.webp"
   },
   {
     "id": "29",
@@ -345,7 +345,7 @@
     "location": "模擬店(外部団体） C",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/29.webp"
   },
   {
     "id": "30",
@@ -357,7 +357,7 @@
     "location": "模擬店(食堂)(外部団体） E",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/30.webp"
   },
   {
     "id": "31",
@@ -369,7 +369,7 @@
     "location": "模擬店(食堂)(外部団体） A",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/31.webp"
   },
   {
     "id": "32",
@@ -381,7 +381,7 @@
     "location": "模擬店(食堂)(外部団体） D",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/32.webp"
   },
   {
     "id": "33",
@@ -393,7 +393,7 @@
     "location": "模擬店（研究棟間)(外部団体） F",
     "floor": "",
     "position": { "x": 0, "y": 0 },
-    "imageUrl": ""
+    "imageUrl": "/img/shop/33.webp"
   },
   {
     "id": "35",

@@ -58,6 +58,13 @@ const boothData = [
   tags: ['屋内'],
     position: { x: 60, y: 40 },
   },
+  {
+    lngLat: [139.863496906492635, 35.77173434640767] as [number, number],
+  id: 5,
+  name: 'ステージ',
+  type: 'イベント',
+  tags: ['屋外'],
+  }
 ];
 
 

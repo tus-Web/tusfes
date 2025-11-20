@@ -12,61 +12,32 @@ import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader';
 
 import type { Feature, Polygon } from 'geojson';
 
+import events from '@/src/data/events.json';
+
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
 // boothData はマーカー表示に必要な最小限の情報だけを持たせます。
 // モーダルに渡す完全な ExhibitionItem 互換オブジェクトは
 // クリック時にマッピングして作成します（余計なデータを配列に持たないため）。
-const boothData = [
-  {
-    // マーカー表示に必要
-    lngLat: [139.8632, 35.7719] as [number, number],
-  id: 1,
-  name: '食堂',
-  type: 'フード',
-  tags: ['フード'],
-    // ミニマップ用の座標（必要ならマッピング時に使う）
-    position: { x: 30, y: 30 },
-  },
-  {
-    // 無線研究部展：位置はそのまま、内容だけ置き換え
-    lngLat: [139.8631, 35.7724] as [number, number],
-    id: 2,
-    name: '無線研究部展',
-    type: '展示',
-    tags: ['屋内', '学生向け', '体験型'],
-    description: '無線研による無線技術の展示',
-    organization: '無線研',
-    location: '体育館(1/2面)',
-    imageUrl: '/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp',
-    detailUrl: 'https://katsufes.com/2025/event/70',
-    position: { x: 60, y: 40 },
-  },
-  {
-    lngLat: [139.8634, 35.7723] as [number, number],
-  id: 3,
-  name: 'フリーマーケット',
-  type: 'フード',
-  tags: ['屋外'],
-    position: { x: 60, y: 40 },
-  },
-  {
-    lngLat: [139.8644, 35.7715] as [number, number],
-  id: 4,
-  name: '講義棟',
-  type: 'イベント',
-  tags: ['屋内'],
-    position: { x: 60, y: 40 },
-  },
-  {
-    lngLat: [139.863496906492635, 35.77173434640767] as [number, number],
-  id: 5,
-  name: 'ステージ',
-  type: 'イベント',
-  tags: ['屋外'],
-  }
-];
 
+const boothData = events
+  .filter(event => event?.position?.lng && event?.position?.lat)
+  .map(event => ({
+    lngLat: [event?.position?.lng, event?.position?.lat] as [number, number],
+    id: event.id,
+    name: event.name,
+    type: event.category || '展示',
+    tags: event.tags || [],
+    description: event.description || '',
+    organization: event.organization || '',
+    location: event.location || '',
+    imageUrl: event.imageUrl || null,
+    detailUrl: event?.detailUrl || null,
+    position: {
+      x: event?.position?.x || 50,
+      y: event?.position?.y || 50,
+    },
+  }));
 
 // bounds を関数外に移動してleーー(再レンダリング時に同じ参照を保つ)
 const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [

@@ -706,5 +706,29 @@
     "organization": "無線研",
     "location": "体育館(1/2面)",
   "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp"
+  },
+  {
+    "id": "1",
+    "name": "食堂",
+    "category": "フード",
+    "tags": ["フード"],
+    "position": { "x": 30, "y": 30, "lng": 139.8632, "lat": 35.7719 },
+    "location": "食堂"
+  },
+  {
+    "id": "3",
+    "name": "フリーマーケット",
+    "category": "フード",
+    "tags": ["屋外"],
+    "position": { "x": 60, "y": 40, "lng": 139.8634, "lat": 35.7723 },
+    "location": "フリーマーケット会場"
+  },
+  {
+    "id": "4",
+    "name": "講義棟",
+    "category": "イベント",
+    "tags": ["屋内"],
+    "position": { "x": 60, "y": 40, "lng": 139.8644, "lat": 35.7715 },
+    "location": "講義棟"
   }
 ]

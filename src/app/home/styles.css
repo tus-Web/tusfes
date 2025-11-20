@@ -16,6 +16,25 @@
   z-index: 10;
 }
 
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.scroll-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.scroll-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
 .swiper {
   width: 100%;
   height: auto;
@@ -128,4 +147,5 @@
   padding-left: 0;
   margin: 0;
   list-style: none; /* デフォルトの数字（1. 2.）も消す（コンポーネント側で順位を表示しているようなので） */
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
 }

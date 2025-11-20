@@ -11,6 +11,7 @@ import './styles.css';
 import { SupabaseExhibition } from '@/types/event';
 import { supabase } from '@/src/lib/supabase/client';
 import { PostgrestError } from '@supabase/supabase-js';
+import { useAuth } from '@/src/components/shared/providers/AuthProvider/AuthProvider';
 
 interface FavoriteItem {
   id: number;
@@ -96,21 +97,34 @@ export default function PersonalPage() {
   const router = useRouter();
   const [favoriteItems, setFavoriteItems] = useState<FavoriteItem[]>([]);
   const [selectedExhibition, setSelectedExhibition] = useState<any | null>(null);
+  const { user, loading } = useAuth();
 
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
   };
 
   useEffect(() => {
-    const fetchFavoriteData = async () => { 
+    if (loading || !user?.id) {
+      return;
+    }
+
+    const fetchFavoriteData = async () => {
       const { data: favoriteExhibitions, error } : { data: any[] | null, error: PostgrestError | null } = await supabase
         .from("favorite")
         .select(`
           exhibition_id,
           "exhibition table"!favorite_exhibition_id_fkey (
-            *
+            id,
+            name,
+            location,
+            schedule,
+            tags,
+            explanation,
+            group_name,
+            type
           )
-        `);
+        `)
+        .eq('user_id', user.id);
 
       if (error) {
         console.error('Error fetching favorite data:', error);
@@ -137,7 +151,7 @@ export default function PersonalPage() {
     }
 
     fetchFavoriteData();
-  }, []);
+  }, [loading, user?.id]);
 
   const handleCardClick = (e: React.MouseEvent, item: FavoriteItem) => {
     e.preventDefault();
@@ -163,7 +177,11 @@ export default function PersonalPage() {
     <div className="personal-page">
       <div className="container">
         <h1 className="page-title">お気に入りの企画</h1>
-        {favoriteItems.length === 0 ? (
+        {loading ? (
+          <p className="no-favorites">読み込み中...</p>
+        ) : !user?.id ? (
+          <p className="no-favorites">お気に入りを表示するにはサインインしてください。</p>
+        ) : favoriteItems.length === 0 ? (
           <p className="no-favorites">お気に入りの企画がありません。</p>
         ) : (
           <div className="favorites-list">

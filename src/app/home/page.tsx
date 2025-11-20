@@ -9,6 +9,7 @@ import './styles.css';
 import styles from './styles.css';
 import ExhibitionCard from "@/src/components/shared/ExhibitionCard/page";
 import Ranking from "@/src/components/pages/home/Ranking/page";
+import PWAInstallPrompt from "@/src/components/shared/PWAInstallPrompt/PWAInstallPrompt";
 
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -20,6 +21,7 @@ import { getEventById } from "@/lib/events";
 import { motion, Variants } from "framer-motion";
 
 import { CiStar } from "react-icons/ci";
+import { FiChevronDown } from "react-icons/fi";
 import eventsData from '@/data/events.json';
 
 type EventData = {
@@ -60,6 +62,10 @@ export default function Home() {
         router.push(`/${id}`);
     };
 
+    const handleSlideClick = (id: string) => {
+      router.push(`/search/detail?id=${id}`);
+    }
+
     const [rankedDisplays, setRankedDisplays] = useState<{display_id: number, average: number}[]>([]);
 
 useEffect(() => {
@@ -90,6 +96,7 @@ useEffect(() => {
 
     return(
     <div>
+        <PWAInstallPrompt />
         <div style={wrapperStyle}>
     <motion.svg
       viewBox="0 0 77.0 57.0"
@@ -125,18 +132,19 @@ useEffect(() => {
 
       <div className="svg-caption">
         <motion.div
+          className="scroll-indicator"
           initial={{ y: 100 }}
           animate={{ y: 50 }}
-
           transition={{
             type: "tween",
             repeat: Infinity,
             repeatType: "reverse",
             duration: 1,
           }}
-          >
-            ↓SCROOL
-          </motion.div>
+        >
+          <span className="scroll-label">SCROLL</span>
+          <FiChevronDown className="scroll-icon" aria-hidden="true" />
+        </motion.div>
       </div>
     </div>
         <Swiper
@@ -158,7 +166,10 @@ useEffect(() => {
             
             
             <SwiperSlide key={event.id}>
-              <div className="slide-content-weapper">
+              <div className="slide-content-weapper"
+                onClick={() => handleSlideClick(event.id)}
+                style={{ cursor: 'pointer'}}
+              >
               {event.imageUrl && (
               <img
                 src={event.imageUrl}

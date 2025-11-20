@@ -1,6 +1,6 @@
 import './globals.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { Noto_Sans_JP } from 'next/font/google';
 import ThemeProvider from '@/components/shared/providers/ThemeProvider/ThemeProvider';
@@ -15,6 +15,14 @@ const noto = Noto_Sans_JP({
   variable: '--font-noto',
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#10B981',
+};
+
 export const metadata: Metadata = {
   // 1. 基本情報 (SEOの最重要項目)
   title: {
@@ -23,6 +31,14 @@ export const metadata: Metadata = {
   },
   description: '東京理科大学葛飾キャンパスで開催される理大祭の当日用サイトです。開催日程、企画情報、アクセス、出展団体、ゲスト情報などを掲載しています。皆様のご来場をお待ちしております！',
   keywords: ['理大祭', '東京理科大学', '理科大', '学園祭', '大学祭', '神楽坂', '葛飾', '野田'],
+
+  // PWA設定
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '理大祭',
+  },
 
   // 2. OGP (SNSシェア対策)
   openGraph: {

@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { X } from 'lucide-react';
 
-type CategoryType = '展示' | 'フード' | 'イベント' | 'アメニティ';
+type CategoryType = '全て' | '展示' | 'フード' | 'イベント' | 'アメニティ';
 
-const categories: CategoryType[] = ['展示', 'フード', 'イベント', 'アメニティ'];
+const categories: CategoryType[] = ['全て', '展示', 'フード', 'イベント', 'アメニティ'];
 
 const allTags = [
   '家族におすすめ',
@@ -36,7 +36,7 @@ function FilterContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType>('展示');
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>('全て');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -78,7 +78,9 @@ function FilterContent() {
 
   const handleApply = () => {
     const params = new URLSearchParams();
-    params.set('category', selectedCategory);
+    if (selectedCategory !== '全て') {
+      params.set('category', selectedCategory);
+    }
     if (selectedTags.length > 0) {
       params.set('tags', selectedTags.join(','));
     }
@@ -93,7 +95,7 @@ function FilterContent() {
   };
 
   const handleReset = () => {
-    setSelectedCategory('展示');
+    setSelectedCategory('全て');
     setSelectedTags([]);
     setSelectedLocations([]);
     setSearchQuery('');

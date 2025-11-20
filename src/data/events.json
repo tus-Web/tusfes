@@ -1,5 +1,401 @@
 [
   {
+    "id": "1",
+    "name": "フランクフルト",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "アイスホッケー部によるフランクフルト販売の模擬店です。",
+    "organization": "アイスホッケー部",
+    "location": "模擬店 21",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "2",
+    "name": "麻生研のすいぎょーざ",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "AsoLabによる水餃子販売の模擬店です。",
+    "organization": "AsoLab",
+    "location": "模擬店 9",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "3",
+    "name": "焼きそばでぶっ決めるしかない",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "東京理科大学Ⅰ部体育局バスケットボール部による焼きそばの模擬店です。",
+    "organization": "東京理科大学Ⅰ部体育局バスケットボール部",
+    "location": "模擬店 23",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "4",
+    "name": "理科大ロングチュロス",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "I部無線研究部によるロングチュロス販売の模擬店です。",
+    "organization": "I部無線研究部",
+    "location": "模擬店 27",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "5",
+    "name": "トルネードポテト",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "GRASSによるトルネードポテト販売の模擬店です。",
+    "organization": "GRASS",
+    "location": "模擬店 13",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "6",
+    "name": "豚汁",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "ジャグリングサークル Terza Donnaによる豚汁の模擬店です。",
+    "organization": "ジャグリングサークル Terza Donna",
+    "location": "模擬店 24",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "7",
+    "name": "高橋研究室おでん",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "高橋研究室によるおでん販売の模擬店です。",
+    "organization": "高橋研究室",
+    "location": "模擬店 28",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "8",
+    "name": "あげもち",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "アカペラサークル「chum」による揚げ餅の模擬店です。",
+    "organization": "アカペラサークル「chum」",
+    "location": "模擬店 3",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "9",
+    "name": "焼きそば柳岡亭",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "剣道部による焼きそば模擬店「焼きそば柳岡亭」です。",
+    "organization": "剣道部",
+    "location": "模擬店 10",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "10",
+    "name": "飛び込め！たいやき沼",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "葛飾水泳部によるたい焼きの模擬店です。",
+    "organization": "葛飾水泳部",
+    "location": "模擬店 15",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "11",
+    "name": "洋弓の多いホットドッグ屋さん",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "I部体育局洋弓部によるホットドッグの模擬店です。",
+    "organization": "I部体育局洋弓部",
+    "location": "模擬店 17",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "12",
+    "name": "五平餅販売",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "理科大写真部による五平餅販売の模擬店です。",
+    "organization": "理科大写真部",
+    "location": "模擬店 5",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "13",
+    "name": "エブナおばさんのわたあめ",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "ebnamによるわたあめの模擬店です。",
+    "organization": "ebnam",
+    "location": "模擬店 1",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "14",
+    "name": "たこ焼き",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "管弦楽団によるたこ焼きの模擬店です。",
+    "organization": "管弦楽団",
+    "location": "模擬店 18",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "15",
+    "name": "揚げパスタ",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "WhiteLiberによる揚げパスタ販売の模擬店です。",
+    "organization": "WhiteLiber",
+    "location": "模擬店 25",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "16",
+    "name": "ゆるポテト",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "東京理科大学サイクリング同好会によるフライドポテトの模擬店です。",
+    "organization": "東京理科大学サイクリング同好会",
+    "location": "模擬店 22",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "17",
+    "name": "もちとろチーズボール屋さん",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "東京理科大学チアダンスサークルCelestiaによるもちとろチーズボールの模擬店です。",
+    "organization": "東京理科大学チアダンスサークルCelestia",
+    "location": "模擬店 7",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "18",
+    "name": "食べられるスライムを作ろう！",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "東京理科大学地域貢献サークル カナラボによる食べられるスライム作りの模擬店です。",
+    "organization": "東京理科大学地域貢献サークル カナラボ",
+    "location": "模擬店 11",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "19",
+    "name": "焼き鳥人間",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "鳥人間サークル鳥科による焼き鳥の模擬店です。",
+    "organization": "鳥人間サークル鳥科",
+    "location": "模擬店 2",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "20",
+    "name": "チョコ★バナナ－葛飾に、挑め。",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "AULAによるチョコバナナの模擬店です。",
+    "organization": "AULA",
+    "location": "模擬店 6",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "21",
+    "name": "幸せのやくすもあ",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "東京理科大学薬学部バレーボール部によるフード・ドリンクの模擬店です。",
+    "organization": "東京理科大学薬学部バレーボール部",
+    "location": "模擬店 4",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "22",
+    "name": "芋煮会",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "常盤研究室 芋煮班による芋煮の模擬店です。",
+    "organization": "常盤研究室 芋煮班",
+    "location": "模擬店 26",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "23",
+    "name": "ホットドリンク販売店",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "薬理班によるホットドリンクの模擬店です。",
+    "organization": "薬理班",
+    "location": "模擬店 8",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "24",
+    "name": "GI ぎょうざ",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "理科大生協かつしか支部による餃子販売の模擬店です。",
+    "organization": "理科大生協かつしか支部",
+    "location": "模擬店 20",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "25",
+    "name": "じゃがバター",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "葛飾地区理大祭実行委員会によるじゃがバターの模擬店です。",
+    "organization": "葛飾地区理大祭実行委員会",
+    "location": "模擬店 19",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "26",
+    "name": "みんな大好き『肉巻きおにぎり』",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "理科大ポーカーサークルによる肉巻きおにぎりの模擬店です。",
+    "organization": "理科大ポーカーサークル",
+    "location": "模擬店 12",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "27",
+    "name": "Sweet Biosphere",
+    "category": "模擬店",
+    "tags": ["模擬店", "学内"],
+    "description": "坊ちゃんLab.によるスイーツ企画「Sweet Biosphere」の模擬店です。",
+    "organization": "坊ちゃんLab.",
+    "location": "模擬店 14",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "28",
+    "name": "販売企画",
+    "category": "模擬店",
+    "tags": ["模擬店", "外部団体"],
+    "description": "ＪＡ東京スマイル葛飾直売部会による野菜や特産品の販売企画です。",
+    "organization": "ＪＡ東京スマイル葛飾直売部会",
+    "location": "模擬店(外部団体） B",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "29",
+    "name": "マカロン･焼き菓子･ドリンク",
+    "category": "模擬店",
+    "tags": ["模擬店", "外部団体"],
+    "description": "森のケーキ屋 どんぐりによるマカロンや焼き菓子、ドリンクの模擬店です。",
+    "organization": "森のケーキ屋 どんぐり",
+    "location": "模擬店(外部団体） C",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "30",
+    "name": "伝統的な和菓子などの販売",
+    "category": "模擬店",
+    "tags": ["模擬店", "外部団体"],
+    "description": "菓匠 岩月による伝統的な和菓子などの販売模擬店です。",
+    "organization": "菓匠 岩月",
+    "location": "模擬店(食堂)(外部団体） E",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "31",
+    "name": "柴又のおだんご屋さん",
+    "category": "模擬店",
+    "tags": ["模擬店", "外部団体"],
+    "description": "柴又 亀家本舗によるおだんごの模擬店です。",
+    "organization": "柴又 亀家本舗",
+    "location": "模擬店(食堂)(外部団体） A",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "32",
+    "name": "葛飾産「野菜」販売",
+    "category": "模擬店",
+    "tags": ["模擬店", "外部団体"],
+    "description": "JA東京スマイル葛飾直売部会による葛飾産野菜の販売模擬店です。",
+    "organization": "JA東京スマイル葛飾直売部会",
+    "location": "模擬店(食堂)(外部団体） D",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
+    "id": "33",
+    "name": "プラレールで新金線旅客化を再現！",
+    "category": "模擬店",
+    "tags": ["模擬店", "外部団体"],
+    "description": "新金線いいね！区民の会によるプラレールで新金線旅客化を再現する体験型模擬店です。",
+    "organization": "新金線いいね！区民の会",
+    "location": "模擬店（研究棟間)(外部団体） F",
+    "floor": "",
+    "position": { "x": 0, "y": 0 },
+    "imageUrl": ""
+  },
+  {
     "id": "35",
     "name": "理大祭公演",
     "category": "イベント",
@@ -9,8 +405,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 18, "y": 20 },
-  "imageUrl": "/img/exhibition/Ⅰ部演劇部劇団羅夢駝_Web紹介画像.Dbs1teuZ_Z100Lev.webp",
-    "detailUrl": "https://katsufes.com/2025/event/35"
+  "imageUrl": "/img/exhibition/Ⅰ部演劇部劇団羅夢駝_Web紹介画像.Dbs1teuZ_Z100Lev.webp"
   },
   {
     "id": "36",
@@ -22,8 +417,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 36, "y": 20 },
-  "imageUrl": "/img/exhibition/Ⅰ部体育局神楽坂合気道部_Web紹介画像.DDlg2vPS_ZfD4uJ.webp",
-    "detailUrl": "https://katsufes.com/2025/event/36"
+  "imageUrl": "/img/exhibition/Ⅰ部体育局神楽坂合気道部_Web紹介画像.DDlg2vPS_ZfD4uJ.webp"
   },
   {
     "id": "37",
@@ -35,8 +429,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 54, "y": 20 },
-  "imageUrl": "/img/exhibition/化石鉱物研究会_Web紹介画像.D_Sy7bMv_1fkphf.webp",
-    "detailUrl": "https://katsufes.com/2025/event/37"
+  "imageUrl": "/img/exhibition/化石鉱物研究会_Web紹介画像.D_Sy7bMv_1fkphf.webp"
   },
   {
     "id": "38",
@@ -48,8 +441,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 72, "y": 20 },
-  "imageUrl": "/img/exhibition/情報技術クラブ_Web紹介画像.dYUaNsJW_Z2bPix8.webp",
-    "detailUrl": "https://katsufes.com/2025/event/38"
+  "imageUrl": "/img/exhibition/情報技術クラブ_Web紹介画像.dYUaNsJW_Z2bPix8.webp"
   },
   {
     "id": "39",
@@ -61,8 +453,7 @@
     "location": "講義棟",
     "floor": "2F",
     "position": { "x": 22, "y": 48 },
-  "imageUrl": "/img/exhibition/デジタルファブリケーション同好会Fabri._Web紹介画像.QmGwUBEy_2ipubR.webp",
-    "detailUrl": "https://katsufes.com/2025/event/39"
+  "imageUrl": "/img/exhibition/デジタルファブリケーション同好会Fabri._Web紹介画像.QmGwUBEy_2ipubR.webp"
   },
   {
     "id": "40",
@@ -74,8 +465,7 @@
     "location": "講義棟",
     "floor": "2F",
     "position": { "x": 42, "y": 48 },
-  "imageUrl": "/img/exhibition/アカペラサークル「chum」_Web紹介画像_3.BeO1UXSc_ZNFDF0.webp",
-    "detailUrl": "https://katsufes.com/2025/event/40"
+  "imageUrl": "/img/exhibition/アカペラサークル「chum」_Web紹介画像_3.BeO1UXSc_ZNFDF0.webp"
   },
   {
     "id": "41",
@@ -87,8 +477,7 @@
     "location": "講義棟",
     "floor": "2F",
     "position": { "x": 62, "y": 48 },
-  "imageUrl": "/img/exhibition/東京理科大学I部文化会写真部_Web紹介画像.DZFYQrGU_1GnQAy.webp",
-    "detailUrl": "https://katsufes.com/2025/event/41"
+  "imageUrl": "/img/exhibition/東京理科大学I部文化会写真部_Web紹介画像.DZFYQrGU_1GnQAy.webp"
   },
   {
     "id": "42",
@@ -100,8 +489,7 @@
     "location": "講義棟",
     "floor": "2F",
     "position": { "x": 82, "y": 48 },
-  "imageUrl": "/img/exhibition/Ⅰ部漫画研究同好会_Web紹介画像.DtYLFV3h_25WDuy.webp",
-    "detailUrl": "https://katsufes.com/2025/event/42"
+  "imageUrl": "/img/exhibition/Ⅰ部漫画研究同好会_Web紹介画像.DtYLFV3h_25WDuy.webp"
   },
   {
     "id": "43",
@@ -113,8 +501,7 @@
     "location": "講義棟",
     "floor": "3F",
     "position": { "x": 22, "y": 76 },
-  "imageUrl": "/img/exhibition/東京理科大学折り紙サークル Oriate_Web紹介画像.CF85ZGNw_KdHGL.webp",
-    "detailUrl": "https://katsufes.com/2025/event/43"
+  "imageUrl": "/img/exhibition/東京理科大学折り紙サークル Oriate_Web紹介画像.CF85ZGNw_KdHGL.webp"
   },
   {
     "id": "44",
@@ -126,8 +513,7 @@
     "location": "講義棟",
     "floor": "3F",
     "position": { "x": 42, "y": 76 },
-  "imageUrl": "/img/exhibition/東京理科大学葛飾スマサー_Web紹介画像.k7ZHctfN_ZSmUSU.webp",
-    "detailUrl": "https://katsufes.com/2025/event/44"
+  "imageUrl": "/img/exhibition/東京理科大学葛飾スマサー_Web紹介画像.k7ZHctfN_ZSmUSU.webp"
   },
   {
     "id": "45",
@@ -139,8 +525,7 @@
     "location": "講義棟",
     "floor": "3F",
     "position": { "x": 62, "y": 76 },
-  "imageUrl": "/img/exhibition/_東京理科大学管弦楽団_講義棟_Web紹介画像.Dd45nvLu_Z20V7wr.webp",
-    "detailUrl": "https://katsufes.com/2025/event/45"
+  "imageUrl": "/img/exhibition/_東京理科大学管弦楽団_講義棟_Web紹介画像.Dd45nvLu_Z20V7wr.webp"
   },
   {
     "id": "46",
@@ -152,8 +537,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 18, "y": 36 },
-  "imageUrl": "/img/exhibition/東京理科大学サイクリング同好会_Web紹介画像.juboDkRy_ke10s.webp",
-    "detailUrl": "https://katsufes.com/2025/event/46"
+  "imageUrl": "/img/exhibition/東京理科大学サイクリング同好会_Web紹介画像.juboDkRy_ke10s.webp"
   },
   {
     "id": "47",
@@ -165,8 +549,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 36, "y": 36 },
-  "imageUrl": "/img/exhibition/東京理科大学地域貢献サークル カナラボ_Web紹介画像.BfV1ZxbH_oQwPG.webp",
-    "detailUrl": "https://katsufes.com/2025/event/47"
+  "imageUrl": "/img/exhibition/東京理科大学地域貢献サークル カナラボ_Web紹介画像.BfV1ZxbH_oQwPG.webp"
   },
   {
     "id": "48",
@@ -178,8 +561,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 54, "y": 36 },
-  "imageUrl": "/img/exhibition/東京理科大学鳥人間サークル鳥科_Web紹介画像 .D2pc8Xes_Z21TQAq.webp",
-    "detailUrl": "https://katsufes.com/2025/event/48"
+  "imageUrl": "/img/exhibition/東京理科大学鳥人間サークル鳥科_Web紹介画像 .D2pc8Xes_Z21TQAq.webp"
   },
   {
     "id": "49",
@@ -191,8 +573,7 @@
     "location": "講義棟",
     "floor": "1F",
     "position": { "x": 72, "y": 36 },
-  "imageUrl": "/img/exhibition/非電源ゲーム研究会葛飾Edition_Web紹介画像.BxETj5KS_1yK3Qr.webp",
-    "detailUrl": "https://katsufes.com/2025/event/49"
+  "imageUrl": "/img/exhibition/非電源ゲーム研究会葛飾Edition_Web紹介画像.BxETj5KS_1yK3Qr.webp"
   },
   {
     "id": "50",
@@ -204,8 +585,7 @@
     "location": "講義棟",
     "floor": "2F",
     "position": { "x": 18, "y": 62 },
-  "imageUrl": "/img/exhibition/Pharman_Web紹介画像.rJaPlCxn_2wg5Lv.webp",
-    "detailUrl": "https://katsufes.com/2025/event/50"
+  "imageUrl": "/img/exhibition/Pharman_Web紹介画像.rJaPlCxn_2wg5Lv.webp"
   },
   {
     "id": "51",
@@ -217,8 +597,7 @@
     "location": "講義棟",
     "floor": "2F",
     "position": { "x": 36, "y": 62 },
-  "imageUrl": "/img/exhibition/理科大ポーカーサークル_Web紹介画像.BY_J4ofB_1utClL.webp",
-    "detailUrl": "https://katsufes.com/2025/event/51"
+  "imageUrl": "/img/exhibition/理科大ポーカーサークル_Web紹介画像.BY_J4ofB_1utClL.webp"
   },
   {
     "id": "52",
@@ -230,8 +609,7 @@
     "location": "講義棟（外部団体）",
     "floor": "2F",
     "position": { "x": 54, "y": 62 },
-  "imageUrl": "/img/exhibition/葛飾区高齢者支援課_web紹介画像.DM_00fdA_UIkiB.webp",
-    "detailUrl": "https://katsufes.com/2025/event/52"
+  "imageUrl": "/img/exhibition/葛飾区高齢者支援課_web紹介画像.DM_00fdA_UIkiB.webp"
   },
   {
     "id": "53",
@@ -243,8 +621,7 @@
     "location": "講義棟（外部団体）",
     "floor": "2F",
     "position": { "x": 72, "y": 62 },
-  "imageUrl": "/img/exhibition/保健所_サークルカット.Bibm6ZpE_ZpOSB1.webp",
-    "detailUrl": "https://katsufes.com/2025/event/53"
+  "imageUrl": "/img/exhibition/保健所_サークルカット.Bibm6ZpE_ZpOSB1.webp"
   },
   {
     "id": "54",
@@ -256,8 +633,7 @@
     "location": "講義棟（外部団体）",
     "floor": "3F",
     "position": { "x": 36, "y": 76 },
-  "imageUrl": "/img/exhibition/政策企画課 03_サークルカットWeb紹介画像【葛飾区】Fitness Lab.CDTS843D_Z1Aw1K0.webp",
-    "detailUrl": "https://katsufes.com/2025/event/54"
+  "imageUrl": "/img/exhibition/政策企画課 03_サークルカットWeb紹介画像【葛飾区】Fitness Lab.CDTS843D_Z1Aw1K0.webp"
   },
   {
     "id": "55",
@@ -269,8 +645,7 @@
     "location": "講義棟（外部団体）",
     "floor": "3F",
     "position": { "x": 62, "y": 76 },
-  "imageUrl": "/img/exhibition/葛飾区薬剤師会　WEB紹介画像　2024.NHMs14Sg_Z1czfL5.webp",
-    "detailUrl": "https://katsufes.com/2025/event/55"
+  "imageUrl": "/img/exhibition/葛飾区薬剤師会　WEB紹介画像　2024.NHMs14Sg_Z1czfL5.webp"
   },
   {
     "id": "65",
@@ -280,8 +655,7 @@
     "description": "アカペラサークル「chum」による歌唱披露",
     "organization": "アカペラサークル「chum」",
     "location": "図書館ホール",
-  "imageUrl": "/img/exhibition/アカペラサークル「chum」_Web紹介画像_3.BeO1UXSc_ZNFDF0.webp",
-    "detailUrl": "https://katsufes.com/2025/event/65"
+  "imageUrl": "/img/exhibition/アカペラサークル「chum」_Web紹介画像_3.BeO1UXSc_ZNFDF0.webp"
   },
   {
     "id": "66",
@@ -291,8 +665,7 @@
     "description": "管弦楽団によるアンサンブル・演奏",
     "organization": "管弦楽団",
     "location": "図書館ホール",
-  "imageUrl": "/img/exhibition/_東京理科大学管弦楽団_講義棟_Web紹介画像.Dd45nvLu_Z20V7wr.webp",
-    "detailUrl": "https://katsufes.com/2025/event/66"
+  "imageUrl": "/img/exhibition/_東京理科大学管弦楽団_講義棟_Web紹介画像.Dd45nvLu_Z20V7wr.webp"
   },
   {
     "id": "67",
@@ -302,8 +675,7 @@
     "description": "東京理科大学ピアノの会によるピアノコンサート",
     "organization": "東京理科大学ピアノの会",
     "location": "図書館ホール",
-  "imageUrl": "/img/exhibition/67.jpg",
-    "detailUrl": "https://katsufes.com/2025/event/67"
+  "imageUrl": "/img/exhibition/67.jpg"
   },
   {
     "id": "68",
@@ -313,8 +685,7 @@
     "description": "LilyN Dance Studioによるダンスパフォーマンス",
     "organization": "LilyN Dance Studio",
     "location": "図書館ホール（外部団体）",
-  "imageUrl": "/img/exhibition/68.jpg",
-    "detailUrl": "https://katsufes.com/2025/event/68"
+  "imageUrl": "/img/exhibition/68.jpg"
   },
   {
     "id": "69",
@@ -324,8 +695,7 @@
     "description": "ルネサンスKSC金町キッズダンスによるダンスパフォーマンス",
     "organization": "ルネサンスKSC金町キッズダンス",
     "location": "図書館ホール（外部団体）",
-  "imageUrl": "/img/exhibition/69.jpg",
-    "detailUrl": "https://katsufes.com/2025/event/69"
+  "imageUrl": "/img/exhibition/69.jpg"
   },
   {
     "id": "70",
@@ -335,7 +705,6 @@
     "description": "無線研による無線技術の展示",
     "organization": "無線研",
     "location": "体育館(1/2面)",
-  "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp",
-    "detailUrl": "https://katsufes.com/2025/event/70"
+  "imageUrl": "/img/exhibition/Ⅰ部無線研究部_Web紹介画像.sFvD4N3e_2bDcVu.webp"
   }
 ]

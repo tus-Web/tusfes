@@ -58,6 +58,13 @@ const boothData = [
   tags: ['屋内'],
     position: { x: 60, y: 40 },
   },
+  {
+    lngLat: [139.863496906492635, 35.77173434640767] as [number, number],
+  id: 5,
+  name: 'ステージ',
+  type: 'イベント',
+  tags: ['屋外'],
+  }
 ];
 
 
@@ -78,10 +85,18 @@ export default function SimpleMap() {
   // ここでは any を使って互換性を確保します。必要なら共通型に差し替えてください。
   const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
   const [floorOpen, setFloorOpen] = useState(false);
-  const [filterParams, setFilterParams] = useState<{ category: string; query: string; tag: string | null }>({
+  const [filterParams, setFilterParams] = useState<{
+    category: string;
+    query: string;
+    tag: string | null;
+    tags: string[];
+    locations: string[];
+  }>({
     category: '全て',
     query: '',
     tag: null,
+    tags: [],
+    locations: [],
   });
 
   // external link confirmation state for 食堂
@@ -108,7 +123,7 @@ export default function SimpleMap() {
       reviews: [],
     } as any;
 
-    // Open ExhibitionModal but keep FloorModal open
+    // Open ExhibitionModal but keep the floor modal visible so users can easily reopen other booths
     setSelectedBooth(mapped);
   };
 
@@ -117,8 +132,20 @@ export default function SimpleMap() {
   };
 
   // SearchHeader からの検索条件を受け取る（マップ上のピンは位置を変えず表示/非表示を切替）
-  const handleSearch = (params: { category: string; query: string; tag: string | null }) => {
-    setFilterParams(params);
+  const handleSearch = (params: {
+    category: string;
+    query: string;
+    tag: string | null;
+    tags?: string[];
+    locations?: string[];
+  }) => {
+    setFilterParams((prev) => ({
+      category: params.category,
+      query: params.query,
+      tag: params.tag,
+      tags: params.tags ?? prev.tags,
+      locations: params.locations ?? prev.locations,
+    }));
   };
 
   useEffect(() => {
@@ -284,7 +311,7 @@ export default function SimpleMap() {
   useEffect(() => {
     if (!markersRef.current || markersRef.current.length === 0) return;
 
-    const { category, query, tag } = filterParams;
+    const { category, query, tag, tags, locations } = filterParams;
 
     markersRef.current.forEach(({ booth, marker }) => {
       let visible = true;
@@ -298,6 +325,17 @@ export default function SimpleMap() {
       if (tag) {
         visible = visible && Array.isArray(booth.tags) && booth.tags.includes(tag);
       }
+      if (tags && tags.length > 0) {
+        visible = visible && Array.isArray(booth.tags) && tags.every((t) => booth.tags.includes(t));
+      }
+      if (locations && locations.length > 0) {
+        const boothLocation = (booth as any).location;
+        if (typeof boothLocation === 'string' && boothLocation.length > 0) {
+          visible = visible && locations.some((loc) => boothLocation.includes(loc));
+        } else {
+          visible = false;
+        }
+      }
 
       const el = marker.getElement();
       el.style.display = visible ? '' : 'none';
@@ -307,7 +345,7 @@ export default function SimpleMap() {
   return (
     <>
   {/* 検索ヘッダーをマップの上に配置 */}
-  <SearchHeader showFilterButton={true} onSearch={handleSearch} />
+  <SearchHeader showFilterButton={true} onSearch={handleSearch} filterMode="modal" />
 
       {/* 外部リンク確認バー （食堂） */}
       {externalConfirm && (
@@ -334,6 +372,7 @@ export default function SimpleMap() {
       <FloorModal
         open={floorOpen}
         onClose={() => setFloorOpen(false)}
+        onSelectExhibition={handleSelectExhibitionFromFloor}
       />
 
       <ExhibitionModal 

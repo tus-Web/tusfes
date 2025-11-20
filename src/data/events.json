@@ -403,8 +403,8 @@
     "description": "演劇部劇団羅夢駝による舞台公演",
     "organization": "演劇部劇団羅夢駝",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 18, "y": 20 },
+    "floor": "6F",
+    "position": { "x": 56, "y": 70 },
   "imageUrl": "/img/exhibition/Ⅰ部演劇部劇団羅夢駝_Web紹介画像.Dbs1teuZ_Z100Lev.webp"
   },
   {
@@ -415,8 +415,8 @@
     "description": "神楽坂合気道部による合気道の実演と体験",
     "organization": "神楽坂合気道部",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 36, "y": 20 },
+    "floor": "5F",
+    "position": { "x": 42, "y": 70 },
   "imageUrl": "/img/exhibition/Ⅰ部体育局神楽坂合気道部_Web紹介画像.DDlg2vPS_ZfD4uJ.webp"
   },
   {
@@ -427,8 +427,8 @@
     "description": "化石鉱物研究会による琥珀磨き体験",
     "organization": "化石鉱物研究会",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 54, "y": 20 },
+    "floor": "4F",
+    "position": { "x": 30, "y": 30 },
   "imageUrl": "/img/exhibition/化石鉱物研究会_Web紹介画像.D_Sy7bMv_1fkphf.webp"
   },
   {
@@ -439,8 +439,8 @@
     "description": "情報技術クラブによる作品展示",
     "organization": "情報技術クラブ",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 72, "y": 20 },
+    "floor": "5F",
+    "position": { "x": 27, "y": 70 },
   "imageUrl": "/img/exhibition/情報技術クラブ_Web紹介画像.dYUaNsJW_Z2bPix8.webp"
   },
   {
@@ -451,8 +451,8 @@
     "description": "デジタルファブリケーション同好会Fabri.によるものづくり展示",
     "organization": "デジタルファブリケーション同好会Fabri.",
     "location": "講義棟",
-    "floor": "2F",
-    "position": { "x": 22, "y": 48 },
+    "floor": "5F",
+    "position": { "x": 73, "y": 30 },
   "imageUrl": "/img/exhibition/デジタルファブリケーション同好会Fabri._Web紹介画像.QmGwUBEy_2ipubR.webp"
   },
   {
@@ -463,8 +463,8 @@
     "description": "アカペラサークル「chum」による歌唱披露",
     "organization": "アカペラサークル「chum」",
     "location": "講義棟",
-    "floor": "2F",
-    "position": { "x": 42, "y": 48 },
+    "floor": "6F",
+    "position": { "x": 29, "y": 70 },
   "imageUrl": "/img/exhibition/アカペラサークル「chum」_Web紹介画像_3.BeO1UXSc_ZNFDF0.webp"
   },
   {
@@ -475,8 +475,8 @@
     "description": "理科大写真部による写真作品展示",
     "organization": "理科大写真部",
     "location": "講義棟",
-    "floor": "2F",
-    "position": { "x": 62, "y": 48 },
+    "floor": "4F",
+    "position": { "x": 27, "y": 70 },
   "imageUrl": "/img/exhibition/東京理科大学I部文化会写真部_Web紹介画像.DZFYQrGU_1GnQAy.webp"
   },
   {
@@ -487,8 +487,8 @@
     "description": "Ⅰ部漫画研究同好会による漫画作品展示",
     "organization": "Ⅰ部漫画研究同好会",
     "location": "講義棟",
-    "floor": "2F",
-    "position": { "x": 82, "y": 48 },
+    "floor": "6F",
+    "position": { "x": 60, "y": 30 },
   "imageUrl": "/img/exhibition/Ⅰ部漫画研究同好会_Web紹介画像.DtYLFV3h_25WDuy.webp"
   },
   {
@@ -499,8 +499,8 @@
     "description": "折り紙サークル Oriateによる折り紙作品展示",
     "organization": "折り紙サークル Oriate",
     "location": "講義棟",
-    "floor": "3F",
-    "position": { "x": 22, "y": 76 },
+    "floor": "5F",
+    "position": { "x": 70, "y": 70 },
   "imageUrl": "/img/exhibition/東京理科大学折り紙サークル Oriate_Web紹介画像.CF85ZGNw_KdHGL.webp"
   },
   {
@@ -511,8 +511,8 @@
     "description": "葛飾スマサーによるスマブラ体験",
     "organization": "葛飾スマサー",
     "location": "講義棟",
-    "floor": "3F",
-    "position": { "x": 42, "y": 76 },
+    "floor": "4F",
+    "position": { "x": 75, "y": 30 },
   "imageUrl": "/img/exhibition/東京理科大学葛飾スマサー_Web紹介画像.k7ZHctfN_ZSmUSU.webp"
   },
   {
@@ -523,8 +523,8 @@
     "description": "管弦楽団によるアンサンブル演奏",
     "organization": "管弦楽団",
     "location": "講義棟",
-    "floor": "3F",
-    "position": { "x": 62, "y": 76 },
+    "floor": "6F",
+    "position": { "x": 89, "y": 30 },
   "imageUrl": "/img/exhibition/_東京理科大学管弦楽団_講義棟_Web紹介画像.Dd45nvLu_Z20V7wr.webp"
   },
   {
@@ -535,8 +535,8 @@
     "description": "東京理科大学サイクリング同好会によるサイクリング体験",
     "organization": "東京理科大学サイクリング同好会",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 18, "y": 36 },
+    "floor": "6F",
+    "position": { "x": 70, "y": 70 },
   "imageUrl": "/img/exhibition/東京理科大学サイクリング同好会_Web紹介画像.juboDkRy_ke10s.webp"
   },
   {
@@ -547,20 +547,20 @@
     "description": "東京理科大学地域貢献サークル カナラボによる科学体験",
     "organization": "東京理科大学地域貢献サークル カナラボ",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 36, "y": 36 },
+    "floor": "5F",
+    "position": { "x": 55, "y": 70 },
   "imageUrl": "/img/exhibition/東京理科大学地域貢献サークル カナラボ_Web紹介画像.BfV1ZxbH_oQwPG.webp"
   },
   {
-    "id": "48",
+    "id": "30",
     "name": "鳥科滑空機の世界",
     "category": "展示",
     "tags": ["屋内", "学生向け", "写真映え"],
     "description": "東京理科大学鳥人間サークル鳥科による滑空機展示",
     "organization": "東京理科大学鳥人間サークル鳥科",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 54, "y": 36 },
+    "floor": "6F",
+    "position": { "x": 43, "y": 70 },
   "imageUrl": "/img/exhibition/東京理科大学鳥人間サークル鳥科_Web紹介画像 .D2pc8Xes_Z21TQAq.webp"
   },
   {
@@ -571,8 +571,8 @@
     "description": "非電源ゲーム研究会によるボードゲーム体験",
     "organization": "非電源ゲーム研究会",
     "location": "講義棟",
-    "floor": "1F",
-    "position": { "x": 72, "y": 36 },
+    "floor": "5F",
+    "position": { "x": 44, "y": 30 },
   "imageUrl": "/img/exhibition/非電源ゲーム研究会葛飾Edition_Web紹介画像.BxETj5KS_1yK3Qr.webp"
   },
   {
@@ -583,8 +583,8 @@
     "description": "Pharmanによる音楽ライブパフォーマンス",
     "organization": "Pharman",
     "location": "講義棟",
-    "floor": "2F",
-    "position": { "x": 18, "y": 62 },
+    "floor": "6F",
+    "position": { "x": 14, "y": 30 },
   "imageUrl": "/img/exhibition/Pharman_Web紹介画像.rJaPlCxn_2wg5Lv.webp"
   },
   {
@@ -595,8 +595,8 @@
     "description": "理科大ポーカーサークルによるポーカー体験",
     "organization": "理科大ポーカーサークル",
     "location": "講義棟",
-    "floor": "2F",
-    "position": { "x": 36, "y": 62 },
+    "floor": "4F",
+    "position": { "x": 87, "y": 30 },
   "imageUrl": "/img/exhibition/理科大ポーカーサークル_Web紹介画像.BY_J4ofB_1utClL.webp"
   },
   {
@@ -607,8 +607,8 @@
     "description": "葛飾区　高齢者支援課による認知症啓発イベント",
     "organization": "葛飾区　高齢者支援課",
     "location": "講義棟（外部団体）",
-    "floor": "2F",
-    "position": { "x": 54, "y": 62 },
+    "floor": "6F",
+    "position": { "x": 45, "y": 30 },
   "imageUrl": "/img/exhibition/葛飾区高齢者支援課_web紹介画像.DM_00fdA_UIkiB.webp"
   },
   {
@@ -620,7 +620,7 @@
     "organization": "葛飾区保健所　保健予防課",
     "location": "講義棟（外部団体）",
     "floor": "1F",
-    "position": { "x": 72, "y": 62 },
+    "position": { "x": 50, "y": 50 },
   "imageUrl": "/img/exhibition/保健所_サークルカット.Bibm6ZpE_ZpOSB1.webp"
   },
   {
@@ -631,8 +631,8 @@
     "description": "葛飾区・スポーツクラブルネサンス・東京ボディビル・フィットネス連盟によるフィットネス体験",
     "organization": "葛飾区・スポーツクラブルネサンス・東京ボディビル・フィットネス連盟",
     "location": "講義棟（外部団体）",
-    "floor": "3F",
-    "position": { "x": 36, "y": 76 },
+    "floor": "5F",
+    "position": { "x": 88, "y": 30 },
   "imageUrl": "/img/exhibition/政策企画課 03_サークルカットWeb紹介画像【葛飾区】Fitness Lab.CDTS843D_Z1Aw1K0.webp"
   },
   {
@@ -643,8 +643,8 @@
     "description": "一般社団法人葛飾区薬剤師会による健康相談",
     "organization": "一般社団法人葛飾区薬剤師会",
     "location": "講義棟（外部団体）",
-    "floor": "3F",
-    "position": { "x": 62, "y": 76 },
+    "floor": "6F",
+    "position": { "x": 30, "y": 30 },
   "imageUrl": "/img/exhibition/葛飾区薬剤師会　WEB紹介画像　2024.NHMs14Sg_Z1czfL5.webp"
   },
   {

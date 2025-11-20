@@ -22,7 +22,7 @@ import events from '@/src/data/events.json';
 
 const boothData = events
   .filter(event => event?.position?.lng && event?.position?.lat)
-  .map(event => ({
+  .map((event) => ({
     lngLat: [event?.position?.lng, event?.position?.lat] as [number, number],
     id: event.id,
     name: event.name,
@@ -31,8 +31,7 @@ const boothData = events
     description: event.description || '',
     organization: event.organization || '',
     location: event.location || '',
-    imageUrl: event.imageUrl || null,
-    detailUrl: event?.detailUrl || null,
+    imageUrl: event?.imageUrl || null,
     position: {
       x: event?.position?.x || 50,
       y: event?.position?.y || 50,

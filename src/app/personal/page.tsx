@@ -120,7 +120,7 @@ export default function PersonalPage() {
       .map((id: any) => String(id));
 
     // events.jsonからお気に入りの企画データをフィルタリング
-    const favoriteEvents: EventsJSONItem[] = events.filter(event => favoriteIds.includes(event.id));
+    const favoriteEvents: EventsJSONItem[] = events.filter(event => favoriteIds.includes(event.id)) as any[];
     const favoriteItems: FavoriteItem[] = favoriteEvents.map(event => ({
       id: Number(event.id),
       name: event.name,

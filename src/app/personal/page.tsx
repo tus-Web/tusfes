@@ -8,6 +8,7 @@ import BottomBar from '@/src/components/shared/layout/BottomBar/BottomBar';
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
 import './styles.css';
 
+import type { EventsJSONItem } from '@/types/event';
 import events from '@/src/data/events.json';
 
 
@@ -22,88 +23,6 @@ interface FavoriteItem {
   type: '展示' | 'フード' | 'イベント' | 'アメニティ';
   imageUrl?: string;
 }
-
-interface EventsJSONItem {
-  id: string;
-  name: string;
-  category: string;
-  tags: string[];
-  description: string;
-  organization: string;
-  location: string;
-  floor: string;
-  position: { x: number; y: number };
-  imageUrl?: string;
-  detailUrl?: string;
-}
-
-// const favoriteData: FavoriteItem[] = [
-//   {
-//     id: '1',
-//     name: '伝統工芸展示',
-//     location: '展示ホールA',
-//     schedule: '10:00-12:00',
-//     tags: ['伝統', '工芸', '文化'],
-//     description: '日本の伝統工芸品を展示する特別企画。職人たちの技を間近で感じることができます。',
-//     organizer: '文化振興協会',
-//     type: '展示',
-//     imageUrl: '/img/tmp_img1.jpg'
-//   },
-//   {
-//     id: '2',
-//     name: '地元グルメフェスティバル',
-//     location: 'フードコート',
-//     schedule: '11:00-15:00',
-//     tags: ['グルメ', '地元', 'フェスティバル'],
-//     description: '地元の美味しい食べ物を集めたフェスティバル。様々な味覚を楽しめます。',
-//     organizer: '地元商工会',
-//     type: 'フード',
-//     imageUrl: '/img/tmp_img2.jpg'
-//   },
-//   {
-//     id: '3',
-//     name: '音楽ライブイベント',
-//     location: 'メインステージ',
-//     schedule: '18:00-21:00',
-//     tags: ['音楽', 'ライブ', 'エンターテイメント'],
-//     description: '人気アーティストによるライブパフォーマンス。忘れられない夜を過ごせます。',
-//     organizer: 'イベント企画会社',
-//     type: 'イベント',
-//     imageUrl: '/img/tmp_img3.jpg'
-//   },
-//   {
-//     id: '4',
-//     name: 'リラクゼーションコーナー',
-//     location: 'ウェルネスエリア',
-//     schedule: '09:00-17:00',
-//     tags: ['リラクゼーション', 'ウェルネス', '健康'],
-//     description: 'マッサージやヨガなど、心と体のリフレッシュができるスペースです。',
-//     organizer: 'ウェルネスセンター',
-//     type: 'アメニティ',
-//     imageUrl: '/img/tmp_img4.jpg'
-//   },
-//   {
-//     id: '5',
-//     name: '写真コンテスト展示',
-//     location: 'ギャラリーB',
-//     schedule: '13:00-16:00',
-//     tags: ['写真', 'コンテスト', 'アート'],
-//     description: '一般公募の写真作品を展示。素晴らしい作品が揃っています。',
-//     organizer: '写真協会',
-//     type: '展示',
-//     imageUrl: '/img/tmp_img5.jpg'
-//   },
-//   {
-//     id: '6',
-//     name: 'ワークショップ体験',
-//     location: 'ワークショップルーム',
-//     schedule: '14:00-16:00',
-//     tags: ['ワークショップ', '体験', '学び'],
-//     description: '手作り体験ができるワークショップ。子供から大人まで楽しめます。',
-//     organizer: '教育センター',
-//     type: 'イベント'
-//   }
-// ];
 
 export default function PersonalPage() {
   const router = useRouter();

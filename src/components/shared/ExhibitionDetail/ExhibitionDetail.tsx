@@ -329,15 +329,6 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
                     </div>
                   </div>
 
-                  <div className={styles.reviewsList}>
-                    {reviews.length > 0 ? (
-                      <p>レビューが投稿されております</p>
-                    ) : (
-                      <div className={styles.noReviews}>
-                        <Typography variant="body1" color="textSecondary">まだレビューがありません。最初のレビューを投稿してみませんか？</Typography>
-                      </div>
-                    )}
-                  </div>
                 </div>
               )}
 
@@ -355,10 +346,31 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
 
                   <Button onClick={handleSubmitReview} variant="contained" disabled={!rating} className={styles.submitButton} sx={{ alignSelf: 'center' }}>レビューを投稿</Button>
 
-                  <h2>レビュー一覧</h2>
-                  <ul>
+
+                  <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '16px' }}>
+                    レビュー一覧 ({reviews.length})
+                  </h2>
+                  
+                  <ul className={styles.reviewList}>
+                    {reviews.length === 0 && (
+                      <li className={styles.noReview}>
+                        まだレビューはありません。最初の投稿者になりましょう！
+                      </li>
+                    )}
+
                     {reviews.map((review) => (
-                      <li key={review.id}>{review.comment} (評価:{review.rating})</li>
+                      <li key={review.id} className={styles.reviewItem}>
+                        {/* ヘッダー：アイコン・名前・星評価 */}
+                        <div className={styles.reviewHeader}>
+                          {/* MUIのRatingコンポーネントで星を表示 */}
+                          <Rating value={review.rating} readOnly size="small" />
+                        </div>
+
+                        {/* コメント本文 */}
+                        <p className={styles.reviewComment}>
+                          {review.comment}
+                        </p>
+                      </li>
                     ))}
                   </ul>
                 </div>

@@ -2,6 +2,9 @@ import React from 'react'
 import Link from 'next/link';
 import { Clock, MapPin } from 'lucide-react';
 import styles from './page.module.css'; 
+import { useState } from 'react';
+import ExhibitionModal from '@/src/components/pages/map/ExhibitionModal/ExhibitionModal';
+
 
 interface FavoriteItem {
   id: string;
@@ -14,13 +17,13 @@ interface FavoriteItem {
   type: '展示' | 'フード' | 'イベント' | 'アメニティ';
   imageUrl?: string;
 }
-
-
+  
 
 export default function ExhibitionCard(item: FavoriteItem) {
+    const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
     return (
         <div>
-            <Link key={item.id} href={`/search/detail?id=${item.id}`} className={styles.favoriteCard}>
+            <div key={item.id} className={styles.favoriteCard} onClick={() => setSelectedBooth(item)}>
                 <div className={styles.cardImage}>
                     {item.imageUrl ? (
                         <img src={item.imageUrl} alt={item.name} />
@@ -31,17 +34,17 @@ export default function ExhibitionCard(item: FavoriteItem) {
                 <div className={styles.cardContent}>
                     <div className={styles.cardHeader}>
                         <h2 className={styles.cardName}>{item.name}</h2>
-                        <span className={styles.typeBadge}>{item.type}</span>
+                        {/* <span className={styles.typeBadge}>{item.type}</span> */}
                     </div>
                     <div className={styles.cardMeta}>
                         <div className={styles.metaItem}>
                             <MapPin size={14} />
                             <span>{item.location}</span>
                         </div>
-                        <div className={styles.metaItem}>
+                        {/* <div className={styles.metaItem}>
                             <Clock size={14} />
                             <span>{item.schedule}</span>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles.tags}>
                         {item.tags.slice(0, 3).map((tag) => (
@@ -51,7 +54,13 @@ export default function ExhibitionCard(item: FavoriteItem) {
                     <p className={styles.description}>{item.description}</p>
                     <p className={styles.organizer}>{item.organizer}</p>
                 </div>
-            </Link>
+            </div>
+
+            <ExhibitionModal 
+        open={!!selectedBooth} // selectedBooth が null でなければ true
+        onClose={() => setSelectedBooth(null)} // 閉じるための関数
+        exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
+      />
         </div>
     )
 }

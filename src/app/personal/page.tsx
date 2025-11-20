@@ -202,17 +202,17 @@ export default function PersonalPage() {
                 <div className="card-content">
                   <div className="card-header">
                     <h2 className="card-name">{item.name}</h2>
-                    <span className="type-badge">{item.type}</span>
+                    {/* <span className="type-badge">{item.type}</span> */}
                   </div>
                   <div className="card-meta">
                     <div className="meta-item">
                       <MapPin size={14} />
                       <span>{item.location}</span>
                     </div>
-                    <div className="meta-item">
+                    {/* <div className="meta-item">
                       <Clock size={14} />
                       <span>{item.schedule}</span>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="tags">
                     {item.tags.slice(0, 3).map((tag) => (

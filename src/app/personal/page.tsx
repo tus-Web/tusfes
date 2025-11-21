@@ -1,14 +1,14 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MapPin, Clock } from 'lucide-react';
 import BottomBar from '@/src/components/shared/layout/BottomBar/BottomBar';
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
 import './styles.css';
+import { useFavorites } from '@/src/hooks/useFavorites';
 
-import type { EventsJSONItem } from '@/types/event';
+import type { EventCategory, EventsJSONItem } from '@/types/event';
 import events from '@/src/data/events.json';
 
 
@@ -20,7 +20,7 @@ interface FavoriteItem {
   tags: string[];
   description: string;
   organizer: string;
-  type: '展示' | 'フード' | 'イベント' | 'アメニティ';
+  type: EventCategory;
   imageUrl?: string;
 }
 
@@ -28,32 +28,33 @@ export default function PersonalPage() {
   const router = useRouter();
   const [favoriteItems, setFavoriteItems] = useState<FavoriteItem[]>([]);
   const [selectedExhibition, setSelectedExhibition] = useState<any | null>(null);
+  const { favoriteIds, removeFavorite } = useFavorites();
 
   const onBottomBarPressed = (id: string) => {
     router.push(`/${id}`);
   };
 
   useEffect(() => {
-    const favoriteIds = JSON
-      .parse(localStorage.getItem('favoriteExhibitions') || '[]')
-      .map((id: any) => String(id));
+    if (!favoriteIds || favoriteIds.length === 0) {
+      setFavoriteItems([]);
+      return;
+    }
 
-    // events.jsonからお気に入りの企画データをフィルタリング
-    const favoriteEvents: EventsJSONItem[] = events.filter(event => favoriteIds.includes(event.id)) as any[];
-    const favoriteItems: FavoriteItem[] = favoriteEvents.map(event => ({
+    const favoriteEvents: EventsJSONItem[] = events.filter((event) => favoriteIds.includes(String(event.id))) as any[];
+    const mappedFavorites: FavoriteItem[] = favoriteEvents.map((event) => ({
       id: Number(event.id),
       name: event.name,
       location: event.location,
-      schedule: '',
+      schedule: event?.schedule || '',
       tags: event.tags || [],
       description: event.description,
       organizer: event.organization,
-      type: (event.category as '展示' | 'フード' | 'イベント' | 'アメニティ') || '展示',
+      type: event.category as EventCategory,
       imageUrl: event.imageUrl || undefined,
     }));
 
-    setFavoriteItems(favoriteItems);
-  }, []);
+    setFavoriteItems(mappedFavorites);
+  }, [favoriteIds]);
 
   const handleCardClick = (e: React.MouseEvent, item: FavoriteItem) => {
     e.preventDefault();
@@ -73,6 +74,18 @@ export default function PersonalPage() {
       reviews: [],
     } as any;
     setSelectedExhibition(mapped);
+  };
+
+  const handleNavigateToMap = (e: React.MouseEvent, item: FavoriteItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/map?focus=${item.id}`);
+  };
+
+  const handleRemoveFavorite = (e: React.MouseEvent, item: FavoriteItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    removeFavorite(item.id);
   };
 
   return (
@@ -119,6 +132,29 @@ export default function PersonalPage() {
                   </div>
                   <p className="description">{item.description}</p>
                   <p className="organizer">{item.organizer}</p>
+                  <div className="card-actions">
+                    <button
+                      type="button"
+                      className="action-button"
+                      onClick={(e) => handleNavigateToMap(e, item)}
+                    >
+                      マップで案内
+                    </button>
+                    <button
+                      type="button"
+                      className="action-button action-secondary"
+                      onClick={(e) => handleCardClick(e, item)}
+                    >
+                      詳細を見る
+                    </button>
+                    <button
+                      type="button"
+                      className="action-button action-danger"
+                      onClick={(e) => handleRemoveFavorite(e, item)}
+                    >
+                      お気に入り解除
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

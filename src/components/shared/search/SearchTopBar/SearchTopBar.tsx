@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from './SearchTopBar.module.css';
 import { Search } from 'lucide-react';
-
-type CategoryType = '展示' | 'フード' | 'イベント' | 'アメニティ';
+import { categoryOptions, type CategoryType } from '../types';
 
 interface SearchTopBarProps {
   selectedCategory: CategoryType;
@@ -17,8 +16,6 @@ interface SearchTopBarProps {
   selectedTags?: string[];
   selectedLocations?: string[];
 }
-
-const categories: CategoryType[] = ['展示', 'フード', 'イベント', 'アメニティ'];
 
 const popularTags = [
   '家族におすすめ',
@@ -69,7 +66,7 @@ export default function SearchTopBar({
             onChange={(e) => onCategoryChange(e.target.value as CategoryType)}
             className={styles.categoryDropdown}
           >
-            {categories.map((category) => (
+            {categoryOptions.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>

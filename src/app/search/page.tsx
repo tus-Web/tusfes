@@ -6,14 +6,14 @@ import styles from './page.module.css';
 import SearchResultCard, {
   SearchItem,
 } from '@/components/shared/search/SearchResultCard/SearchResultCard';
-import { getAllEvents } from '@/lib/events';
+import { getAllEvents, matchesCategory } from '@/lib/events';
+import type { CategoryType } from '@/components/shared/search/types';
+import { categoryOptions } from '@/components/shared/search/types';
 
 function SearchContent() {
   const searchParams = useSearchParams();
   
-  const [selectedCategory, setSelectedCategory] = useState<
-    '展示' | 'フード' | 'イベント' | 'アメニティ'
-  >('展示');
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>('全て');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -22,13 +22,13 @@ function SearchContent() {
   // 全イベントデータを取得
   const allEvents = useMemo(() => getAllEvents(), []);
   useEffect(() => {
-    const category = searchParams.get('category');
+    const category = searchParams.get('category') as CategoryType | null;
     const query = searchParams.get('query');
     const tags = searchParams.get('tags');
     const locations = searchParams.get('locations');
 
-    if (category) {
-      setSelectedCategory(category as '展示' | 'フード' | 'イベント' | 'アメニティ');
+    if (category && categoryOptions.includes(category)) {
+      setSelectedCategory(category);
     }
     if (query) {
       setSearchQuery(query);
@@ -44,10 +44,8 @@ function SearchContent() {
   // フィルタリングロジック
   const filteredData = useMemo(() => {
     return allEvents.filter((item) => {
-      // カテゴリーフィルター
-      if (item.category !== selectedCategory) {
-        return false;
-      }
+      // カテゴリーフィルター（「全て」は素通し）
+      if (!matchesCategory(item, selectedCategory)) return false;
 
       // 検索クエリフィルター
       if (searchQuery && !item.name.toLowerCase().includes(searchQuery.toLowerCase())) {

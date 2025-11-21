@@ -2,17 +2,22 @@
 import React, { useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // 1. 作成した ExhibitionModal をインポートします
 import ExhibitionModal from '@/components/pages/map/ExhibitionModal/ExhibitionModal';
 import FloorModal from '@/components/pages/map/FloorModal/FloorModal';
 import BottomBar from '@/components/shared/layout/BottomBar/BottomBar';
 import SearchHeader from '@/components/shared/search/SearchHeader/SearchHeader'; 
+import type { CategoryType } from '@/components/shared/search/types';
 
 import type { Feature, Polygon } from 'geojson';
 
 import events from '@/src/data/events.json';
+import { matchesCategory } from '@/lib/events';
+
+const envToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const MAPBOX_TOKEN_STORAGE_KEY = 'mapbox_token';
 
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
@@ -26,7 +31,8 @@ const boothData = events
     lngLat: [event?.position?.lng, event?.position?.lat] as [number, number],
     id: event.id,
     name: event.name,
-    type: event.category || '展示',
+    type: event.category,
+    raw: event,
     tags: event.tags || [],
     description: event.description || '',
     organization: event.organization || '',
@@ -45,10 +51,14 @@ const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
 ];
 
 export default function SimpleMap() {
-  mapboxgl.accessToken = 'pk.eyJ1IjoicmlrdS1vZ2F3YSIsImEiOiJjbWZzZGJzdDYwNG4zMmpvZXBwN2V6YXZ5In0.M7sZno-EhE51gYER_aeEjg'
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [initialFocusId, setInitialFocusId] = useState<string | null>(null);
+  const [mapboxToken, setMapboxToken] = useState<string | null>(null);
+  const [tokenInput, setTokenInput] = useState('');
+  const [tokenError, setTokenError] = useState('');
 
   // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を緩めて any に)
   // ExhibitionModal 側の ExhibitionItem 型がコンポーネント内で定義されているため
@@ -56,7 +66,7 @@ export default function SimpleMap() {
   const [selectedBooth, setSelectedBooth] = useState<any | null>(null);
   const [floorOpen, setFloorOpen] = useState(false);
   const [filterParams, setFilterParams] = useState<{
-    category: string;
+    category: CategoryType;
     query: string;
     tag: string | null;
     tags: string[];
@@ -75,26 +85,54 @@ export default function SimpleMap() {
   // keep markers so we can toggle visibility without changing positions
   const markersRef = useRef<Array<{ booth: any; marker: mapboxgl.Marker }>>([]);
 
-  const handleSelectExhibitionFromFloor = (ev: any) => {
-    // Map events.json entry to ExhibitionItem-like object expected by ExhibitionModal
-    const mapped = {
-      id: Number(ev.id) || ev.id,
-      name: ev.name,
-      type: ev.category || '展示',
-      position: { x: 50, y: 50 },
-      targetAudience: ev.tags || [],
-      description: ev.description || '',
-      detailedDescription: ev.description || '',
-      location: ev.location || '',
-      schedule: ev.schedule || '',
-      organizer: ev.organization || '',
-      imageUrl: ev.imageUrl || ev.image || null,
-      tags: ev.tags || [],
-      reviews: [],
-    } as any;
+  const mapEventToExhibition = (ev: any) => ({
+    id: Number(ev.id) || ev.id,
+    name: ev.name,
+    type: ev.category || ev.type || '展示',
+    position: ev.position || { x: 50, y: 50 },
+    targetAudience: ev.tags || [],
+    description: ev.description || '',
+    detailedDescription: ev.description || '',
+    location: ev.location || '',
+    schedule: ev.schedule || '',
+    organizer: ev.organization || '',
+    imageUrl: ev.imageUrl || ev.image || null,
+    tags: ev.tags || [],
+    reviews: [],
+  }) as any;
 
+  // 優先順位: env -> localStorage -> 未設定
+  useEffect(() => {
+    const stored = typeof window !== 'undefined' ? localStorage.getItem(MAPBOX_TOKEN_STORAGE_KEY) : null;
+    if (envToken && envToken.length > 0) {
+      setMapboxToken(envToken);
+      return;
+    }
+    if (stored) {
+      setMapboxToken(stored);
+      setTokenInput(stored);
+    }
+  }, []);
+
+  const handleTokenSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = tokenInput.trim();
+    if (!token) {
+      setTokenError('Mapboxのアクセストークンを入力してください。');
+      return;
+    }
+    setTokenError('');
+    setMapboxToken(token);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(MAPBOX_TOKEN_STORAGE_KEY, token);
+    }
+  };
+
+  const tokenMissing = !mapboxToken;
+
+  const handleSelectExhibitionFromFloor = (ev: any) => {
     // Open ExhibitionModal but keep the floor modal visible so users can easily reopen other booths
-    setSelectedBooth(mapped);
+    setSelectedBooth(mapEventToExhibition(ev));
   };
 
   const onBottomBarPressed = (id: string) => {
@@ -103,7 +141,7 @@ export default function SimpleMap() {
 
   // SearchHeader からの検索条件を受け取る（マップ上のピンは位置を変えず表示/非表示を切替）
   const handleSearch = (params: {
-    category: string;
+    category: CategoryType;
     query: string;
     tag: string | null;
     tags?: string[];
@@ -119,6 +157,10 @@ export default function SimpleMap() {
   };
 
   useEffect(() => {
+    if (!mapboxToken || map) return;
+
+    mapboxgl.accessToken = mapboxToken;
+
     const initializeMap = ({
       setMap,
       mapContainer,
@@ -272,22 +314,7 @@ export default function SimpleMap() {
               setFloorOpen(true);
               return;
             }
-
-            const mapped = {
-              id: booth.id,
-              name: booth.name || `ブース ${booth.id}`,
-              type: booth.type || '展示',
-              position: booth.position || { x: 50, y: 50 },
-              targetAudience: [],
-              description: (booth as any).description || '',
-              detailedDescription: (booth as any).description || '',
-              location: (booth as any).location || '',
-              schedule: (booth as any).schedule || '',
-              organizer: (booth as any).organization || '',
-              imageUrl: (booth as any).imageUrl || (booth as any).image || null,
-              tags: booth.tags || [],
-              reviews: [],
-            } as any;
+            const mapped = mapEventToExhibition(booth.raw || booth);
 
             setSelectedBooth(mapped);
           });
@@ -301,7 +328,7 @@ export default function SimpleMap() {
     };
  
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]); 
+  }, [map, mapboxToken]); 
 
   // toggle marker visibility based on filterParams without changing positions
   useEffect(() => {
@@ -313,7 +340,19 @@ export default function SimpleMap() {
       let visible = true;
       // treat '全て' or empty as no filtering for category
       if (category && category !== '全て') {
-        visible = visible && (booth.type === category);
+        const eventForFilter =
+          (booth as any).raw ||
+          ({
+            ...booth,
+            id: String(booth.id),
+            category: booth.type,
+            tags: booth.tags || [],
+            description: '',
+            organization: '',
+            location: (booth as any).location || '',
+            detailUrl: '',
+          } as any);
+        visible = visible && matchesCategory(eventForFilter, category);
       }
       if (query) {
         visible = visible && booth.name.toLowerCase().includes(query.toLowerCase());
@@ -337,47 +376,101 @@ export default function SimpleMap() {
       el.style.display = visible ? '' : 'none';
     });
   }, [filterParams]);
+
+  // URLクエリの focus で渡された企画を自動で開く（個人ページなどからの導線用）
+  useEffect(() => {
+    const focusId = searchParams?.get('focus');
+    if (!focusId || focusId === initialFocusId) return;
+
+    const target = (events as any[]).find((event) => String(event.id) === focusId);
+    if (!target) return;
+
+    setInitialFocusId(focusId);
+    setSelectedBooth(mapEventToExhibition(target));
+
+    if (map && typeof (map as any).flyTo === 'function' && target.position?.lng && target.position?.lat) {
+      (map as any).flyTo({
+        center: [target.position.lng, target.position.lat],
+        zoom: 17,
+        essential: true,
+      });
+    }
+  }, [searchParams, map, initialFocusId]);
  
   return (
     <>
-  {/* 検索ヘッダーをマップの上に配置 */}
-  <SearchHeader showFilterButton={true} onSearch={handleSearch} filterMode="modal" />
+      {/* 検索ヘッダーをマップの上に配置 */}
+      <SearchHeader showFilterButton={true} onSearch={handleSearch} filterMode="modal" />
 
-      {/* 外部リンク確認バー （食堂） */}
-      {externalConfirm && (
-        <div style={{position: 'fixed', left: 16, right: 16, top: 80, zIndex: 9999, display: 'flex', justifyContent: 'center'}}>
-          <div style={{background: 'white', padding: '10px 16px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.12)', display: 'flex', gap: 8, alignItems: 'center'}}>
-            <div style={{fontWeight: 600}}>{externalConfirm.name} の外部サイトに移動しますか？</div>
-            <button
-              onClick={() => {
-                const newWindow = window.open(externalConfirm.url, '_blank');
-                if (newWindow) newWindow.opener = null;
-                setExternalConfirm(null);
-              }}
-              style={{background: '#10B981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
-            >移動する</button>
-            <button
-              onClick={() => setExternalConfirm(null)}
-              style={{background: 'transparent', border: '1px solid #ddd', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
-            >キャンセル</button>
+      {tokenMissing && (
+        <div style={{ position: 'relative', zIndex: 10, padding: '120px 16px 80px' }}>
+          <div style={{ maxWidth: 720, margin: '0 auto', background: 'white', borderRadius: 16, padding: '20px 20px 16px', boxShadow: '0 12px 40px rgba(0,0,0,0.12)', border: '1px solid #e5e7eb' }}>
+            <h2 style={{ margin: '0 0 12px', fontSize: '20px' }}>Mapboxトークンを設定してください</h2>
+            <p style={{ margin: '0 0 12px', color: '#374151', lineHeight: 1.6 }}>
+              セキュリティのためトークンをハードコードせず、環境変数 <code>NEXT_PUBLIC_MAPBOX_TOKEN</code> に設定してください。
+              手元で試す場合は以下に入力するとブラウザにのみ保存されます。
+            </p>
+            <ol style={{ margin: '0 0 12px 20px', padding: 0, color: '#4b5563', lineHeight: 1.6 }}>
+              <li><code>.env.local</code> に <code>NEXT_PUBLIC_MAPBOX_TOKEN=xxx</code> を追記</li>
+              <li>開発サーバーを再起動してこのページを開き直す</li>
+            </ol>
+            <form onSubmit={handleTokenSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <label style={{ fontWeight: 600, color: '#111827' }}>トークンを一時的に入力</label>
+              <input
+                type="text"
+                value={tokenInput}
+                onChange={(e) => { setTokenInput(e.target.value); setTokenError(''); }}
+                placeholder="pk.から始まるMapboxアクセストークン"
+                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #d1d5db', fontSize: 14 }}
+              />
+              {tokenError && <span style={{ color: '#dc2626', fontSize: 13 }}>{tokenError}</span>}
+              <button type="submit" style={{ alignSelf: 'flex-start', background: '#10B981', color: 'white', border: 'none', padding: '10px 16px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }}>
+                マップを表示する
+              </button>
+            </form>
           </div>
         </div>
       )}
 
-      {/* 4. ここを ExhibitionModal に差し替えます */}
-      <FloorModal
-        open={floorOpen}
-        onClose={() => setFloorOpen(false)}
-        onSelectExhibition={handleSelectExhibitionFromFloor}
-      />
+      {mapboxToken && (
+        <>
+          {/* 外部リンク確認バー （食堂） */}
+          {externalConfirm && (
+            <div style={{position: 'fixed', left: 16, right: 16, top: 80, zIndex: 9999, display: 'flex', justifyContent: 'center'}}>
+              <div style={{background: 'white', padding: '10px 16px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.12)', display: 'flex', gap: 8, alignItems: 'center'}}>
+                <div style={{fontWeight: 600}}>{externalConfirm.name} の外部サイトに移動しますか？</div>
+                <button
+                  onClick={() => {
+                    const newWindow = window.open(externalConfirm.url, '_blank');
+                    if (newWindow) newWindow.opener = null;
+                    setExternalConfirm(null);
+                  }}
+                  style={{background: '#10B981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+                >移動する</button>
+                <button
+                  onClick={() => setExternalConfirm(null)}
+                  style={{background: 'transparent', border: '1px solid #ddd', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+                >キャンセル</button>
+              </div>
+            </div>
+          )}
 
-      <ExhibitionModal 
-        open={!!selectedBooth} // selectedBooth が null でなければ true
-        onClose={() => setSelectedBooth(null)} // 閉じるための関数
-        exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
-      />
+          {/* 4. ここを ExhibitionModal に差し替えます */}
+          <FloorModal
+            open={floorOpen}
+            onClose={() => setFloorOpen(false)}
+            onSelectExhibition={handleSelectExhibitionFromFloor}
+          />
+
+          <ExhibitionModal 
+            open={!!selectedBooth} // selectedBooth が null でなければ true
+            onClose={() => setSelectedBooth(null)} // 閉じるための関数
+            exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
+          />
  
-  <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
+          <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
+        </>
+      )}
       <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
   );

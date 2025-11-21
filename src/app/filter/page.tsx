@@ -4,10 +4,10 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { X } from 'lucide-react';
+import type { CategoryType } from '@/components/shared/search/types';
+import { categoryOptions } from '@/components/shared/search/types';
 
-type CategoryType = '全て' | '展示' | 'フード' | 'イベント' | 'アメニティ';
-
-const categories: CategoryType[] = ['全て', '展示', 'フード', 'イベント', 'アメニティ'];
+const categories: CategoryType[] = categoryOptions;
 
 const allTags = [
   '家族におすすめ',

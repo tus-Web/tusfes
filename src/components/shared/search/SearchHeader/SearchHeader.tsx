@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styles from './SearchHeader.module.css';
 import { Search } from 'lucide-react';
 import FilterSheet from '../FilterSheet/FilterSheet';
-import type { CategoryType } from '../types';
+import { categoryOptions, type CategoryType } from '../types';
 
 interface SearchHeaderProps {
   onSearch?: (params: {
@@ -20,8 +20,6 @@ interface SearchHeaderProps {
   position?: 'absolute' | 'static';
   filterMode?: 'link' | 'modal';
 }
-
-const categories: CategoryType[] = ['全て', '展示', 'フード', 'イベント', 'アメニティ'];
 
 const popularTags = [
   '家族におすすめ',
@@ -172,7 +170,7 @@ export default function SearchHeader({
             onChange={(e) => handleCategoryChange(e.target.value as CategoryType)}
             className={styles.categoryDropdown}
           >
-            {categories.map((category) => (
+            {categoryOptions.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
@@ -242,7 +240,7 @@ export default function SearchHeader({
         <FilterSheet
           isOpen={isFilterOpen}
           category={draftCategory}
-          categories={categories}
+          categories={categoryOptions}
           query={draftQuery}
           availableTags={popularTags}
           selectedTags={draftDetailTags}

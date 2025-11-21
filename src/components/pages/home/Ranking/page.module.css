@@ -20,6 +20,12 @@
     color: #000;
 }
 
+.ratingInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 /* 平均値 */
 .average {
     display: flex;
@@ -44,6 +50,12 @@
     font-size: 1.2em;
     /* アイコンがテキストより下がって見える場合、以下で微調整 */
     /* transform: translateY(-1px); */
+}
+
+.count {
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #444;
 }
 
 
@@ -88,5 +100,9 @@
        ※暗い背景でも目立つように、元の #faaf00 より明るく調整 */
     .average svg {
         color: #ffe066; 
+    }
+
+    .count {
+        color: #d0d0d0;
     }
 }

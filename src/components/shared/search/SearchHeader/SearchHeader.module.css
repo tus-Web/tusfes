@@ -28,9 +28,23 @@
   font-size: 14px;
   font-weight: 500;
   background-color: white;
+  color: #111827;
   cursor: pointer;
   outline: none;
   transition: border-color 0.2s;
+}
+
+.categoryDropdown option {
+  color: #111827;
+}
+
+:global(.dark) .categoryDropdown {
+  color: #111827;
+}
+
+:global(.dark) .categoryDropdown option {
+  color: #111827;
+  background-color: white;
 }
 
 .categoryDropdown:focus {

@@ -67,6 +67,13 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
     return ok;
   });
 
+  const getPinVariant = (ev: any) => {
+    const hasHandsOnTag = Array.isArray(ev.tags) && ev.tags.includes('体験型');
+    if (hasHandsOnTag) return 'workshop';
+    if (ev.category === 'イベント') return 'event';
+    return 'exhibition';
+  };
+
   return (
     <Dialog
       open={open}
@@ -150,10 +157,10 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
                           const left = `${pos.x}%`;
                           const top = `${pos.y}%`;
 
-                          const hasHandsOnTag = Array.isArray(ev.tags) && ev.tags.includes('体験型');
-                          const pinTypeClass = hasHandsOnTag
+                          const variant = getPinVariant(ev);
+                          const pinTypeClass = variant === 'workshop'
                             ? styles.pinWorkshop
-                            : ev.category === 'イベント'
+                            : variant === 'event'
                               ? styles.pinEvent
                               : styles.pinExhibition;
 
@@ -162,6 +169,7 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
                               key={ev.id}
                               className={`${styles.pin} ${pinTypeClass}`}
                               style={{ left, top }}
+                              type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 if (onSelectExhibition) {
@@ -170,7 +178,9 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
                               }}
                               title={ev.name}
                               aria-label={`開く ${ev.name}`}
-                            />
+                            >
+                              <span className={styles.pinLabel}>{ev.name}</span>
+                            </button>
                           );
                         })}
                       </div>
@@ -178,6 +188,40 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
                   </div>
                 ))}
               </div>
+
+              {lectureEventsByFloorFiltered.length > 0 && (
+                <div className={styles.pinListPanel}>
+                  <div className={styles.pinListHeader}>
+                    <span>このフロアの企画一覧</span>
+                    <span className={styles.pinListCount}>{lectureEventsByFloorFiltered.length}件</span>
+                  </div>
+                  <ul className={styles.pinList}>
+                    {lectureEventsByFloorFiltered.map((ev) => {
+                      const variant = getPinVariant(ev);
+                      const legendClass = variant === 'workshop'
+                        ? styles.legendWorkshop
+                        : variant === 'event'
+                          ? styles.legendEvent
+                          : styles.legendExhibition;
+                      return (
+                        <li key={ev.id} className={styles.pinListItem}>
+                          <span className={`${styles.legendDot} ${legendClass}`} aria-hidden />
+                          <button
+                            className={styles.pinListButton}
+                            type="button"
+                            onClick={() => {
+                              if (onSelectExhibition) onSelectExhibition(ev);
+                            }}
+                          >
+                            <span className={styles.pinListName}>{ev.name}</span>
+                            {ev.location && <span className={styles.pinListMeta}>{ev.location}</span>}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
 
               {/* Zoom overlay */}
               {zoomed && (

@@ -76,6 +76,34 @@
   gap: 8px;
 }
 
+.favoriteRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.favoriteButton {
+  border: 1px solid var(--color-border-card);
+  background: var(--color-bg-secondary);
+  color: #ef4444;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.favoriteButton:hover {
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+
+.favoriteActive {
+  background: #ffe4e6;
+  border-color: #fb7185;
+  color: #b91c1c;
+}
+
 .cardName {
   font-size: 16px;
   font-weight: 600;

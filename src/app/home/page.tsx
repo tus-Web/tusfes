@@ -24,12 +24,19 @@ import { FiChevronDown } from "react-icons/fi";
 import eventsData from '@/data/events.json';
 
 import ExhibitionModal from '@/src/components/pages/map/ExhibitionModal/ExhibitionModal';
+import type { EventCategory } from '@/types/event';
 
 
 type EventData = {
   id: string;
   name: string;
   imageUrl?: string;
+};
+
+type RankedDisplay = {
+  display_id: number;
+  average: number;
+  count: number;
 };
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -53,7 +60,7 @@ interface FavoriteItem {
   tags: string[];
   description: string;
   organizer: string;
-  type: '展示' | 'フード' | 'イベント' | 'アメニティ';
+  type: EventCategory;
   imageUrl?: string;
 }
 
@@ -74,7 +81,7 @@ export default function Home() {
       }
     }
 
-    const [rankedDisplays, setRankedDisplays] = useState<{display_id: number, average: number}[]>([]);
+    const [rankedDisplays, setRankedDisplays] = useState<RankedDisplay[]>([]);
 
 useEffect(() => {
         const fetchReviews = async () => {
@@ -90,8 +97,9 @@ useEffect(() => {
                 });
                 // 点数の平均を計算
                 const ranked = Object.entries(scores).map(([display_id, ratings]) => {
-                    const average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-                    return { display_id: parseInt(display_id), average };
+                    const count = ratings.length;
+                    const average = ratings.reduce((a, b) => a + b, 0) / count;
+                    return { display_id: parseInt(display_id), average, count };
                 });
                 // 点数の高い順にソート
                 ranked.sort((a, b) => b.average - a.average);
@@ -219,7 +227,7 @@ useEffect(() => {
                     if (!event) {
                         return (
                             <li key={display.display_id}>
-                                <span>イベント情報が見つかりません</span>（平均点: {display.average.toFixed(2)}）
+                                <span>イベント情報が見つかりません</span>（平均点: {display.average.toFixed(2)} / {display.count}件）
                             </li>
                         );
                     }

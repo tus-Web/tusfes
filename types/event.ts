@@ -1,7 +1,7 @@
 export interface Event {
   id: string;
   name: string;
-  category: '展示' | 'フード' | 'イベント' | 'アメニティ';
+  category: EventCategory;
   tags: string[];
   description: string;
   organization: string;
@@ -13,7 +13,7 @@ export interface Event {
 export interface EventsJSONItem {
   id: string;
   name: string;
-  category: string;
+  category: EventCategory;
   tags: string[];
   description: string;
   organization: string;
@@ -24,4 +24,6 @@ export interface EventsJSONItem {
   detailUrl?: string;
 }
 
-export type EventCategory = '展示' | 'フード' | 'イベント' | 'アメニティ';
+export type EventCategory = '模擬店' | '展示' | 'イベント' | 'フード';
+// UI での絞り込み用カテゴリ（タグベースの派生カテゴリも含む）
+export type FilterCategory = '全て' | EventCategory | 'ステージ' | '屋外企画';

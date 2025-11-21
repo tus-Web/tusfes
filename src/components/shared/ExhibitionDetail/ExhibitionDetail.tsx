@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { 
   Typography, 
   Chip, 
@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { detectAbuse } from 'abuse-detection';
 import { supabase } from '@/src/lib/supabase/client';
 import styles from './ExhibitionDetail.module.css';
+import { useFavorites } from '@/src/hooks/useFavorites';
 
 interface Review {
   id: number;
@@ -67,8 +68,24 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
   const [rating, setRating] = useState<number | null>(0);
   const [comment, setComment] = useState('');
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [averageRating, setAverageRating] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const isFavoriteChecked = isFavorite(exhibition?.id ?? null);
+
+  const applyReviewData = useCallback((list: Review[]) => {
+    setReviews(list);
+    const count = list.length;
+    if (count === 0) {
+      setAverageRating(0);
+      setReviewCount(0);
+      return;
+    }
+    const avg = list.reduce((sum, review) => sum + (review.rating || 0), 0) / count;
+    setAverageRating(avg);
+    setReviewCount(count);
+  }, []);
 
   useEffect(() => {
     if (!exhibition?.id) return;
@@ -80,26 +97,18 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
         .eq('display_id', exhibition.id);
 
       if (!error && data) {
-        setReviews(data as Review[]);
+        applyReviewData(data as Review[]);
+      } else {
+        applyReviewData([]);
       }
     };
     fetchReviews();
-  }, [exhibition?.id]);
-
-  useEffect(() => {
-    // まず、お気に入りリストをローカルストレージから取得
-    const favoriteExhibitions = JSON.parse(localStorage.getItem('favoriteExhibitions') || '[]');
-    // 現在の展示がリストに含まれているか確認
-    if (exhibition?.id && favoriteExhibitions.includes(exhibition.id)) {
-      setIsFavorite(true);
-    } else {
-      setIsFavorite(false);
-    }
-  }, [exhibition]);
+  }, [exhibition?.id, applyReviewData]);
 
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!exhibition?.id) return;
+    if (!rating) return;
     
     const result = detectAbuse(comment);
 
@@ -118,8 +127,9 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
       ]);
       if (error) throw error;
       setComment('');
+      setRating(0);
       const { data } = await supabase.from('reviews').select('*').eq('display_id', exhibition.id);
-      setReviews(data || []);
+      applyReviewData((data as Review[]) || []);
       alert('レビューを送信しました！');
     } catch (err) {
       alert('投稿失敗');
@@ -165,17 +175,7 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
 
   const onFavoriteClick = () => {
     if (!exhibition?.id) return;
-
-    const favoriteExhibitions = JSON.parse(localStorage.getItem('favoriteExhibitions') || '[]');
-    if (isFavorite) {
-      const updatedFavorites = favoriteExhibitions.filter((id: number) => id !== exhibition.id);
-      localStorage.setItem('favoriteExhibitions', JSON.stringify(updatedFavorites));
-      setIsFavorite(false);
-    } else {
-      favoriteExhibitions.push(exhibition.id);
-      localStorage.setItem('favoriteExhibitions', JSON.stringify(favoriteExhibitions));
-      setIsFavorite(true);
-    }
+    toggleFavorite(exhibition.id);
   };
 
   if (!exhibition) return null;
@@ -203,17 +203,17 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
       </IconButton>
       <IconButton
         className={styles.favoriteButton}
-        aria-label="お気に入りに追加"
+        aria-label={isFavoriteChecked ? 'お気に入りを解除' : 'お気に入りに追加'}
         onClick={onFavoriteClick}
         sx={{
           position: 'absolute',
           top: 16,
           right: 64,
           zIndex: 10,
-          backgroundColor: isFavorite ? 'rgba(255, 15, 55, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+          backgroundColor: isFavoriteChecked ? 'rgba(255, 15, 55, 0.7)' : 'rgba(0, 0, 0, 0.7)',
           color: 'white',
           '&:hover': {
-            backgroundColor: isFavorite ? 'rgba(255, 117, 142, 0.5)' : 'rgba(70, 48, 48, 0.5)',
+            backgroundColor: isFavoriteChecked ? 'rgba(255, 117, 142, 0.5)' : 'rgba(70, 48, 48, 0.5)',
           },
         }}
       >
@@ -265,6 +265,10 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
             <Typography variant="h4" component="h1" className={styles.exhibitionTitle}>
               {exhibition.name}
             </Typography>
+            <div className={styles.favoriteState} aria-live="polite">
+              <Favorite fontSize="small" />
+              <span>{isFavoriteChecked ? 'お気に入りに登録済み' : 'お気に入りに追加できます'}</span>
+            </div>
             <div className={styles.metaInfo}>
               <div className={styles.metaItem}>
                 <span>{exhibition.location}</span>
@@ -327,6 +331,23 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
 
               {tabValue === 1 && (
                 <div className={styles.reviewForm}>
+                  <div className={styles.reviewSummary}>
+                    <div className={styles.reviewAverage}>
+                      <Rating
+                        value={averageRating}
+                        precision={0.1}
+                        readOnly
+                        size="large"
+                      />
+                      <Typography variant="h6" className={styles.reviewAverageValue}>
+                        {reviewCount ? averageRating.toFixed(2) : '-.--'}
+                      </Typography>
+                    </div>
+                    <Typography variant="body2" className={styles.reviewCountText}>
+                      {reviewCount}件のレビュー
+                    </Typography>
+                  </div>
+
                   <Box className={styles.ratingSection}>
                     <Typography variant="h6" className={styles.ratingLabel}>評価 <span className={styles.required}>*</span></Typography>
                     <Rating size="large" value={rating} onChange={(_, newValue) => setRating(newValue)} className={styles.rating} />
@@ -341,7 +362,7 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
 
 
                   <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '16px' }}>
-                    レビュー一覧 ({reviews.length})
+                    レビュー一覧 ({reviewCount})
                   </h2>
                   
                   <ul className={styles.reviewList}>

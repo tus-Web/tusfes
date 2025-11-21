@@ -1,5 +1,8 @@
 import eventsData from '@/data/events.json';
-import { Event } from '@/types/event';
+import { Event, FilterCategory } from '@/types/event';
+
+const STAGE_KEYWORDS = ['ステージ'];
+const OUTDOOR_KEYWORDS = ['屋外', '中庭', '野外', '広場'];
 
 /**
  * 全イベントデータを取得
@@ -20,9 +23,9 @@ export function getEventById(id: string|number): Event | undefined {
 /**
  * カテゴリーでイベントをフィルタ
  */
-export function getEventsByCategory(category: Event['category']): Event[] {
+export function getEventsByCategory(category: FilterCategory): Event[] {
   const events = getAllEvents();
-  return events.filter((event) => event.category === category);
+  return events.filter((event) => matchesCategory(event, category));
 }
 
 /**
@@ -42,19 +45,39 @@ export function getEventsByTag(tag: string): Event[] {
 }
 
 /**
+ * UI カテゴリに応じたマッチ判定
+ */
+export function matchesCategory(event: Event, category: FilterCategory): boolean {
+  if (category === '全て') return true;
+  if (category === 'ステージ') {
+    return (
+      event.tags?.includes('ステージ') ||
+      STAGE_KEYWORDS.some((keyword) => event.name.includes(keyword) || event.location.includes(keyword))
+    );
+  }
+  if (category === '屋外企画') {
+    return (
+      event.tags?.includes('屋外') ||
+      OUTDOOR_KEYWORDS.some((keyword) => event.location.includes(keyword))
+    );
+  }
+  return event.category === category;
+}
+
+/**
  * 複数の条件でイベントを検索
  */
 export function searchEvents(params: {
   query?: string;
-  category?: Event['category'];
+  category?: FilterCategory;
   tags?: string[];
   locations?: string[];
 }): Event[] {
   let events = getAllEvents();
 
   // カテゴリーフィルター
-  if (params.category) {
-    events = events.filter((event) => event.category === params.category);
+  if (params.category && params.category !== '全て') {
+    events = events.filter((event) => matchesCategory(event, params.category!));
   }
 
   // 検索クエリフィルター

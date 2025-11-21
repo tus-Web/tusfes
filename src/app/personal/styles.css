@@ -165,6 +165,44 @@
   font-weight: 500;
 }
 
+.card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.action-button {
+  border: 1px solid var(--color-border-card);
+  background: var(--color-bg-primary);
+  color: var(--color-brand-main);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.action-button:hover {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-border-medium);
+}
+
+.action-secondary {
+  color: var(--color-text-primary);
+}
+
+.action-danger {
+  color: #b91c1c;
+  border-color: #fecdd3;
+  background: #fff1f2;
+}
+
+.action-danger:hover {
+  background: #ffe4e6;
+  border-color: #fb7185;
+}
+
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
   .favorite-card {

@@ -238,6 +238,18 @@
   margin-top: 1rem;
 }
 
+.favoriteState {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #be123c;
+  font-weight: 700;
+  background: rgba(236, 72, 153, 0.08);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
 .metaItem {
   display: flex;
   align-items: center;
@@ -407,6 +419,30 @@
   max-height: 400px;
   overflow-y: auto;
   padding-right: 0.5rem;
+}
+
+.reviewSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.reviewAverage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reviewAverageValue {
+  font-weight: 700 !important;
+  color: var(--color-text-primary) !important;
+}
+
+.reviewCountText {
+  color: var(--color-text-muted);
+  font-weight: 600;
 }
 
 .reviewCard {

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Map, Home, AccountBox } from '@mui/icons-material';
 import { useLanguage } from '@/hooks/use-language';
 import styles from './BottomBar.module.css';
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 interface BottomBarProps {
   activeTab: string;
@@ -19,7 +20,7 @@ interface TabItem {
 
 const tabs: TabItem[] = [
   { id: 'home', label: 'bottomBar.home', icon: <Home /> },
-  { id: 'map', label: 'bottomBar.map', icon: <Map /> },
+  { id: 'map', label: 'bottomBar.map', icon: <FaMapMarkerAlt /> },
   { id: 'personal', label: 'bottomBar.personal', icon: <AccountBox /> },
 ];
 

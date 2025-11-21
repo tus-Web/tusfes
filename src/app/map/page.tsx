@@ -52,6 +52,36 @@ const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
   [139.8670, 35.7760]  // 北東の座標
 ];
 
+// ズームレベルの閾値定義
+const ZOOM_THRESHOLDS = {
+  INITIAL: 16,  // これ未満: 理科大葛飾キャンパス全体の1つのピン
+  MIDPOINT: 17, // これ以上: 全ての個別ピンを表示
+  DETAILED: 18, // 詳細表示レベル（将来の拡張用）
+};
+
+// 集約ピンのグループ定義
+const CLUSTER_GROUPS = [
+  {
+    id: 'campus',
+    name: '理科大葛飾キャンパス',
+    lngLat: [139.8638, 35.7717] as [number, number],
+    icon: '/img/pin/building-svgrepo-com.svg',
+    color: '#10B981',
+    minZoom: 0,
+    maxZoom: ZOOM_THRESHOLDS.INITIAL,
+  },
+  {
+    id: 'food-stalls',
+    name: '模擬店エリア',
+    lngLat: [139.86410118260778, 35.7711284048502] as [number, number],
+    icon: '/img/pin/food-2-svgrepo-com.svg',
+    color: '#F59E0B',
+    minZoom: ZOOM_THRESHOLDS.INITIAL,
+    maxZoom: ZOOM_THRESHOLDS.MIDPOINT,
+    filter: (booth: any) => booth.type === '模擬店',
+  },
+];
+
 function SimpleMap() {
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
@@ -86,6 +116,8 @@ function SimpleMap() {
 
   // keep markers so we can toggle visibility without changing positions
   const markersRef = useRef<Array<{ booth: any; marker: mapboxgl.Marker }>>([]);
+  const clusterMarkersRef = useRef<Array<{ id: string; marker: mapboxgl.Marker }>>([]);
+  const [currentZoom, setCurrentZoom] = useState<number>(10);
 
   const mapEventToExhibition = (ev: any) => ({
     id: Number(ev.id) || ev.id,
@@ -158,6 +190,74 @@ function SimpleMap() {
     }));
   };
 
+  // 集約マーカーの作成関数（useEffectの外で定義）
+  const createClusterMarkerElement = (group: any, count: number) => {
+    const el = document.createElement('div');
+    el.className = 'cluster-map-pin';
+    el.style.width = '64px';
+    el.style.height = '64px';
+    el.style.position = 'relative';
+    el.style.cursor = 'pointer';
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', `${group.name} ${count}件`);
+
+    // アイコン部分
+    const iconDiv = document.createElement('div');
+    iconDiv.style.width = '100%';
+    iconDiv.style.height = '100%';
+    iconDiv.style.backgroundImage = `url(${group.icon})`;
+    iconDiv.style.backgroundSize = 'contain';
+    iconDiv.style.backgroundRepeat = 'no-repeat';
+    iconDiv.style.backgroundPosition = 'center';
+    iconDiv.style.filter = 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))';
+    el.appendChild(iconDiv);
+
+    // ラベル（名前）
+    const label = document.createElement('div');
+    label.textContent = group.name;
+    label.style.position = 'absolute';
+    label.style.top = '-28px';
+    label.style.left = '50%';
+    label.style.transform = 'translateX(-50%)';
+    label.style.background = 'white';
+    label.style.padding = '4px 10px';
+    label.style.borderRadius = '12px';
+    label.style.fontSize = '13px';
+    label.style.fontWeight = '700';
+    label.style.color = '#111827';
+    label.style.whiteSpace = 'nowrap';
+    label.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+    label.style.border = '1px solid rgba(0,0,0,0.08)';
+    label.style.pointerEvents = 'none';
+    el.appendChild(label);
+
+    // カウントバッジ
+    if (count > 1) {
+      const badge = document.createElement('div');
+      badge.className = 'cluster-badge';
+      badge.textContent = String(count);
+      badge.style.position = 'absolute';
+      badge.style.top = '-4px';
+      badge.style.right = '-4px';
+      badge.style.background = group.color;
+      badge.style.color = 'white';
+      badge.style.borderRadius = '50%';
+      badge.style.width = '24px';
+      badge.style.height = '24px';
+      badge.style.display = 'flex';
+      badge.style.alignItems = 'center';
+      badge.style.justifyContent = 'center';
+      badge.style.fontSize = '12px';
+      badge.style.fontWeight = '700';
+      badge.style.border = '2px solid white';
+      badge.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+      el.appendChild(badge);
+    }
+
+    return el;
+  };
+
   useEffect(() => {
     if (!mapboxToken || map) return;
 
@@ -173,7 +273,7 @@ function SimpleMap() {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
         center: [139.8632, 35.7719],
-        zoom: 15,
+        zoom: 15.8,
         pitch: 0, 
         bearing: -62,
         antialias: true,
@@ -327,6 +427,18 @@ function SimpleMap() {
       map.on('click', () => {
         setSelectedBooth(null);
       });
+
+      // ズームイベントリスナー
+      map.on('zoom', () => {
+        const zoom = map.getZoom();
+        // console.log('Zoom changed to:', zoom);
+        setCurrentZoom(zoom);
+      });
+
+      // 初期ズームレベルを設定
+      const initialZoom = map.getZoom();
+      // console.log('Initial zoom:', initialZoom);
+      setCurrentZoom(initialZoom);
     };
  
     if (!map) initializeMap({ setMap, mapContainer });
@@ -378,6 +490,196 @@ function SimpleMap() {
       el.style.display = visible ? '' : 'none';
     });
   }, [filterParams]);
+
+  // ズームレベルに応じたマーカー表示切り替え
+  useEffect(() => {
+    if (!map || !markersRef.current || markersRef.current.length === 0) return;
+
+    const { category, query, tag, tags, locations } = filterParams;
+
+    // 個別マーカーの表示制御
+    // 16未満: 非表示
+    // 16-17: 講義棟、ステージ、学食、図書館のみ表示（模擬店は集約ピン）
+    // 17以上: 全て表示
+    const shouldShowIndividual = currentZoom >= ZOOM_THRESHOLDS.INITIAL;
+    const isDetailedZoom = currentZoom >= ZOOM_THRESHOLDS.MIDPOINT;
+    
+    markersRef.current.forEach(({ booth, marker }) => {
+      // フィルター条件を適用
+      let matchesFilter = true;
+      if (category && category !== '全て') {
+        const eventForFilter = (booth as any).raw || {
+          ...booth,
+          id: String(booth.id),
+          category: booth.type,
+          tags: booth.tags || [],
+          description: '',
+          organization: '',
+          location: (booth as any).location || '',
+          detailUrl: '',
+        };
+        matchesFilter = matchesFilter && matchesCategory(eventForFilter, category);
+      }
+      if (query) {
+        matchesFilter = matchesFilter && booth.name.toLowerCase().includes(query.toLowerCase());
+      }
+      if (tag) {
+        matchesFilter = matchesFilter && Array.isArray(booth.tags) && booth.tags.includes(tag);
+      }
+      if (tags && tags.length > 0) {
+        matchesFilter = matchesFilter && Array.isArray(booth.tags) && tags.every((t: string) => booth.tags.includes(t));
+      }
+      if (locations && locations.length > 0) {
+        const boothLocation = (booth as any).location;
+        if (typeof boothLocation === 'string' && boothLocation.length > 0) {
+          matchesFilter = matchesFilter && locations.some((loc) => boothLocation.includes(loc));
+        } else {
+          matchesFilter = false;
+        }
+      }
+
+      // ズーム16-17の場合、特定のピンのみ表示（模擬店以外）
+      let shouldShowThisBooth = shouldShowIndividual;
+      if (shouldShowIndividual && !isDetailedZoom) {
+        // 講義棟、ステージ、学食、図書館のみ表示
+        const location = (booth as any).location || '';
+        const name = booth.name || '';
+        const tags = booth.tags || [];
+        const isLecture = location.includes('講義棟') || name === '講義棟';
+        const isStage = name.includes('ステージ') || tags.includes('ステージ');
+        const isCafeteria = name === '食堂';
+        const isLibrary = name.includes('図書館');
+        const isFoodStall = booth.type === '模擬店';
+        
+        shouldShowThisBooth = (isLecture || isStage || isCafeteria || isLibrary) && !isFoodStall;
+      }
+
+      const el = marker.getElement();
+      el.style.display = shouldShowThisBooth && matchesFilter ? '' : 'none';
+    });
+
+    // 既存の集約マーカーを削除
+    clusterMarkersRef.current.forEach(({ marker }) => marker.remove());
+    clusterMarkersRef.current = [];
+
+    // 集約マーカーの表示制御（ズーム17未満で表示）
+    if (currentZoom < ZOOM_THRESHOLDS.MIDPOINT) {
+      CLUSTER_GROUPS.forEach((group) => {
+        // このグループが現在のズームレベルで表示されるべきか確認
+        // console.log(`Group: ${group.name}, minZoom: ${group.minZoom}, maxZoom: ${group.maxZoom}, currentZoom: ${currentZoom}`);
+        // console.log(`Should show: ${currentZoom >= group.minZoom && currentZoom < group.maxZoom}`);
+        
+        if (currentZoom >= group.minZoom && currentZoom < group.maxZoom) {
+          // このグループに属するboothをカウント（フィルター条件も適用）
+          let count = 0;
+          if (group.id === 'campus') {
+            // キャンパス全体の場合、全てのboothをカウント
+            count = boothData.filter((booth) => {
+              let matchesFilter = true;
+              if (category && category !== '全て') {
+                const eventForFilter = (booth as any).raw || {
+                  ...booth,
+                  id: String(booth.id),
+                  category: booth.type,
+                  tags: booth.tags || [],
+                  description: '',
+                  organization: '',
+                  location: (booth as any).location || '',
+                  detailUrl: '',
+                };
+                matchesFilter = matchesFilter && matchesCategory(eventForFilter, category);
+              }
+              if (query) {
+                matchesFilter = matchesFilter && booth.name.toLowerCase().includes(query.toLowerCase());
+              }
+              if (tag) {
+                matchesFilter = matchesFilter && Array.isArray(booth.tags) && booth.tags.includes(tag);
+              }
+              if (tags && tags.length > 0) {
+                matchesFilter = matchesFilter && Array.isArray(booth.tags) && tags.every((t: string) => booth.tags.includes(t));
+              }
+              if (locations && locations.length > 0) {
+                const boothLocation = (booth as any).location;
+                if (typeof boothLocation === 'string' && boothLocation.length > 0) {
+                  matchesFilter = matchesFilter && locations.some((loc) => boothLocation.includes(loc));
+                } else {
+                  matchesFilter = false;
+                }
+              }
+              return matchesFilter;
+            }).length;
+          } else if (group.filter) {
+            // フィルター関数がある場合（模擬店など）
+            count = boothData.filter((booth) => {
+              if (!group.filter!(booth)) return false;
+              
+              let matchesFilter = true;
+              if (category && category !== '全て') {
+                const eventForFilter = (booth as any).raw || {
+                  ...booth,
+                  id: String(booth.id),
+                  category: booth.type,
+                  tags: booth.tags || [],
+                  description: '',
+                  organization: '',
+                  location: (booth as any).location || '',
+                  detailUrl: '',
+                };
+                matchesFilter = matchesFilter && matchesCategory(eventForFilter, category);
+              }
+              if (query) {
+                matchesFilter = matchesFilter && booth.name.toLowerCase().includes(query.toLowerCase());
+              }
+              if (tag) {
+                matchesFilter = matchesFilter && Array.isArray(booth.tags) && booth.tags.includes(tag);
+              }
+              if (tags && tags.length > 0) {
+                matchesFilter = matchesFilter && Array.isArray(booth.tags) && tags.every((t: string) => booth.tags.includes(t));
+              }
+              if (locations && locations.length > 0) {
+                const boothLocation = (booth as any).location;
+                if (typeof boothLocation === 'string' && boothLocation.length > 0) {
+                  matchesFilter = matchesFilter && locations.some((loc) => boothLocation.includes(loc));
+                } else {
+                  matchesFilter = false;
+                }
+              }
+              return matchesFilter;
+            }).length;
+          }
+
+          if (count > 0) {
+            const el = createClusterMarkerElement(group, count);
+            const marker = new mapboxgl.Marker({
+              element: el,
+              anchor: 'bottom' // 要素の下端を座標位置にする（個別マーカーと統一）
+            })
+              .setLngLat(group.lngLat)
+              .addTo(map);
+
+            clusterMarkersRef.current.push({ id: group.id, marker });
+
+            // クリックイベント: ズームイン（中心移動なし）
+            el.addEventListener('click', (e: MouseEvent) => {
+              e.stopPropagation();
+              (map as any).zoomTo(Math.min(currentZoom + 1, 18), {
+                duration: 500,
+              });
+            });
+
+            el.addEventListener('keydown', (e: KeyboardEvent) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                (map as any).zoomTo(Math.min(currentZoom + 1, 18), {
+                  duration: 500,
+                });
+              }
+            });
+          }
+        }
+      });
+    }
+  }, [currentZoom, map, filterParams]);
 
   // URLクエリの focus で渡された企画を自動で開く（個人ページなどからの導線用）
   useEffect(() => {

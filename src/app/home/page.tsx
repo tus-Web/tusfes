@@ -178,6 +178,13 @@ useEffect(() => {
           </Link>
         </div>
 
+        <div className="categories-cta">
+          <Link href="/categories" className="categories-cta-button cta-button">
+            企画情報
+            <span>カテゴリーから探す</span>
+          </Link>
+        </div>
+
         <div className="featured-heading">
           <h1 className="recomended-titles">おすすめ企画</h1>
         </div>

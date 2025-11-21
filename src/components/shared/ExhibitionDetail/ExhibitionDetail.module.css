@@ -242,9 +242,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: #be123c;
+  color: var(--color-favorite-strong);
   font-weight: 700;
-  background: rgba(236, 72, 153, 0.08);
+  background: var(--color-favorite-surface);
+  border: 1px solid var(--color-favorite-border);
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
   width: fit-content;

@@ -41,20 +41,24 @@
 }
 
 .map-cta,
-.timetable-cta {
+.timetable-cta,
+.categories-cta {
   width: 100%;
-  padding: 0 1.25rem;
   display: flex;
   justify-content: center;
 }
 
-/* .map-cta {
+.map-cta {
   margin: 1.5rem auto 0;
 }
 
 .timetable-cta {
   margin: 0.85rem auto 0;
-} */
+}
+
+.categories-cta {
+  margin: 0.85rem auto 0;
+}
 
 .cta-button {
   width: 75%;
@@ -102,6 +106,15 @@
 
 .timetable-cta-button:hover {
   background: #2eb789;
+}
+
+.categories-cta-button {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.categories-cta-button:hover {
+  background: #0f9d72;
 }
 
 .featured-heading {

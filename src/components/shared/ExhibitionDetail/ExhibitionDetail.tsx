@@ -210,10 +210,14 @@ const ExhibitionDetail: React.FC<ExhibitionDetailProps> = ({
           top: 16,
           right: 64,
           zIndex: 10,
-          backgroundColor: isFavoriteChecked ? 'rgba(255, 15, 55, 0.7)' : 'rgba(0, 0, 0, 0.7)',
+          backgroundColor: isFavoriteChecked
+            ? 'rgba(var(--color-favorite-rgb), 0.9)'
+            : 'rgba(var(--color-favorite-rgb), 0.28)',
           color: 'white',
           '&:hover': {
-            backgroundColor: isFavoriteChecked ? 'rgba(255, 117, 142, 0.5)' : 'rgba(70, 48, 48, 0.5)',
+            backgroundColor: isFavoriteChecked
+              ? 'rgba(var(--color-favorite-rgb), 0.78)'
+              : 'rgba(var(--color-favorite-rgb), 0.42)',
           },
         }}
       >

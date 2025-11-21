@@ -193,14 +193,14 @@
 }
 
 .action-danger {
-  color: #b91c1c;
-  border-color: #fecdd3;
-  background: #fff1f2;
+  color: var(--color-favorite-strong);
+  border-color: var(--color-favorite-border);
+  background: var(--color-favorite-surface);
 }
 
 .action-danger:hover {
-  background: #ffe4e6;
-  border-color: #fb7185;
+  background: var(--color-favorite-surface-strong);
+  border-color: var(--color-favorite);
 }
 
 /* レスポンシブデザイン */

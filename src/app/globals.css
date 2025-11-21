@@ -31,9 +31,17 @@
   --color-brand-main-dark: #059669;    /* ダークバリエーション */
   
   /* CTA Colors - Call to Action色 */
-  --color-cta-primary: #3B82F6;        
-  --color-cta-primary-hover: #2563EB;
-  --color-cta-primary-active: #1D4ED8; /* アクティブ時CTA色 */
+  --color-cta-primary: #10B981;        
+  --color-cta-primary-hover: #34D399;
+  --color-cta-primary-active: #059669; /* アクティブ時CTA色 */
+
+  /* Favorite Colors - お気に入り・ハート系の共通色 */
+  --color-favorite: #ff758e;
+  --color-favorite-rgb: 255, 117, 142;
+  --color-favorite-strong: #ff4d72;
+  --color-favorite-surface: rgba(var(--color-favorite-rgb), 0.12);
+  --color-favorite-surface-strong: rgba(var(--color-favorite-rgb), 0.2);
+  --color-favorite-border: rgba(var(--color-favorite-rgb), 0.4);
   /* ==========================================================================
      Semantic Colors - セマンティック色
      ========================================================================== */
@@ -173,4 +181,68 @@
 
 .light {
   color-scheme: light;
+}
+
+/* マップ集約ピンのスタイル */
+.cluster-map-pin {
+  transition: transform 0.3s ease, filter 0.3s ease;
+  animation: clusterPinAppear 0.4s ease-out;
+}
+
+.cluster-map-pin:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.4)) !important;
+}
+
+.cluster-map-pin:active {
+  transform: scale(1.05);
+}
+
+@keyframes clusterPinAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cluster-badge {
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* 個別ピンのアニメーション */
+.custom-map-pin {
+  transition: transform 0.2s ease, filter 0.2s ease;
+  animation: pinFadeIn 0.3s ease-out;
+}
+
+.custom-map-pin:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+@keyframes pinFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

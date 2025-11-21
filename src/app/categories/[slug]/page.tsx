@@ -5,18 +5,15 @@ import CategoryResultsList from '@/components/pages/categories/CategoryResultsLi
 import { categoryConfigBySlug, categorySlugs } from '@/constants/categoryPages';
 import { getEventsByCategory } from '@/lib/events';
 
-interface CategoryPageProps {
-  params: {
-    slug: string;
-  };
-}
-
 export function generateStaticParams() {
   return categorySlugs.map((slug) => ({ slug }));
 }
 
-export default function CategoryDetailPage({ params }: CategoryPageProps) {
-  const category = categoryConfigBySlug[params.slug];
+type CategoryPageProps = PageProps<'/categories/[slug]'>;
+
+export default async function CategoryDetailPage({ params }: CategoryPageProps) {
+  const { slug } = await params;
+  const category = categoryConfigBySlug[slug];
 
   if (!category) {
     notFound();

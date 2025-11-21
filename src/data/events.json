@@ -20,7 +20,12 @@
     "organization": "AsoLab",
     "location": "模擬店 9",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86265, "lat": 35.771 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86410118260778,
+      "lat": 35.7711284048502
+    },
     "imageUrl": "/img/shop/2.webp"
   },
   {
@@ -92,7 +97,12 @@
     "organization": "アカペラサークル「chum」",
     "location": "模擬店 3",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86265, "lat": 35.7713 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86446035013637,
+      "lat": 35.77099966776706
+    },
     "imageUrl": "/img/shop/8.webp"
   },
   {
@@ -140,7 +150,12 @@
     "organization": "理科大写真部",
     "location": "模擬店 5",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86405, "lat": 35.7713 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86434062762686,
+      "lat": 35.77104258012811
+    },
     "imageUrl": "/img/shop/12.webp"
   },
   {
@@ -152,7 +167,12 @@
     "organization": "ebnam",
     "location": "模擬店 1",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8623, "lat": 35.7716 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.8645800726459,
+      "lat": 35.77095675540601
+    },
     "imageUrl": "/img/shop/13.webp"
   },
   {
@@ -200,7 +220,12 @@
     "organization": "東京理科大学チアダンスサークルCelestia",
     "location": "模擬店 7",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8637, "lat": 35.7716 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86422090511732,
+      "lat": 35.771085492489156
+    },
     "imageUrl": "/img/shop/17.webp"
   },
   {
@@ -224,7 +249,12 @@
     "organization": "鳥人間サークル鳥科",
     "location": "模擬店 2",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8623, "lat": 35.7719 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86452021139115,
+      "lat": 35.77097821158654
+    },
     "imageUrl": "/img/shop/19.webp"
   },
   {
@@ -236,7 +266,12 @@
     "organization": "AULA",
     "location": "模擬店 6",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86265, "lat": 35.7719 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86428076637208,
+      "lat": 35.77106403630863
+    },
     "imageUrl": "/img/shop/20.webp"
   },
   {
@@ -248,7 +283,12 @@
     "organization": "東京理科大学薬学部バレーボール部",
     "location": "模擬店 4",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.863, "lat": 35.7719 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.8644004888816,
+      "lat": 35.771021123947584
+    },
     "imageUrl": "/img/shop/21.webp"
   },
   {
@@ -272,7 +312,12 @@
     "organization": "薬理班",
     "location": "模擬店 8",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8637, "lat": 35.7719 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86416104386254,
+      "lat": 35.771106948669676
+    },
     "imageUrl": "/img/shop/23.webp"
   },
   {

@@ -31,10 +31,9 @@
   --color-brand-main-dark: #059669;    /* ダークバリエーション */
   
   /* CTA Colors - Call to Action色 */
-  --color-cta-primary: #3B82F6;        /* メインCTA色（ブルー系） */
-  --color-cta-primary-hover: #2563EB;  /* ホバー時CTA色 */
+  --color-cta-primary: #3B82F6;        
+  --color-cta-primary-hover: #2563EB;
   --color-cta-primary-active: #1D4ED8; /* アクティブ時CTA色 */
-  
   /* ==========================================================================
      Semantic Colors - セマンティック色
      ========================================================================== */

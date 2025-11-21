@@ -2,12 +2,6 @@
   --svg-color: #000000;
 }
 
-@media (prefers-color-scheme: dark){
-  :root{
-    --svg-color: #ffffff;
-  }
-}
-
 .recomended-titles {
   font-size: 20px !important;
 }
@@ -44,6 +38,67 @@
   height: auto;
   padding-bottom: 50px;
   overflow:  hidden;
+}
+
+.map-cta,
+.timetable-cta {
+  width: 100%;
+  padding: 0 1.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+.map-cta {
+  margin: 1.5rem auto 0;
+}
+
+.timetable-cta {
+  margin: 0.85rem auto 0;
+}
+
+.cta-button {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 999px;
+  padding: 0.9rem 1.25rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.cta-button span {
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+.map-cta-button {
+  background: var(--color-brand-main);
+  color: #ffffff;
+}
+
+.map-cta-button:hover {
+  background: var(--color-brand-main-dark);
+}
+
+.timetable-cta-button {
+  background: #34d399;
+  color: #0f172a;
+}
+
+.timetable-cta-button:hover {
+  background: #2eb789;
 }
 
 .featured-heading {

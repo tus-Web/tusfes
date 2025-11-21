@@ -1,0 +1,162 @@
+{
+  "days": [
+    {
+      "id": "day1",
+      "date": "2025-11-22",
+      "label": "11月22日(土)",
+      "stages": [
+        {
+          "id": "library-hall",
+          "name": "図書館ホール",
+          "events": [
+            {
+              "title": "アカペラサークル chum",
+              "location": "図書館ホール",
+              "start": "10:00",
+              "end": "11:30"
+            },
+            {
+              "title": "東京理科大学ピアノの会",
+              "location": "図書館ホール",
+              "start": "12:00",
+              "end": "13:30"
+            },
+            {
+              "title": "管弦楽団",
+              "location": "図書館ホール",
+              "start": "13:45",
+              "end": "14:15"
+            },
+            {
+              "title": "ルネサンスKSC金町キッズダンス",
+              "location": "図書館ホール",
+              "start": "14:45",
+              "end": "15:45"
+            },
+            {
+              "title": "LilyN Dance Studio",
+              "location": "図書館ホール",
+              "start": "16:15",
+              "end": "17:00"
+            }
+          ]
+        },
+        {
+          "id": "courtyard-stage",
+          "name": "中庭ステージ",
+          "events": [
+            {
+              "title": "東京理科大学ピアノの会",
+              "location": "中庭ステージ",
+              "start": "10:00",
+              "end": "12:00"
+            },
+            {
+              "title": "KOOLGEM",
+              "location": "中庭ステージ",
+              "start": "12:30",
+              "end": "14:00"
+            },
+            {
+              "title": "チアダンスサークル Celestia",
+              "location": "中庭ステージ",
+              "start": "14:15",
+              "end": "15:00"
+            },
+            {
+              "title": "ビンゴ大会",
+              "location": "中庭ステージ",
+              "start": "15:15",
+              "end": "16:15"
+            },
+            {
+              "title": "ここからえとわ→る",
+              "location": "中庭ステージ",
+              "start": "16:30",
+              "end": "17:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "day2",
+      "date": "2025-11-23",
+      "label": "11月23日(日)",
+      "stages": [
+        {
+          "id": "library-hall",
+          "name": "図書館ホール",
+          "events": [
+            {
+              "title": "著名人企画開場",
+              "location": "図書館ホール",
+              "start": "12:00",
+              "end": "13:00"
+            },
+            {
+              "title": "著名人企画 \"笑LIVE\" 開始 ～ 終了",
+              "location": "図書館ホール",
+              "start": "13:00",
+              "end": "15:00"
+            },
+            {
+              "title": "理科大生からの挑戦状～究極のクイズバトル～",
+              "location": "図書館ホール",
+              "start": "15:15",
+              "end": "16:15"
+            },
+            {
+              "title": "管弦楽団",
+              "location": "図書館ホール",
+              "start": "16:30",
+              "end": "17:00"
+            }
+          ]
+        },
+        {
+          "id": "courtyard-stage",
+          "name": "中庭ステージ",
+          "events": [
+            {
+              "title": "藤沢研究室",
+              "location": "中庭ステージ",
+              "start": "10:15",
+              "end": "11:00"
+            },
+            {
+              "title": "ジェスチャーゲーム",
+              "location": "中庭ステージ",
+              "start": "11:15",
+              "end": "12:15"
+            },
+            {
+              "title": "東京理科大学 AQUARIUS",
+              "location": "中庭ステージ",
+              "start": "12:30",
+              "end": "13:30"
+            },
+            {
+              "title": "カナラボ",
+              "location": "中庭ステージ",
+              "start": "13:45",
+              "end": "14:30"
+            },
+            {
+              "title": "ジャグリングサークル Terza Donna",
+              "location": "中庭ステージ",
+              "start": "15:00",
+              "end": "15:30"
+            },
+            {
+              "title": "アカペラサークル chum",
+              "location": "中庭ステージ",
+              "start": "16:00",
+              "end": "17:00"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -162,7 +162,7 @@
   background: rgba(255, 255, 255, 0.95);
   border-radius: 10px;
   padding: 2px 6px;
-  font-size: 10px;
+  font-size: var(--font-size-small-tight);
   font-weight: 700;
   color: #111827;
   white-space: nowrap;
@@ -257,7 +257,7 @@
 }
 
 .pinListCount {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
@@ -298,7 +298,7 @@
 }
 
 .pinListMeta {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 

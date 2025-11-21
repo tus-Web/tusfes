@@ -382,7 +382,7 @@
 }
 
 .miniPinIcon {
-  font-size: 24px !important;
+  font-size: 1.5rem !important;
   color: var(--color-brand-main);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
@@ -818,7 +818,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .authorInfo {

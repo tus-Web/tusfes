@@ -62,13 +62,13 @@
 }
 
 .iconText {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: bold;
   color: white;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #1a1a1a;
   margin: 0;
@@ -79,7 +79,7 @@
 }
 
 .description {
-  font-size: 16px;
+  font-size: 1rem;
   color: #333;
   margin-bottom: 20px;
   line-height: 1.5;
@@ -92,7 +92,7 @@
 }
 
 .features li {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #555;
   padding: 8px 0;
   display: flex;
@@ -108,14 +108,14 @@
 }
 
 .iosText {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #555;
   margin: 8px 0;
   line-height: 1.6;
 }
 
 .shareIcon {
-  font-size: 20px;
+  font-size: 1.25rem;
   color: #10B981;
   font-weight: bold;
 }
@@ -132,7 +132,7 @@
   border: none;
   padding: 15px 25px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -154,7 +154,7 @@
   border: 2px solid #e0e0e0;
   padding: 12px 25px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -170,10 +170,10 @@
   }
 
   .title {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .description {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }

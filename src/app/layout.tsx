@@ -7,7 +7,10 @@ import ThemeProvider from '@/components/shared/providers/ThemeProvider/ThemeProv
 import LanguageProvider from '@/components/shared/providers/LanguageProvider/LanguageProvider';
 import { AuthProvider } from '@/components/shared/providers/AuthProvider/AuthProvider';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
 
 const noto = Noto_Sans_JP({
   subsets: ['latin'],
@@ -78,8 +81,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
-      <body className={noto.className}>
+    <html lang="ja" className={`${inter.variable} ${noto.variable}`}>
+      <body className={`${inter.className} ${noto.className}`}>
         <AuthProvider>
           <ThemeProvider>
             <LanguageProvider>

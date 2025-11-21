@@ -12,7 +12,7 @@
 }
 
 .resultsTitle {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
   color: #111827;
   margin: 0;
@@ -32,11 +32,11 @@
 
 .noResults p {
   margin: 8px 0;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .noResults p:first-child {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   color: #374151;
 }
@@ -46,6 +46,6 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  font-size: 16px;
+  font-size: 1rem;
   color: #6b7280;
 }

@@ -89,8 +89,6 @@ function SimpleMap() {
   const searchParams = useSearchParams();
   const [initialFocusId, setInitialFocusId] = useState<string | null>(null);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
-  const [tokenInput, setTokenInput] = useState('');
-  const [tokenError, setTokenError] = useState('');
 
   // 3. この state に、boothData のオブジェクトが丸ごと入ります (型を緩めて any に)
   // ExhibitionModal 側の ExhibitionItem 型がコンポーネント内で定義されているため
@@ -144,25 +142,8 @@ function SimpleMap() {
     }
     if (stored) {
       setMapboxToken(stored);
-      setTokenInput(stored);
     }
   }, []);
-
-  const handleTokenSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = tokenInput.trim();
-    if (!token) {
-      setTokenError('Mapboxのアクセストークンを入力してください。');
-      return;
-    }
-    setTokenError('');
-    setMapboxToken(token);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(MAPBOX_TOKEN_STORAGE_KEY, token);
-    }
-  };
-
-  const tokenMissing = !mapboxToken;
 
   const handleSelectExhibitionFromFloor = (ev: any) => {
     // Open ExhibitionModal but keep the floor modal visible so users can easily reopen other booths
@@ -701,80 +682,57 @@ function SimpleMap() {
     }
   }, [searchParams, map, initialFocusId]);
  
+  if (!mapboxToken) {
+    return (
+      <>
+        <div className="flex min-h-svh items-center justify-center text-gray-500">
+          ローディング中...
+        </div>
+        <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
+      </>
+    );
+  }
+
   return (
     <>
       {/* 検索ヘッダーをマップの上に配置 */}
       <SearchHeader showFilterButton={true} onSearch={handleSearch} filterMode="modal" />
 
-      {tokenMissing && (
-        <div style={{ position: 'relative', zIndex: 10, padding: '120px 16px 80px' }}>
-          <div style={{ maxWidth: 720, margin: '0 auto', background: 'white', borderRadius: 16, padding: '20px 20px 16px', boxShadow: '0 12px 40px rgba(0,0,0,0.12)', border: '1px solid #e5e7eb' }}>
-            <h2 style={{ margin: '0 0 12px', fontSize: '20px' }}>Mapboxトークンを設定してください</h2>
-            <p style={{ margin: '0 0 12px', color: '#374151', lineHeight: 1.6 }}>
-              セキュリティのためトークンをハードコードせず、環境変数 <code>NEXT_PUBLIC_MAPBOX_TOKEN</code> に設定してください。
-              手元で試す場合は以下に入力するとブラウザにのみ保存されます。
-            </p>
-            <ol style={{ margin: '0 0 12px 20px', padding: 0, color: '#4b5563', lineHeight: 1.6 }}>
-              <li><code>.env.local</code> に <code>NEXT_PUBLIC_MAPBOX_TOKEN=xxx</code> を追記</li>
-              <li>開発サーバーを再起動してこのページを開き直す</li>
-            </ol>
-            <form onSubmit={handleTokenSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <label style={{ fontWeight: 600, color: '#111827' }}>トークンを一時的に入力</label>
-              <input
-                type="text"
-                value={tokenInput}
-                onChange={(e) => { setTokenInput(e.target.value); setTokenError(''); }}
-                placeholder="pk.から始まるMapboxアクセストークン"
-                style={{ width: '100%', padding: '10px 12px', borderRadius: 10, border: '1px solid #d1d5db', fontSize: 14 }}
-              />
-              {tokenError && <span style={{ color: '#dc2626', fontSize: 13 }}>{tokenError}</span>}
-              <button type="submit" style={{ alignSelf: 'flex-start', background: '#10B981', color: 'white', border: 'none', padding: '10px 16px', borderRadius: 10, fontWeight: 700, cursor: 'pointer' }}>
-                マップを表示する
-              </button>
-            </form>
+      {/* 外部リンク確認バー （食堂） */}
+      {externalConfirm && (
+        <div style={{position: 'fixed', left: 16, right: 16, top: 80, zIndex: 9999, display: 'flex', justifyContent: 'center'}}>
+          <div style={{background: 'white', padding: '10px 16px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.12)', display: 'flex', gap: 8, alignItems: 'center'}}>
+            <div style={{fontWeight: 600}}>{externalConfirm.name} の外部サイトに移動しますか？</div>
+            <button
+              onClick={() => {
+                const newWindow = window.open(externalConfirm.url, '_blank');
+                if (newWindow) newWindow.opener = null;
+                setExternalConfirm(null);
+              }}
+              style={{background: '#10B981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+            >移動する</button>
+            <button
+              onClick={() => setExternalConfirm(null)}
+              style={{background: 'transparent', border: '1px solid #ddd', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
+            >キャンセル</button>
           </div>
         </div>
       )}
 
-      {mapboxToken && (
-        <>
-          {/* 外部リンク確認バー （食堂） */}
-          {externalConfirm && (
-            <div style={{position: 'fixed', left: 16, right: 16, top: 80, zIndex: 9999, display: 'flex', justifyContent: 'center'}}>
-              <div style={{background: 'white', padding: '10px 16px', borderRadius: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.12)', display: 'flex', gap: 8, alignItems: 'center'}}>
-                <div style={{fontWeight: 600}}>{externalConfirm.name} の外部サイトに移動しますか？</div>
-                <button
-                  onClick={() => {
-                    const newWindow = window.open(externalConfirm.url, '_blank');
-                    if (newWindow) newWindow.opener = null;
-                    setExternalConfirm(null);
-                  }}
-                  style={{background: '#10B981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
-                >移動する</button>
-                <button
-                  onClick={() => setExternalConfirm(null)}
-                  style={{background: 'transparent', border: '1px solid #ddd', padding: '8px 12px', borderRadius: 6, cursor: 'pointer'}}
-                >キャンセル</button>
-              </div>
-            </div>
-          )}
+      {/* 4. ここを ExhibitionModal に差し替えます */}
+      <FloorModal
+        open={floorOpen}
+        onClose={() => setFloorOpen(false)}
+        onSelectExhibition={handleSelectExhibitionFromFloor}
+      />
 
-          {/* 4. ここを ExhibitionModal に差し替えます */}
-          <FloorModal
-            open={floorOpen}
-            onClose={() => setFloorOpen(false)}
-            onSelectExhibition={handleSelectExhibitionFromFloor}
-          />
+      <ExhibitionModal 
+        open={!!selectedBooth} // selectedBooth が null でなければ true
+        onClose={() => setSelectedBooth(null)} // 閉じるための関数
+        exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
+      />
 
-          <ExhibitionModal 
-            open={!!selectedBooth} // selectedBooth が null でなければ true
-            onClose={() => setSelectedBooth(null)} // 閉じるための関数
-            exhibition={selectedBooth} // 選択されたブースのデータ（オブジェクト丸ごと）
-          />
- 
-          <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
-        </>
-      )}
+      <div ref={mapContainer} style={{ position: 'fixed', inset: 0, zIndex: 0 }} />
       <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
   );

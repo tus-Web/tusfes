@@ -315,17 +315,16 @@ function SimpleMap() {
         })
 
         const createMarkerElement = (booth: any) => {
-          const el = document.createElement('div');
-          el.className = 'custom-map-pin';
-          el.style.width = '48px';
-          el.style.height = '48px';
-          el.style.backgroundSize = 'contain';
-          el.style.backgroundRepeat = 'no-repeat';
-          el.style.backgroundPosition = 'center';
-          el.style.position = 'relative';
-          el.tabIndex = 0;
-          el.setAttribute('role', 'button');
-          el.setAttribute('aria-label', `${booth.name} のピン`);
+          const wrapper = document.createElement('div');
+          wrapper.className = 'custom-map-pin';
+          wrapper.style.display = 'flex';
+          wrapper.style.flexDirection = 'column';
+          wrapper.style.alignItems = 'center';
+          wrapper.style.gap = '4px';
+          wrapper.style.pointerEvents = 'auto';
+          wrapper.tabIndex = 0;
+          wrapper.setAttribute('role', 'button');
+          wrapper.setAttribute('aria-label', `${booth.name} のピン`);
 
           const name: string = booth.name || '';
           const tags: string[] = booth.tags || [];
@@ -346,15 +345,17 @@ function SimpleMap() {
             icon = '/img/pin/building-svgrepo-com.svg';
           }
 
-          el.style.backgroundImage = `url(${icon})`;
+          const iconDiv = document.createElement('div');
+          iconDiv.style.width = '48px';
+          iconDiv.style.height = '48px';
+          iconDiv.style.backgroundSize = 'contain';
+          iconDiv.style.backgroundRepeat = 'no-repeat';
+          iconDiv.style.backgroundPosition = 'center';
+          iconDiv.style.backgroundImage = `url(${icon})`;
 
           // 展示名ラベルを上部に表示（小さめのラベルでレイアウト崩れを防止）
           const label = document.createElement('div');
           label.textContent = booth.name;
-          label.style.position = 'absolute';
-          label.style.top = '-20px';
-          label.style.left = '50%';
-          label.style.transform = 'translateX(-50%)';
           label.style.background = 'white';
           label.style.padding = '2px 6px';
           label.style.borderRadius = '10px';
@@ -365,8 +366,10 @@ function SimpleMap() {
           label.style.boxShadow = '0 1px 4px rgba(0,0,0,0.12)';
           label.style.border = '1px solid rgba(0,0,0,0.06)';
           label.style.pointerEvents = 'none';
-          el.appendChild(label);
-          return el;
+
+          wrapper.appendChild(label);
+          wrapper.appendChild(iconDiv);
+          return wrapper;
         };
 
         // create markers and keep refs for toggling visibility later
@@ -378,7 +381,10 @@ function SimpleMap() {
             el.style.height = '58px';
             el.style.backgroundImage = 'url(/img/pin/food-dish-svgrepo-com.svg)';
 
-            const marker = new mapboxgl.Marker(el)
+            const marker = new mapboxgl.Marker({
+              element: el,
+              anchor: 'bottom',
+            })
               .setLngLat(booth.lngLat)
               .addTo(map);
 
@@ -403,7 +409,10 @@ function SimpleMap() {
 
           const el = createMarkerElement(booth);
 
-          const marker = new mapboxgl.Marker(el)
+          const marker = new mapboxgl.Marker({
+            element: el,
+            anchor: 'bottom',
+          })
             .setLngLat(booth.lngLat)
             .addTo(map);
 

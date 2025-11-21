@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { Suspense, useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -50,7 +50,7 @@ const bounds: [mapboxgl.LngLatLike, mapboxgl.LngLatLike] = [
   [139.8670, 35.7760]  // 北東の座標
 ];
 
-export default function SimpleMap() {
+function SimpleMap() {
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
   const router = useRouter();
@@ -473,5 +473,13 @@ export default function SimpleMap() {
       )}
       <BottomBar activeTab="map" onTabChange={onBottomBarPressed} />
     </>
+  );
+}
+
+export default function MapPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-svh items-center justify-center text-gray-500">Loading map...</div>}>
+      <SimpleMap />
+    </Suspense>
   );
 }

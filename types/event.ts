@@ -17,6 +17,7 @@ export interface EventsJSONItem {
   tags: string[];
   description: string;
   organization: string;
+  schedule?: string;
   location: string;
   floor: string;
   position: { x: number; y: number, lng?: number, lat?: number };

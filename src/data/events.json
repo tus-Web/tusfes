@@ -462,7 +462,7 @@
     "organization": "ＪＡ東京スマイル葛飾直売部会",
     "location": "模擬店(外部団体） B",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86335, "lat": 35.7722 },
+    "position": { "x": 0, "y": 0, "lng": 139.86330607263366, "lat": 35.77191161552686 },
     "imageUrl": "/img/shop/28.webp"
   },
   {
@@ -474,7 +474,7 @@
     "organization": "森のケーキ屋 どんぐり",
     "location": "模擬店(外部団体） C",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8637, "lat": 35.7722 },
+    "position": { "x": 0, "y": 0, "lng": 139.86335051257367, "lat": 35.77195341833917 },
     "imageUrl": "/img/shop/29.webp"
   },
   {
@@ -486,7 +486,7 @@
     "organization": "菓匠 岩月",
     "location": "模擬店(食堂)(外部団体） E",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86405, "lat": 35.7722 },
+    "position": { "x": 0, "y": 0, "lng": 139.86293239021765, "lat": 35.771828783038615 },
     "imageUrl": "/img/shop/30.webp"
   },
   {
@@ -498,7 +498,7 @@
     "organization": "柴又 亀家本舗",
     "location": "模擬店(食堂)(外部団体） A",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8623, "lat": 35.7725 },
+    "position": { "x": 0, "y": 0, "lng": 139.8632600936665, "lat": 35.77185579574796 },
     "imageUrl": "/img/shop/31.webp"
   },
   {
@@ -510,7 +510,7 @@
     "organization": "JA東京スマイル葛飾直売部会",
     "location": "模擬店(食堂)(外部団体） D",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86265, "lat": 35.7725 },
+    "position": { "x": 0, "y": 0, "lng": 139.86306917614385, "lat": 35.77178716498512 },
     "imageUrl": "/img/shop/32.webp"
   },
   {
@@ -522,7 +522,7 @@
     "organization": "新金線いいね！区民の会",
     "location": "模擬店（研究棟間)(外部団体） F",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.863, "lat": 35.7725 },
+    "position": { "x": 0, "y": 0, "lng": 139.86390832105386, "lat": 35.7709765521762 },
     "imageUrl": "/img/shop/33.webp"
   },
   {

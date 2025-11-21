@@ -8,11 +8,11 @@
      ========================================================================== */
   
   /* Background Colors - 背景色 */
-  --color-bg-primary: #FFFFFF;        /* メイン背景色（純白） */
-  --color-bg-secondary: #FFFFFF;       /* セカンダリ背景色（純白） */
-  --color-bg-overlay: rgba(255, 255, 255, 0.95); /* オーバーレイ背景 */
+  --color-bg-primary: #F9F6F1;        /* メイン背景色（オフホワイト） */
+  --color-bg-secondary: #F9F6F1;      /* セカンダリ背景色（オフホワイト） */
+  --color-bg-overlay: rgba(249, 246, 241, 0.95); /* オーバーレイ背景 */
   --color-bg-card: #FFFFFF;           /* カード背景色 */
-  --color-bg-navigation: #FFFFFF;     /* ナビゲーション背景色 */
+  --color-bg-navigation: #F9F6F1;     /* ナビゲーション背景色 */
   
   /* Text Colors - テキスト色 */
   --color-text-primary: #000000;       /* メインテキスト色（純黒） */

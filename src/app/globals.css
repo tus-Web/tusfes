@@ -7,15 +7,15 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 249, 246, 241;
+  --background-end-rgb: 249, 246, 241;
 
   /* Background Colors - 背景色 */
-  --color-bg-primary: #FFFFFF;        /* メイン背景色（純白） */
-  --color-bg-secondary: #FFFFFF;       /* セカンダリ背景色（純白） */
-  --color-bg-overlay: rgba(255, 255, 255, 0.95); /* オーバーレイ背景 */
+  --color-bg-primary: red;        /* メイン背景色（オフホワイト） */
+  --color-bg-secondary: #F9F6F1;      /* セカンダリ背景色（オフホワイト） */
+  --color-bg-overlay: rgba(249, 246, 241, 0.95); /* オーバーレイ背景 */
   --color-bg-card: #FFFFFF;           /* カード背景色 */
-  --color-bg-navigation: #FFFFFF;     /* ナビゲーション背景色 */
+  --color-bg-navigation: #F9F6F1;     /* ナビゲーション背景色 */
   
   /* Text Colors - テキスト色 */
   --color-text-primary: #000000;       /* メインテキスト色（純黒） */
@@ -68,7 +68,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 37 40% 96%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -127,8 +127,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    /* @apply bg-background text-foreground;
     transition: background-color 0.3s ease, color 0.3s ease;
+     */
+     background-color: #f5f5f5;
   }
 }
 

@@ -8,7 +8,12 @@
     "organization": "アイスホッケー部",
     "location": "模擬店 21",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8623, "lat": 35.771 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86425197795973,
+      "lat": 35.771338317451985
+    },
     "imageUrl": "/img/shop/1.webp"
   },
   {
@@ -37,7 +42,12 @@
     "organization": "東京理科大学Ⅰ部体育局バスケットボール部",
     "location": "模擬店 23",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.863, "lat": 35.771 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.8641443331434,
+      "lat": 35.77137490210812
+    },
     "imageUrl": "/img/shop/3.webp"
   },
   {
@@ -49,7 +59,12 @@
     "organization": "I部無線研究部",
     "location": "模擬店 27",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86335, "lat": 35.771 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86392904351072,
+      "lat": 35.771448071420394
+    },
     "imageUrl": "/img/shop/4.webp"
   },
   {
@@ -61,7 +76,12 @@
     "organization": "GRASS",
     "location": "模擬店 13",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8637, "lat": 35.771 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86369717172246,
+      "lat": 35.77128338417481
+    },
     "imageUrl": "/img/shop/5.webp"
   },
   {
@@ -73,7 +93,12 @@
     "organization": "ジャグリングサークル Terza Donna",
     "location": "模擬店 24",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86405, "lat": 35.771 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86409051073522,
+      "lat": 35.77139319443619
+    },
     "imageUrl": "/img/shop/6.webp"
   },
   {
@@ -85,7 +110,12 @@
     "organization": "高橋研究室",
     "location": "模擬店 28",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8623, "lat": 35.7713 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86387522110255,
+      "lat": 35.771466363748466
+    },
     "imageUrl": "/img/shop/7.webp"
   },
   {
@@ -126,7 +156,12 @@
     "organization": "葛飾水泳部",
     "location": "模擬店 15",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86335, "lat": 35.7713 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86353641748792,
+      "lat": 35.771341369380174
+    },
     "imageUrl": "/img/shop/10.webp"
   },
   {
@@ -138,7 +173,12 @@
     "organization": "I部体育局洋弓部",
     "location": "模擬店 17",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8637, "lat": 35.7713 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86345604037064,
+      "lat": 35.77137036198286
+    },
     "imageUrl": "/img/shop/11.webp"
   },
   {
@@ -184,7 +224,12 @@
     "organization": "管弦楽団",
     "location": "模擬店 18",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86265, "lat": 35.7716 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86337566325335,
+      "lat": 35.77139935458554
+    },
     "imageUrl": "/img/shop/14.webp"
   },
   {
@@ -196,7 +241,12 @@
     "organization": "WhiteLiber",
     "location": "模擬店 25",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.863, "lat": 35.7716 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86403668832705,
+      "lat": 35.77141148676426
+    },
     "imageUrl": "/img/shop/15.webp"
   },
   {
@@ -208,7 +258,12 @@
     "organization": "東京理科大学サイクリング同好会",
     "location": "模擬店 22",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86335, "lat": 35.7716 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86419815555158,
+      "lat": 35.77135660978006
+    },
     "imageUrl": "/img/shop/16.webp"
   },
   {
@@ -237,7 +292,12 @@
     "organization": "東京理科大学地域貢献サークル カナラボ",
     "location": "模擬店 11",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86405, "lat": 35.7716 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86385792595703,
+      "lat": 35.77122539896944
+    },
     "imageUrl": "/img/shop/18.webp"
   },
   {
@@ -300,7 +360,12 @@
     "organization": "常盤研究室 芋煮班",
     "location": "模擬店 26",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86335, "lat": 35.7719 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.8639828659189,
+      "lat": 35.77142977909233
+    },
     "imageUrl": "/img/shop/22.webp"
   },
   {
@@ -329,7 +394,12 @@
     "organization": "理科大生協かつしか支部",
     "location": "模擬店 20",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86405, "lat": 35.7719 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.8643058003679,
+      "lat": 35.77132002512392
+    },
     "imageUrl": "/img/shop/24.webp"
   },
   {
@@ -341,7 +411,12 @@
     "organization": "葛飾地区理大祭実行委員会",
     "location": "模擬店 19",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.8623, "lat": 35.7722 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86435962277608,
+      "lat": 35.77130173279585
+    },
     "imageUrl": "/img/shop/25.webp"
   },
   {
@@ -353,7 +428,12 @@
     "organization": "理科大ポーカーサークル",
     "location": "模擬店 12",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.86265, "lat": 35.7722 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.86377754883975,
+      "lat": 35.77125439157213
+    },
     "imageUrl": "/img/shop/26.webp"
   },
   {
@@ -365,7 +445,12 @@
     "organization": "坊ちゃんLab.",
     "location": "模擬店 14",
     "floor": "",
-    "position": { "x": 0, "y": 0, "lng": 139.863, "lat": 35.7722 },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "lng": 139.8636167946052,
+      "lat": 35.771312376777495
+    },
     "imageUrl": "/img/shop/27.webp"
   },
   {

@@ -13,6 +13,7 @@ import Ranking from "@/src/components/pages/home/Ranking/page";
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import BottomBar from "@/src/components/shared/layout/BottomBar/BottomBar";
 import { useEffect } from "react";
 import { createClient } from '@supabase/supabase-js';
@@ -162,6 +163,20 @@ useEffect(() => {
         </motion.div>
       </div>
     </div>
+
+        <div className="map-cta">
+          <Link href="/map" className="map-cta-button cta-button">
+            マップを見る
+            <span>会場の位置関係をチェック</span>
+          </Link>
+        </div>
+
+        <div className="timetable-cta">
+          <Link href="/timetable" className="timetable-cta-button cta-button">
+            タイムテーブル
+            <span>当日の流れを確認</span>
+          </Link>
+        </div>
 
         <div className="featured-heading">
           <h1 className="recomended-titles">おすすめ企画</h1>

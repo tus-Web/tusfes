@@ -48,16 +48,16 @@
   justify-content: center;
 }
 
-.map-cta {
+/* .map-cta {
   margin: 1.5rem auto 0;
 }
 
 .timetable-cta {
   margin: 0.85rem auto 0;
-}
+} */
 
 .cta-button {
-  width: 100%;
+  width: 75%;
   max-width: 600px;
   border-radius: 999px;
   padding: 0.9rem 1.25rem;
@@ -65,9 +65,12 @@
   font-weight: 700;
   letter-spacing: 0.03em;
   text-decoration: none;
-  display: inline-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 0.25rem;
+  margin: 0 auto;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }

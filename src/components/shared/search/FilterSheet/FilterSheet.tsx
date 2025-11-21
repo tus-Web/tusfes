@@ -132,11 +132,9 @@ const FilterSheet: React.FC<FilterSheetProps> = ({
             </div>
           </section>
 
-          <div className={styles.resetButtonContainer}>
-            <button type="button" className={styles.resetButton} onClick={onReset}>
-              すべてリセット
-            </button>
-          </div>
+          <button type="button" className={styles.resetButton} onClick={onReset}>
+            すべてリセット
+          </button>
         </div>
       </section>
     </div>

@@ -125,22 +125,22 @@
 
 .pinDefault {
   background-color: #E5E7EB;
-  background-image: url('/img/pin/question-circle-svgrepo-com.svg');
+  background-image: url('/img/pin/pin-svgrepo-com.svg');
 }
 
 .pinExhibition {
   background-color: #FEE2E2;
-  background-image: url('/img/pin/indoor-exhibition.svg');
+  background-image: url('/img/pin/pin-svgrepo-com.svg');
 }
 
 .pinEvent {
   background-color: #DBEAFE;
-  background-image: url('/img/pin/indoor-event.svg');
+  background-image: url('/img/pin/pin-svgrepo-com.svg');
 }
 
 .pinWorkshop {
   background-color: #FEF3C7;
-  background-image: url('/img/pin/indoor-workshop.svg');
+  background-image: url('/img/pin/pin-svgrepo-com.svg');
 }
 
 .pin:after {

@@ -19,6 +19,8 @@ import { matchesCategory } from '@/lib/events';
 const envToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const MAPBOX_TOKEN_STORAGE_KEY = 'mapbox_token';
 
+import { FaBuilding } from "react-icons/fa";
+
 // 2. boothData を ExhibitionItem (ExhibitionModal が要求する型) に合わせます
 // マーカー表示に必要な `lngLat` も残しておきます
 // boothData はマーカー表示に必要な最小限の情報だけを持たせます。
@@ -249,17 +251,17 @@ function SimpleMap() {
           const isLibrary = name.includes('図書館');
 
           // ピン画像の振り分け
-          let icon = '/img/pin/question-circle-svgrepo-com.svg';
+          let icon = '/img/pin/building-svgrepo-com.svg'; // デフォルトアイコン
           if (booth.type === '模擬店') {
-            icon = '/img/pin/shop-svgrepo-com.svg';
+            icon = '/img/pin/food-2-svgrepo-com.svg';
           } else if (isStage) {
             icon = '/img/pin/stage-movie-appreciation-svgrepo-com.svg';
           } else if (booth.type === 'フード') {
             icon = '/img/pin/food-dish-svgrepo-com.svg';
           } else if (booth.type === '展示') {
-            icon = '/img/pin/indoor-exhibition.svg';
+            icon = '/img/pin/pin-svgrepo-com.svg';
           } else if (booth.type === 'イベント' || isLibrary) {
-            icon = '/img/pin/indoor-event.svg';
+            icon = '/img/pin/building-svgrepo-com.svg';
           }
 
           el.style.backgroundImage = `url(${icon})`;

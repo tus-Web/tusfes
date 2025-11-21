@@ -15,7 +15,7 @@ export default function Ranking({ index, average, count }: RankingProps) {
                 <div className={styles.rank}>{index + 1}位</div>
                 <div className={styles.ratingInfo}>
                     <div className={styles.average}><FaStar />{average.toFixed(2)}</div>
-                    <div className={styles.count}>{count}件</div>
+                    {/* <div className={styles.count}>{count}件</div> */}
                 </div>
             </div>
     );

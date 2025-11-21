@@ -16,7 +16,7 @@
 .rank {
     /* (4) フォントを目立たせる (太字・サイズUP) */
     font-weight: 700; /* 500(Medium) -> 700(Bold) */
-    font-size: 1.8em; /* 1.1em -> 1.3em (親の1.3倍) */
+    font-size: 28px; /* 1.1em -> 1.3em (親の1.3倍) */
     color: #000;
 }
 
@@ -36,7 +36,7 @@
 
     /* (4) フォントを目立たせる (少し太く・サイズUP) */
     font-weight: 600; /* 500 -> 600 (Semi-bold) */
-    font-size: 1.8em; /* (親の1.1倍) */
+    font-size: 28px; /* (親の1.1倍) */
     color: #222;
 }
 

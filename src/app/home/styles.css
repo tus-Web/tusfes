@@ -8,6 +8,10 @@
   }
 }
 
+.recomended-titles {
+  font-size: 20px !important;
+}
+
 .svg-caption {
   text-align: center;
   padding-top: 20px;
@@ -161,6 +165,7 @@
 .rankTitle{
   margin:0 auto;
   text-align: center;
+  font-size: 20px;
 }
 
 .main ol {

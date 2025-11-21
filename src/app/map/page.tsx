@@ -322,6 +322,7 @@ function SimpleMap() {
           el.style.backgroundSize = 'contain';
           el.style.backgroundRepeat = 'no-repeat';
           el.style.backgroundPosition = 'center';
+          el.style.position = 'relative';
           el.tabIndex = 0;
           el.setAttribute('role', 'button');
           el.setAttribute('aria-label', `${booth.name} のピン`);
@@ -346,6 +347,25 @@ function SimpleMap() {
           }
 
           el.style.backgroundImage = `url(${icon})`;
+
+          // 展示名ラベルを上部に表示（小さめのラベルでレイアウト崩れを防止）
+          const label = document.createElement('div');
+          label.textContent = booth.name;
+          label.style.position = 'absolute';
+          label.style.top = '-20px';
+          label.style.left = '50%';
+          label.style.transform = 'translateX(-50%)';
+          label.style.background = 'white';
+          label.style.padding = '2px 6px';
+          label.style.borderRadius = '10px';
+          label.style.fontSize = '11px';
+          label.style.fontWeight = '600';
+          label.style.color = '#111827';
+          label.style.whiteSpace = 'nowrap';
+          label.style.boxShadow = '0 1px 4px rgba(0,0,0,0.12)';
+          label.style.border = '1px solid rgba(0,0,0,0.06)';
+          label.style.pointerEvents = 'none';
+          el.appendChild(label);
           return el;
         };
 

@@ -179,7 +179,6 @@ const FloorModal: React.FC<FloorModalProps> = ({ open, onClose, images, onSelect
                               title={ev.name}
                               aria-label={`開く ${ev.name}`}
                             >
-                              <span className={styles.pinLabel}>{ev.name}</span>
                             </button>
                           );
                         })}

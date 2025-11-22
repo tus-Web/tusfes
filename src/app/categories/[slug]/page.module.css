@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
   background-color: #f8fafc;
-  padding: 24px 16px 48px;
+  padding: 24px 16px 96px;
 }
 
 .header {
@@ -66,4 +66,10 @@
 .link {
   color: #2563eb;
   text-decoration: underline;
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .container {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
 }

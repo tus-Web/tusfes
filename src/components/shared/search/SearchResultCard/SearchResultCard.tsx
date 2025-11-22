@@ -22,7 +22,7 @@ export default function SearchResultCard({ item }: SearchResultCardProps) {
   };
 
   return (
-    <Link href={`/search/detail?id=${item.id}`} className={styles.card}>
+    <div className={styles.card}>
       <div className={styles.imageContainer}>
         {item.imageUrl ? (
           <img src={item.imageUrl} alt={item.name} className={styles.image} />
@@ -60,6 +60,6 @@ export default function SearchResultCard({ item }: SearchResultCardProps) {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,31 +19,31 @@
     "@radix-ui/react-tabs": "^1.1.0",
     "@supabase/supabase-js": "^2.75.0",
     "@types/mapbox-gl": "^3.4.1",
-    "@types/node": "20.6.2",
-    "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "abuse-detection": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "eslint": "8.49.0",
-    "eslint-config-next": "13.5.1",
     "framer-motion": "^12.23.16",
     "lucide-react": "^0.446.0",
     "mapbox-gl": "^3.15.0",
     "motion": "^12.23.24",
-    "next": "^15.5.3",
+    "next": "^16.0.7",
     "next-pwa": "^5.6.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.3",
     "swiper": "^12.0.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "3.3.3",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.2.2"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@types/geojson": "^7946.0.16"
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "eslint": "9.39.1",
+    "eslint-config-next": "16.0.7",
+    "typescript": "5.9.3"
   }
 }

@@ -798,36 +798,6 @@
   "imageUrl": "/img/exhibition/_東京理科大学管弦楽団_講義棟_Web紹介画像.Dd45nvLu_Z20V7wr.webp"
   },
   {
-    "id": "67",
-    "name": "ピアノの会 理大祭コンサート",
-    "category": "イベント",
-    "tags": ["屋内", "家族におすすめ", "学生向け"],
-    "description": "東京理科大学ピアノの会によるピアノコンサート",
-    "organization": "東京理科大学ピアノの会",
-    "location": "図書館ホール",
-  "imageUrl": "/img/exhibition/67.jpg"
-  },
-  {
-    "id": "68",
-    "name": "ダンスショー",
-    "category": "イベント",
-    "tags": ["屋内", "家族におすすめ", "写真映え"],
-    "description": "LilyN Dance Studioによるダンスパフォーマンス",
-    "organization": "LilyN Dance Studio",
-    "location": "図書館ホール（外部団体）",
-  "imageUrl": "/img/exhibition/68.jpg"
-  },
-  {
-    "id": "69",
-    "name": "ダンスパフォーマンス披露",
-    "category": "イベント",
-    "tags": ["屋内", "家族におすすめ", "写真映え"],
-    "description": "ルネサンスKSC金町キッズダンスによるダンスパフォーマンス",
-    "organization": "ルネサンスKSC金町キッズダンス",
-    "location": "図書館ホール（外部団体）",
-  "imageUrl": "/img/exhibition/69.jpg"
-  },
-  {
     "id": "70",
     "name": "無線研究部展",
     "category": "展示",

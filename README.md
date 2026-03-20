@@ -1,8 +1,10 @@
 # TUSフェス Web アプリケーション
 
-## 🌐 デプロイ
+## 🌐 公開サイト
 
-Vercelでのデプロイ対応。`vercel.json` を追加済み。
+**[→ サイトを開く](https://tusfes.vercel.app)**
+
+Vercelでデプロイ済み。`vercel.json` を追加済み。
 
 
 学園祭（TUSフェス）の展示・イベント・フード情報を提供する総合Webアプリケーションです。
@@ -141,4 +143,3 @@ src/
 ## 📝 ライセンス
 
 Private
-
